@@ -43,14 +43,31 @@ Signal * copySignal(Signal * signalToCopy){
 	return createSignal(signalToCopy->id, signalToCopy->modulatedSignal, signalToCopy->type, signalToCopy->priorityNumber);
 }
 
-int compareTwoSignalsLexicographicByModulatedSignal(Signal *firstSignal, Signal *secondSignal){
+int compareTwoSignalsLexicographicByModulatedSignal(const void * firstSignal, const void * secondSignal) {
 	/*Compares two signals by their modulated signal name lexicographic
 	Input: firstSignal - Signal
 		   secondSignal - Signal
 	Output: 1 if the first signal's modulated name is lexicographic smaller then the second one
 			0 otherwise
 	*/
-	if (strcmp(secondSignal->modulatedSignal, firstSignal->modulatedSignal) < 0)
+	const Signal *signal1 = *(Signal* const *)firstSignal;
+	const Signal *signal2 = *(Signal* const *)secondSignal;
+	if (strcmp(signal2->modulatedSignal, signal1->modulatedSignal) < 0)
+		return 1;
+	return 0;
+}
+
+int compareTwoSignalsLexicographicByModulatedSignalReverse(const void * firstSignal, const void * secondSignal)
+{
+	/*Compares two signals by their modulated signal name lexicographic reverse
+	Input: firstSignal - Signal
+		   secondSignal - Signal
+	Output: 1 if the first signal's modulated name is lexicographic greater then the second one
+			0 otherwise
+	*/
+	const Signal *signal1 = *(Signal* const *)firstSignal;
+	const Signal *signal2 = *(Signal* const *)secondSignal;
+	if (strcmp(signal2->modulatedSignal, signal1->modulatedSignal) > 0)
 		return 1;
 	return 0;
 }

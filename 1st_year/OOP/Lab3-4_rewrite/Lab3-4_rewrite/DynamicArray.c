@@ -102,7 +102,7 @@ void* findElementFromDynamicArray(DynamicArray * dynamicArray, void * element)
 			pointer - to element location
 			null pointer - if element is not found
 	*/
-	for(int i=0;i<dynamicArray->elements;i++)
+	for(int i=0;i<dynamicArray->numberOfElements;i++)
 		if (dynamicArray->compareElements(dynamicArray->elements[i], element) == 0) {
 			return dynamicArray->elements[i];
 			break;

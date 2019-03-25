@@ -16,6 +16,8 @@ Signal* copySignal(Signal *signalToCopy);
 
 int compareTwoSignalsLexicographicByModulatedSignal(Signal *firstSignal, Signal *secondSignal);
 
+int compareTwoSignalsLexicographicByModulatedSignalReverse(Signal *firstSignal, Signal *secondSignal);
+
 int compareTwoSignalsByID(Signal * firstSignal, Signal * secondSignal);
 
 void copyFromASignalToAnother(Signal *destinationDynamicArray, Signal *sourceDynamicArray);

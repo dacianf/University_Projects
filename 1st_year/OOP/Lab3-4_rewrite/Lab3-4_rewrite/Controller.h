@@ -13,7 +13,7 @@ int deleteSignal(int id, DynamicArray *signalsList);
 void listSignals(DynamicArray* signalsList);
 void listSignalsByType(char * type, DynamicArray* signalsList);
 void listSignalsByPriority(int priority, DynamicArray* signalsList);
-void listSignalsWithMaximumPriorityNumber(int maximumPriorityNumber, DynamicArray* signalsList);
+void listSignalsWithMaximumPriorityNumber(int maximumPriorityNumber, DynamicArray* signalsList, int sortingWay);
 
 
 #endif
