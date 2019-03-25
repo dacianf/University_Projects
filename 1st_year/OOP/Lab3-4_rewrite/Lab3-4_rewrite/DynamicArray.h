@@ -8,13 +8,19 @@ typedef struct {
 	void* (*createElement)();
 	void* (*copyElement)();
 	void* (*compareElements)();
-	void* (*distroyElement)();
+	void* (*destroyElement)();
 }DynamicArray;
 
-DynamicArray* createDynamicArray(int elementSize, void *createElement, void *distoryElement, void *copyElements, void *compareElements);
+DynamicArray* createDynamicArray(int elementSize, void *createElement, void *destroyElement, void *copyElements, void *compareElements);
 
-void distoryDynamicArray(DynamicArray *arrayToDistroy);
+void destroyDynamicArray(DynamicArray *arrayTodestroy);
 
 void addElementDynamicArray(DynamicArray *dynamicArray, void* element);
 
 void removeElementDynamicArray(DynamicArray *dynamicArray, void* element);
+
+int updateElementDynamicArray(DynamicArray *dynamicArray, void* newElement);
+
+void* findElementFromDynamicArray(DynamicArray *dynamicArray, void *element);
+
+DynamicArray* createCopyOfDynamicArray(DynamicArray* dynamicArrayToCopy);

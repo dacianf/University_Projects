@@ -21,7 +21,7 @@ Signal * createSignal(int id, char *modulateSignal, char *type, int priorityNumb
 	return newSignal;
 }
 
-void distroySignal(Signal * signal){
+void destroySignal(Signal * signal){
 	/*
 		Frees the memory allocated for given signal
 		Input:
@@ -66,3 +66,20 @@ int compareTwoSignalsByID(Signal *firstSignal, Signal *secondSignal) {
 	return firstSignal->id - secondSignal->id;
 }
 
+void copyFromASignalToAnother(Signal * destinationSignal, Signal * sourceSignal)
+{
+	/*
+		Copies informations from a signal to another
+		Input:
+			destinationDynamicArray - pointer to destination Signal
+			sourceDynamicArray - pointer to source Signal
+	*/
+	destinationSignal->id = sourceSignal->id;
+	free(destinationSignal->modulatedSignal);
+	destinationSignal->modulatedSignal = (char*)malloc(strlen(sourceSignal->modulatedSignal) + 1);
+	strcpy_s(destinationSignal->modulatedSignal, strlen(sourceSignal->modulatedSignal) + 1, sourceSignal->modulatedSignal);
+	free(destinationSignal->type);
+	destinationSignal->type = (char*)malloc(strlen(sourceSignal->type) + 1);
+	strcpy_s(destinationSignal->type, strlen(sourceSignal->type) + 1, sourceSignal->type);
+	destinationSignal->priorityNumber = sourceSignal->priorityNumber;
+}

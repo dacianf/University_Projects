@@ -10,10 +10,12 @@ typedef struct {
 
 Signal* createSignal(int id, char *modulateSignal, char *type, int priorityNumber);
 
-void distroySignal(Signal *signal);
+void destroySignal(Signal *signal);
 
 Signal* copySignal(Signal *signalToCopy);
 
 int compareTwoSignalsLexicographicByModulatedSignal(Signal *firstSignal, Signal *secondSignal);
 
 int compareTwoSignalsByID(Signal * firstSignal, Signal * secondSignal);
+
+void copyFromASignalToAnother(Signal *destinationDynamicArray, Signal *sourceDynamicArray);
