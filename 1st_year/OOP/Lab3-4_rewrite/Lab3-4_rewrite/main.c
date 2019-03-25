@@ -4,8 +4,9 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <crtdbg.h>
-#include "Signal.h"
 
+#include "Signal.h"
+#include "DynamicArray.h"
 
 void testSignal();
 void testDynamicArr();
@@ -34,16 +35,16 @@ void testSignal() {
 void testDynamicArr() {
 	Signal* signal1 = createSignal(1, "Test", "danger", 1);
 	Signal* signal2 = createSignal(2, "Test2", "danger2", 99);
-	DynamicArray* signalsArray = createDynamicArray(createSignal, distroySignal, copySignal, compareTwoSignalsByID);
+	DynamicArray* signalsArray = createDynamicArray(sizeof(Signal), createSignal, distroySignal, copySignal, compareTwoSignalsByID);
 	assert(signalsArray != NULL);
 	assert(signalsArray->numberOfElements == 0);
 	addElementDynamicArray(signalsArray, signal1);
 	assert(signalsArray->numberOfElements == 1);
 	addElementDynamicArray(signalsArray, signal2);
 	assert(signalsArray->numberOfElements == 2);
-	deleteElementDynamicArray(signalsArray, signal1);
+	removeElementDynamicArray(signalsArray, signal1);
 	assert(signalsArray->numberOfElements == 1);
 	distroySignal(signal1);
 	distroySignal(signal2);
-	distroyDynamicArray(signalsArray);
+	distoryDynamicArray(signalsArray);
 }
