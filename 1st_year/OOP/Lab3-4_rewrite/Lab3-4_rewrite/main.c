@@ -66,6 +66,10 @@ void UI(DynamicArray* signalsList) {
 		else if (strcmp(listOfParameters[0], "list") == 0 && numberOfCommandParameters == 2 && strtol(listOfParameters[1], &pointerToNextCharForConvertingStringToInt, 10) != 0)
 			listSignalsWithMaximumPriorityNumber(strtol(listOfParameters[1], &pointerToNextCharForConvertingStringToInt, 10), signalsList, 0);
 		else if (strcmp(listOfParameters[0], "list") == 0 && numberOfCommandParameters == 3
+			&& strcmp(listOfParameters[1],"priority") == 0
+			&& strtol(listOfParameters[2], &pointerToNextCharForConvertingStringToInt, 10) != 0)
+			listSignalsByPriority(strtol(listOfParameters[2], &pointerToNextCharForConvertingStringToInt, 10), signalsList);
+		else if (strcmp(listOfParameters[0], "list") == 0 && numberOfCommandParameters == 3
 			&& strtol(listOfParameters[1], &pointerToNextCharForConvertingStringToInt, 10) != 0
 			&& strcmp(listOfParameters[2], "reverse") == 0)
 			listSignalsWithMaximumPriorityNumber(strtol(listOfParameters[1], &pointerToNextCharForConvertingStringToInt, 10), signalsList, 1);
