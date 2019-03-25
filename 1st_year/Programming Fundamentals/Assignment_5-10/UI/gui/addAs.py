@@ -1,0 +1,168 @@
+# -*- coding: utf-8 -*-
+
+# Form implementation generated from reading ui file 'addAssignment.ui'
+#
+# Created by: PyQt5 UI code generator 5.11.3
+#
+# WARNING! All changes made in this file will be lost!
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+from domain.assignment import Assignment
+
+
+class Ui_w_AddAs(object):
+    def __init__(self, controller):
+        self._ctr = controller
+
+    def setupUi(self, w_AddAs):
+        self.wid = w_AddAs
+        w_AddAs.setObjectName("w_AddAs")
+        w_AddAs.setWindowModality(QtCore.Qt.ApplicationModal)
+        w_AddAs.resize(580, 200)
+        w_AddAs.setMinimumSize(QtCore.QSize(580, 200))
+        w_AddAs.setMaximumSize(QtCore.QSize(620, 240))
+        self.gridLayout_2 = QtWidgets.QGridLayout(w_AddAs)
+        self.gridLayout_2.setObjectName("gridLayout_2")
+        self.gridLayout = QtWidgets.QGridLayout()
+        self.gridLayout.setObjectName("gridLayout")
+        spacerItem = QtWidgets.QSpacerItem(20, 13, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        self.gridLayout.addItem(spacerItem, 0, 0, 1, 1)
+        self.horizontalLayout = QtWidgets.QHBoxLayout()
+        self.horizontalLayout.setContentsMargins(20, -1, 15, -1)
+        self.horizontalLayout.setSpacing(15)
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        self.verticalLayout_2 = QtWidgets.QVBoxLayout()
+        self.verticalLayout_2.setObjectName("verticalLayout_2")
+        self.label_ID = QtWidgets.QLabel(w_AddAs)
+        font = QtGui.QFont()
+        font.setPointSize(16)
+        self.label_ID.setFont(font)
+        self.label_ID.setObjectName("label_ID")
+        self.verticalLayout_2.addWidget(self.label_ID)
+        self.label_Desc = QtWidgets.QLabel(w_AddAs)
+        font = QtGui.QFont()
+        font.setPointSize(16)
+        self.label_Desc.setFont(font)
+        self.label_Desc.setObjectName("label_Desc")
+        self.verticalLayout_2.addWidget(self.label_Desc)
+        self.label_Date = QtWidgets.QLabel(w_AddAs)
+        font = QtGui.QFont()
+        font.setPointSize(16)
+        self.label_Date.setFont(font)
+        self.label_Date.setObjectName("label_Date")
+        self.verticalLayout_2.addWidget(self.label_Date)
+        self.horizontalLayout.addLayout(self.verticalLayout_2)
+        self.verticalLayout = QtWidgets.QVBoxLayout()
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.lineEdit_ID = QtWidgets.QLineEdit(w_AddAs)
+        font = QtGui.QFont()
+        font.setFamily("Arial")
+        font.setPointSize(16)
+        self.lineEdit_ID.setFont(font)
+        self.lineEdit_ID.setInputMask("")
+        self.lineEdit_ID.setObjectName("lineEdit_ID")
+        self.verticalLayout.addWidget(self.lineEdit_ID)
+        self.lineEdit_desc = QtWidgets.QLineEdit(w_AddAs)
+        font = QtGui.QFont()
+        font.setFamily("Arial")
+        font.setPointSize(16)
+        self.lineEdit_desc.setFont(font)
+        self.lineEdit_desc.setInputMask("")
+        self.lineEdit_desc.setObjectName("lineEdit_desc")
+        self.verticalLayout.addWidget(self.lineEdit_desc)
+        self.lineEdit_date = QtWidgets.QLineEdit(w_AddAs)
+        font = QtGui.QFont()
+        font.setFamily("Arial")
+        font.setPointSize(16)
+        self.lineEdit_date.setFont(font)
+        self.lineEdit_date.setObjectName("lineEdit_date")
+        self.verticalLayout.addWidget(self.lineEdit_date)
+        self.horizontalLayout.addLayout(self.verticalLayout)
+        self.gridLayout.addLayout(self.horizontalLayout, 1, 0, 1, 1)
+        self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_2.setObjectName("horizontalLayout_2")
+        spacerItem1 = QtWidgets.QSpacerItem(300, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_2.addItem(spacerItem1)
+        self.pushButton_AddAs = QtWidgets.QPushButton(w_AddAs)
+        self.pushButton_AddAs.setStyleSheet("background-color: lightgrey;\n"
+"border: 1px solid black;\n"
+"color: black;\n"
+"padding: 5px;\n"
+"text-align: center;\n"
+"text-decoration: none;\n"
+"display: inline-block;\n"
+"font-size: 16px;\n"
+"cursor: pointer;\n"
+"border-radius: 8px;")
+        self.pushButton_AddAs.setObjectName("pushButton_AddAs")
+        self.horizontalLayout_2.addWidget(self.pushButton_AddAs)
+        self.pushButton_Close = QtWidgets.QPushButton(w_AddAs)
+        self.pushButton_Close.setStyleSheet("background-color: lightgrey;\n"
+"border: 1px solid black;\n"
+"color: black;\n"
+"padding: 5px;\n"
+"text-align: center;\n"
+"text-decoration: none;\n"
+"display: inline-block;\n"
+"font-size: 16px;\n"
+"cursor: pointer;\n"
+"border-radius: 8px;")
+        self.pushButton_Close.setObjectName("pushButton_Close")
+        self.horizontalLayout_2.addWidget(self.pushButton_Close)
+        self.gridLayout.addLayout(self.horizontalLayout_2, 2, 0, 1, 1)
+        spacerItem2 = QtWidgets.QSpacerItem(20, 13, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        self.gridLayout.addItem(spacerItem2, 3, 0, 1, 1)
+        self.gridLayout_2.addLayout(self.gridLayout, 0, 0, 1, 1)
+
+        self.retranslateUi(w_AddAs)
+        QtCore.QMetaObject.connectSlotsByName(w_AddAs)
+        self.events()
+
+    def retranslateUi(self, w_AddAs):
+        _translate = QtCore.QCoreApplication.translate
+        w_AddAs.setWindowTitle(_translate("w_AddAs", "AddAssignment"))
+        self.label_ID.setText(_translate("w_AddAs", "ID: "))
+        self.label_Desc.setText(_translate("w_AddAs", "Description:"))
+        self.label_Date.setText(_translate("w_AddAs", "Deadline:"))
+        self.pushButton_AddAs.setText(_translate("w_AddAs", "Add"))
+        self.pushButton_Close.setText(_translate("w_AddAs", "Close"))
+
+    def events(self):
+        self.pushButton_AddAs.clicked.connect(self.addAs)
+        self.pushButton_Close.clicked.connect(self.wid.close)
+
+    def changeWindowName(self, window, text):
+        _translate = QtCore.QCoreApplication.translate
+        window.setWindowTitle(_translate("w_AddAs", text))
+
+    def changeAddBut(self, text):
+        _translate = QtCore.QCoreApplication.translate
+        self.pushButton_AddAs.setText(_translate("w_AddAs", text))
+
+    def addAs(self):
+        idA = self.lineEdit_ID.text().strip()
+        desc = self.lineEdit_desc.text().strip()
+        deadline = self.lineEdit_date.text().strip()
+        if self.wid.windowTitle() == "AddAssignment":
+            cmd = self._ctr.assignment.add
+        else:
+            cmd = self._ctr.update
+        try:
+            if idA.isnumeric():
+                idA = int(idA)
+            else:
+                raise ValueError("ID must be a natural number!")
+            cmd(Assignment(idA, desc, deadline))
+            self.lineEdit_ID.setText("")
+            self.lineEdit_desc.setText("")
+            self.lineEdit_date.setText("")
+            self.createDialog("Assignment with Description: " + desc + " and ID: " + str(idA) + " was successfully added!", "Operation succeded!", QtWidgets.QMessageBox.Information)
+        except Exception as er:
+            self.createDialog(str(er), "Error!", QtWidgets.QMessageBox.Critical)
+
+    def createDialog(self, err, title, iccon):
+        qDial = QtWidgets.QMessageBox()
+        qDial.setIcon(iccon)
+        qDial.setText(err)
+        qDial.setWindowTitle(title)
+        qDial.exec_()
