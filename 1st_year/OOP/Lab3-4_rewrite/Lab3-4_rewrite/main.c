@@ -72,7 +72,8 @@ int main() {
 
 	DynamicArray* signalsList = createDynamicArray(sizeof(Signal*), createSignal, destroySignal, copySignal, compareTwoSignalsByID);
 	DynamicArray* undoRedoList = createDynamicArray(sizeof(DynamicArray*), createDynamicArray, destroyDynamicArray, createCopyOfDynamicArray, compareTwoDynamicArrays);
-	addElementsToSignalsList(signalsList, undoRedoList);
+	addElementDynamicArray(undoRedoList, signalsList);
+	//addElementsToSignalsList(signalsList, undoRedoList);
 	signalsList = UI(signalsList, undoRedoList);
 	destroyDynamicArray(signalsList);
 	destroyDynamicArray(undoRedoList);

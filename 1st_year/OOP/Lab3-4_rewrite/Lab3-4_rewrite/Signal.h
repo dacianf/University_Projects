@@ -14,9 +14,9 @@ void destroySignal(Signal *signal);
 
 Signal* copySignal(Signal *signalToCopy);
 
-int compareTwoSignalsLexicographicByModulatedSignal(Signal *firstSignal, Signal *secondSignal);
+int compareTwoSignalsLexicographicByModulatedSignal(const void * firstSignal, const void * secondSignal);
 
-int compareTwoSignalsLexicographicByModulatedSignalReverse(Signal *firstSignal, Signal *secondSignal);
+int compareTwoSignalsLexicographicByModulatedSignalReverse(const void * firstSignal, const void * secondSignal);
 
 int compareTwoSignalsByID(Signal * firstSignal, Signal * secondSignal);
 
