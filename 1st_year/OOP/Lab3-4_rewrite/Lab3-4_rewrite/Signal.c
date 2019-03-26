@@ -28,8 +28,11 @@ void destroySignal(Signal * signal){
 			signal - pointer to a signal
 	*/
 	free(signal->modulatedSignal);
+	signal->modulatedSignal = NULL;
 	free(signal->type);
+	signal->type = NULL;
 	free(signal);
+	signal = NULL;
 }
 
 Signal * copySignal(Signal * signalToCopy){

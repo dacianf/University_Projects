@@ -16,6 +16,7 @@ DynamicArray * createDynamicArray(int elementSize, void * createElement, void * 
 	newDynamicArray->elements = (void **)malloc(100 * elementSize);
 	newDynamicArray->capacity = 100;
 	newDynamicArray->numberOfElements = 0;
+	newDynamicArray->undoRedoIndex = 0;
 	newDynamicArray->compareElements = compareElements;
 	newDynamicArray->copyElement = copyElements;
 	newDynamicArray->createElement = createElement;
@@ -38,18 +39,21 @@ void resizeDynamicArray(DynamicArray * arrayToResize) {
 	arrayToResize->capacity += 100;
 }
 
-void destroyDynamicArray(DynamicArray * arrayTodestroy)
+void destroyDynamicArray(DynamicArray * arrayToDestroy)
 {
 	/*
 		destroy the given array
 		Input:
-			arrayTodestroy - pointer to array
+			arrayToDestroy - pointer to array
 	*/
-	for (int i = 0; i < arrayTodestroy->numberOfElements; i++) {
-		arrayTodestroy->destroyElement(arrayTodestroy->elements[i]);
+	for (int i = 0; i < arrayToDestroy->numberOfElements; i++) {
+		arrayToDestroy->destroyElement(arrayToDestroy->elements[i]);
 	}
-	free(arrayTodestroy->elements);
-	free(arrayTodestroy);
+	free(arrayToDestroy->elements);
+	arrayToDestroy->elements = NULL;
+	if(arrayToDestroy)
+		free(arrayToDestroy);
+	arrayToDestroy = NULL;
 }
 
 void removeElementDynamicArray(DynamicArray * dynamicArray, void * elementToRemove)
@@ -67,6 +71,7 @@ void removeElementDynamicArray(DynamicArray * dynamicArray, void * elementToRemo
 				dynamicArray->elements[i] = dynamicArray->elements[dynamicArray->numberOfElements - 1];
 			dynamicArray->elements[dynamicArray->numberOfElements - 1] = NULL;
 			dynamicArray->numberOfElements--;
+			dynamicArray->undoRedoIndex--;
 			break;
 		}
 }
@@ -119,14 +124,28 @@ DynamicArray * createCopyOfDynamicArray(DynamicArray * dynamicArrayToCopy)
 		Output:
 			copyOfGivenArray - pointer to dynamicArrayToCopy's copy
 	*/
-	DynamicArray *copyOfGivenArray = createDynamicArray(sizeof(dynamicArrayToCopy->elements[0]),
+	DynamicArray *copyOfGivenArray = createDynamicArray(sizeof(void *),
 		dynamicArrayToCopy->createElement, dynamicArrayToCopy->destroyElement,
 		dynamicArrayToCopy->copyElement, dynamicArrayToCopy->compareElements);
 	while (copyOfGivenArray->capacity < dynamicArrayToCopy->capacity)
 		resizeDynamicArray(copyOfGivenArray);
-	for (copyOfGivenArray->numberOfElements; copyOfGivenArray->numberOfElements < dynamicArrayToCopy->numberOfElements; copyOfGivenArray->numberOfElements++)
-		copyOfGivenArray->elements[copyOfGivenArray->numberOfElements] = copyOfGivenArray->copyElement(dynamicArrayToCopy->elements[copyOfGivenArray->numberOfElements]);
+	while (copyOfGivenArray->numberOfElements != dynamicArrayToCopy->numberOfElements)
+		addElementDynamicArray(copyOfGivenArray, dynamicArrayToCopy->elements[copyOfGivenArray->numberOfElements]);
 	return copyOfGivenArray;
+}
+
+int compareTwoDynamicArrays(DynamicArray * firstArray, DynamicArray * secondArray)
+{
+	/*
+		Compares to dynamic array pointers if are the same
+		Input:
+			firstArray - pointer to first array
+			secondArray - pointer to second array
+		Output:
+			1 - if they point to the same direction
+			0 - otherwise
+	*/
+	return (firstArray - secondArray) == 0;
 }
 
 void addElementDynamicArray(DynamicArray * dynamicArray, void * element)
@@ -141,4 +160,5 @@ void addElementDynamicArray(DynamicArray * dynamicArray, void * element)
 		resizeDynamicArray(dynamicArray);
 	dynamicArray->elements[dynamicArray->numberOfElements] = dynamicArray->copyElement(element);
 	dynamicArray->numberOfElements++;
+	dynamicArray->undoRedoIndex++;
 }

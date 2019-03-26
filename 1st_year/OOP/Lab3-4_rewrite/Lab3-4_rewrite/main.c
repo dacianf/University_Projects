@@ -11,22 +11,7 @@
 
 void testSignal();
 void testDynamicArr();
-void UI(DynamicArray* signalsList);
-void addElementsToSignalsList(DynamicArray* signals);
-
-int main() {
-	testSignal();
-	testDynamicArr();
-
-	DynamicArray* signalsList = createDynamicArray(sizeof(Signal*), createSignal, destroySignal, copySignal, compareTwoSignalsByID);
-	addElementsToSignalsList(signalsList);
-	UI(signalsList);
-	destroyDynamicArray(signalsList);
-	_CrtDumpMemoryLeaks();
-	return 0;
-}
-
-void UI(DynamicArray* signalsList) {
+void* UI(DynamicArray* signalsList, DynamicArray* undoRedoList) {
 	char command[101], *pointerToCommandParameter, listOfParameters[100][100];
 	int numberOfCommandParameters = 0;
 	char *pointerToNextCharForConvertingStringToInt;
@@ -37,7 +22,7 @@ void UI(DynamicArray* signalsList) {
 		numberOfCommandParameters = 0;
 		printf("> ");
 		scanf(" %[^'\n']s", command);
-		if (strcmp(command, "exit") == 0 || strcmp(command, "0") == 0)break;
+		if (strcmp(command, "exit") == 0 || strcmp(command, "0") == 0)return signalsList;
 		pointerToCommandParameter = strtok(command, " ");
 		while (pointerToCommandParameter) {
 			strcpy(listOfParameters[numberOfCommandParameters], pointerToCommandParameter);
@@ -46,17 +31,17 @@ void UI(DynamicArray* signalsList) {
 		}
 		if (strcmp(listOfParameters[0], "add") == 0 && numberOfCommandParameters == 5) {
 
-			int success = addSignal(atoi(listOfParameters[1]), listOfParameters[2], listOfParameters[3], atoi(listOfParameters[4]), signalsList);
+			int success = addSignal(atoi(listOfParameters[1]), listOfParameters[2], listOfParameters[3], atoi(listOfParameters[4]), signalsList, undoRedoList);
 			if (success == -1) printf("This signal already exist!\n");
 		}
 		else if (strcmp(listOfParameters[0], "update") == 0 && numberOfCommandParameters == 5) {
 
-			int success = updateSignal(atoi(listOfParameters[1]), listOfParameters[2], listOfParameters[3], atoi(listOfParameters[4]), signalsList);
+			int success = updateSignal(atoi(listOfParameters[1]), listOfParameters[2], listOfParameters[3], atoi(listOfParameters[4]), signalsList, undoRedoList);
 			if (success == -1) printf("There is no signal with such id!\n");
 		}
 		else if (strcmp(listOfParameters[0], "delete") == 0 && numberOfCommandParameters == 2) {
 
-			int success = deleteSignal(atoi(listOfParameters[1]), signalsList);
+			int success = deleteSignal(atoi(listOfParameters[1]), signalsList, undoRedoList);
 			if (success == -1) printf("There is no signal with such id!\n");
 		}
 		else if (strcmp(listOfParameters[0], "list") == 0 && numberOfCommandParameters == 1)
@@ -66,46 +51,43 @@ void UI(DynamicArray* signalsList) {
 		else if (strcmp(listOfParameters[0], "list") == 0 && numberOfCommandParameters == 2 && strtol(listOfParameters[1], &pointerToNextCharForConvertingStringToInt, 10) != 0)
 			listSignalsWithMaximumPriorityNumber(strtol(listOfParameters[1], &pointerToNextCharForConvertingStringToInt, 10), signalsList, 0);
 		else if (strcmp(listOfParameters[0], "list") == 0 && numberOfCommandParameters == 3
-			&& strcmp(listOfParameters[1],"priority") == 0
+			&& strcmp(listOfParameters[1], "priority") == 0
 			&& strtol(listOfParameters[2], &pointerToNextCharForConvertingStringToInt, 10) != 0)
 			listSignalsByPriority(strtol(listOfParameters[2], &pointerToNextCharForConvertingStringToInt, 10), signalsList);
 		else if (strcmp(listOfParameters[0], "list") == 0 && numberOfCommandParameters == 3
 			&& strtol(listOfParameters[1], &pointerToNextCharForConvertingStringToInt, 10) != 0
 			&& strcmp(listOfParameters[2], "reverse") == 0)
 			listSignalsWithMaximumPriorityNumber(strtol(listOfParameters[1], &pointerToNextCharForConvertingStringToInt, 10), signalsList, 1);
-		//else if (strcmp(listOfParameters[0], "undo") == 0 && numberOfCommandParameters == 1) {
-		//	if (signalsList->undoRedoIndex - 1 < 0)
-		//		printf("No more undos!\n");
-		//	else {
-		//		/*if (archive->undoRedoIndex == archive->numberOfElements){
-		//			SignalsList* currentState = createSignalsList();
-		//			copySignalList(currentState, signals);
-		//			addItemInDynamicArray(archive, currentState);
-		//		}*/
-		//		archive->undoRedoIndex--;
-		//		SignalsList* currentState = createSignalsList();
-		//		copySignalList(currentState, signals);
-		//		addItemInDynamicArray(archive, currentState);
-		//		signals = archive->data[archive->undoRedoIndex];
-		//	}
-
-		//}
-		//else if (strcmp(listOfParameters[0], "redo") == 0 && numberOfCommandParameters == 1) {
-		//	if (archive->undoRedoIndex >= archive->numberOfElements - 1)
-		//		printf("No more redos!\n");
-		//	else archive->undoRedoIndex++,
-		//		signals = archive->data[archive->undoRedoIndex - 1];
-		//}
+		else if (strcmp(listOfParameters[0], "undo") == 0 && numberOfCommandParameters == 1)
+			signalsList = undo(undoRedoList, signalsList);
+		else if (strcmp(listOfParameters[0], "redo") == 0 && numberOfCommandParameters == 1)
+			signalsList = redo(undoRedoList, signalsList);
 	}
 }
+void addElementsToSignalsList(DynamicArray* signals, DynamicArray* undoRedoList);
 
-void addElementsToSignalsList(DynamicArray* signals)
+int main() {
+	testSignal();
+	testDynamicArr();
+
+	DynamicArray* signalsList = createDynamicArray(sizeof(Signal*), createSignal, destroySignal, copySignal, compareTwoSignalsByID);
+	DynamicArray* undoRedoList = createDynamicArray(sizeof(DynamicArray*), createDynamicArray, destroyDynamicArray, createCopyOfDynamicArray, compareTwoDynamicArrays);
+	addElementsToSignalsList(signalsList, undoRedoList);
+	signalsList = UI(signalsList, undoRedoList);
+	destroyDynamicArray(signalsList);
+	destroyDynamicArray(undoRedoList);
+	_CrtDumpMemoryLeaks();
+	return 0;
+}
+
+
+void addElementsToSignalsList(DynamicArray* signals, DynamicArray* undoRedoList)
 {
-	addSignal(1, "zab", "d", 1, signals);
-	addSignal(2, "zbc", "d", 2, signals);
-	addSignal(3, "abc", "d", 3, signals);
-	addSignal(4, "aaa", "d", 2, signals);
-	addSignal(5, "aab", "d", 3, signals);
+	addSignal(1, "zab", "d", 1, signals, undoRedoList);
+	addSignal(2, "zbc", "d", 2, signals, undoRedoList);
+	addSignal(3, "abc", "d", 3, signals, undoRedoList);
+	addSignal(4, "aaa", "d", 2, signals, undoRedoList);
+	addSignal(5, "aab", "d", 3, signals, undoRedoList);
 }
 
 void testSignal() {
@@ -139,7 +121,31 @@ void testDynamicArr() {
 	signal1->id = 2;
 	updateElementDynamicArray(signalsArray, signal1);
 	assert(((Signal*)signalsArray->elements[0])->priorityNumber == 1);
+	signal2->id = 21;
+	addElementDynamicArray(signalsArray, signal2);
+	DynamicArray *copie = createCopyOfDynamicArray(signalsArray);
+	assert(signalsArray->capacity == copie->capacity);
+	assert(signalsArray->undoRedoIndex == copie->undoRedoIndex);
+	assert(signalsArray->numberOfElements == copie->numberOfElements);
+	assert(signalsArray->elements != copie->elements);
+	for (int i = 0; i < signalsArray->numberOfElements; i++) {
+		assert(signalsArray->elements[i] != copie->elements[i]);
+		assert(signalsArray->compareElements(signalsArray->elements[i], copie->elements[i]) == 0);
+	}
+
+	DynamicArray* backup = createDynamicArray(sizeof(DynamicArray*), createDynamicArray, destroyDynamicArray, createCopyOfDynamicArray, compareTwoDynamicArrays);
+	addElementDynamicArray(backup, signalsArray);
+	assert(backup->numberOfElements == 1);
+	addElementDynamicArray(backup, copie);
+	assert(backup->numberOfElements == 2);
+	addElementDynamicArray(backup, copie);
+	addElementDynamicArray(backup, copie);
+	addElementDynamicArray(backup, signalsArray);
+	addElementDynamicArray(backup, copie);
+	assert(backup->numberOfElements == 6);
+	destroyDynamicArray(backup);
 	destroySignal(signal1);
 	destroySignal(signal2);
+	destroyDynamicArray(copie);
 	destroyDynamicArray(signalsArray);
 }

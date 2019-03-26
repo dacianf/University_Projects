@@ -5,6 +5,7 @@ typedef struct {
 	void **elements;
 	int numberOfElements;
 	int capacity;
+	int undoRedoIndex;
 	void* (*createElement)();
 	void* (*copyElement)();
 	void* (*compareElements)();
@@ -24,3 +25,5 @@ int updateElementDynamicArray(DynamicArray *dynamicArray, void* newElement);
 void* findElementFromDynamicArray(DynamicArray *dynamicArray, void *element);
 
 DynamicArray* createCopyOfDynamicArray(DynamicArray* dynamicArrayToCopy);
+
+int compareTwoDynamicArrays(DynamicArray* firstArray, DynamicArray* secondArray);
