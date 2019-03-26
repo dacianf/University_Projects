@@ -10,10 +10,10 @@ int addSignal(int id, char *modulatedSignal, char *type, int priorityNumber, Dyn
 int updateSignal(int id, char *newModulatedSignal, char *newType, int newPriorityNumber, DynamicArray *signalsList, DynamicArray * undoRedoList);
 int deleteSignal(int id, DynamicArray *signalsList, DynamicArray * undoRedoList);
 
-void listSignals(DynamicArray* signalsList);
-void listSignalsByType(char * type, DynamicArray* signalsList);
-void listSignalsByPriority(int priority, DynamicArray* signalsList);
-void listSignalsWithMaximumPriorityNumber(int maximumPriorityNumber, DynamicArray* signalsList, int sortingWay);
+DynamicArray* listSignals(DynamicArray* signalsList);
+DynamicArray* listSignalsByType(char * type, DynamicArray* signalsList);
+DynamicArray* listSignalsByPriority(int priority, DynamicArray* signalsList);
+DynamicArray* listSignalsWithMaximumPriorityNumber(int maximumPriorityNumber, DynamicArray* signalsList, int sortingWay);
 
 DynamicArray* undo(DynamicArray* undoRedoList, DynamicArray* currentList);
 DynamicArray* redo(DynamicArray* undoRedoList, DynamicArray* currentList);

@@ -122,11 +122,13 @@
     <ClCompile Include="DynamicArray.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="Signal.c" />
+    <ClCompile Include="UndoRedoByCommand.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Controller.h" />
     <ClInclude Include="DynamicArray.h" />
     <ClInclude Include="Signal.h" />
+    <ClInclude Include="UndoRedoByCommand.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

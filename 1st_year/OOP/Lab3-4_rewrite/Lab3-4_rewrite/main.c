@@ -11,6 +11,26 @@
 
 void testSignal();
 void testDynamicArr();
+void addElementsToSignalsList(DynamicArray* signals, DynamicArray* undoRedoList);
+void printSignalsFromArray(DynamicArray *signalsList);
+void* UI(DynamicArray* signalsList, DynamicArray* undoRedoList);
+
+
+int main() {
+	testSignal();
+	testDynamicArr();
+
+	DynamicArray* signalsList = createDynamicArray(sizeof(Signal*), createSignal, destroySignal, copySignal, compareTwoSignalsByID);
+	DynamicArray* undoRedoList = createDynamicArray(sizeof(DynamicArray*), createDynamicArray, destroyDynamicArray, createCopyOfDynamicArray, compareTwoDynamicArrays);
+	addElementDynamicArray(undoRedoList, signalsList);
+	addElementsToSignalsList(signalsList, undoRedoList);
+	signalsList = UI(signalsList, undoRedoList);
+	destroyDynamicArray(signalsList);
+	destroyDynamicArray(undoRedoList);
+	_CrtDumpMemoryLeaks();
+	return 0;
+}
+
 void* UI(DynamicArray* signalsList, DynamicArray* undoRedoList) {
 	char command[101], *pointerToCommandParameter, listOfParameters[100][100];
 	int numberOfCommandParameters = 0;
@@ -45,42 +65,54 @@ void* UI(DynamicArray* signalsList, DynamicArray* undoRedoList) {
 			if (success == -1) printf("There is no signal with such id!\n");
 		}
 		else if (strcmp(listOfParameters[0], "list") == 0 && numberOfCommandParameters == 1)
-			listSignals(signalsList);
-		else if (strcmp(listOfParameters[0], "list") == 0 && numberOfCommandParameters == 2 && strtol(listOfParameters[1], &pointerToNextCharForConvertingStringToInt, 10) == 0)
-			listSignalsByType(listOfParameters[1], signalsList);
+		{
+			DynamicArray *signalsToPrint = listSignals(signalsList);
+			printSignalsFromArray(signalsToPrint);
+			destroyDynamicArray(signalsToPrint);
+		}
+		else if (strcmp(listOfParameters[0], "list") == 0 && numberOfCommandParameters == 2 && strtol(listOfParameters[1], &pointerToNextCharForConvertingStringToInt, 10) == 0) {
+			DynamicArray *signalsToPrint = listSignalsByType(listOfParameters[1], signalsList);
+			printSignalsFromArray(signalsToPrint);
+			destroyDynamicArray(signalsToPrint);
+		}
 		else if (strcmp(listOfParameters[0], "list") == 0 && numberOfCommandParameters == 2 && strtol(listOfParameters[1], &pointerToNextCharForConvertingStringToInt, 10) != 0)
-			listSignalsWithMaximumPriorityNumber(strtol(listOfParameters[1], &pointerToNextCharForConvertingStringToInt, 10), signalsList, 0);
+		{
+			DynamicArray *signalsToPrint = listSignalsWithMaximumPriorityNumber(strtol(listOfParameters[1], &pointerToNextCharForConvertingStringToInt, 10), signalsList, 0);
+			printSignalsFromArray(signalsToPrint);
+			destroyDynamicArray(signalsToPrint);
+		}
 		else if (strcmp(listOfParameters[0], "list") == 0 && numberOfCommandParameters == 3
 			&& strcmp(listOfParameters[1], "priority") == 0
 			&& strtol(listOfParameters[2], &pointerToNextCharForConvertingStringToInt, 10) != 0)
-			listSignalsByPriority(strtol(listOfParameters[2], &pointerToNextCharForConvertingStringToInt, 10), signalsList);
+		{
+			DynamicArray *signalsToPrint = listSignalsByPriority(strtol(listOfParameters[2], &pointerToNextCharForConvertingStringToInt, 10), signalsList);
+			printSignalsFromArray(signalsToPrint);
+			destroyDynamicArray(signalsToPrint);
+		}
 		else if (strcmp(listOfParameters[0], "list") == 0 && numberOfCommandParameters == 3
 			&& strtol(listOfParameters[1], &pointerToNextCharForConvertingStringToInt, 10) != 0
 			&& strcmp(listOfParameters[2], "reverse") == 0)
-			listSignalsWithMaximumPriorityNumber(strtol(listOfParameters[1], &pointerToNextCharForConvertingStringToInt, 10), signalsList, 1);
+		{
+			DynamicArray *signalsToPrint = listSignalsWithMaximumPriorityNumber(strtol(listOfParameters[1], &pointerToNextCharForConvertingStringToInt, 10), signalsList, 1);
+			printSignalsFromArray(signalsToPrint);
+			destroyDynamicArray(signalsToPrint);
+		}
 		else if (strcmp(listOfParameters[0], "undo") == 0 && numberOfCommandParameters == 1)
 			signalsList = undo(undoRedoList, signalsList);
 		else if (strcmp(listOfParameters[0], "redo") == 0 && numberOfCommandParameters == 1)
 			signalsList = redo(undoRedoList, signalsList);
 	}
 }
-void addElementsToSignalsList(DynamicArray* signals, DynamicArray* undoRedoList);
 
-int main() {
-	testSignal();
-	testDynamicArr();
-
-	DynamicArray* signalsList = createDynamicArray(sizeof(Signal*), createSignal, destroySignal, copySignal, compareTwoSignalsByID);
-	DynamicArray* undoRedoList = createDynamicArray(sizeof(DynamicArray*), createDynamicArray, destroyDynamicArray, createCopyOfDynamicArray, compareTwoDynamicArrays);
-	addElementDynamicArray(undoRedoList, signalsList);
-	//addElementsToSignalsList(signalsList, undoRedoList);
-	signalsList = UI(signalsList, undoRedoList);
-	destroyDynamicArray(signalsList);
-	destroyDynamicArray(undoRedoList);
-	_CrtDumpMemoryLeaks();
-	return 0;
+void printSignalsFromArray(DynamicArray *signalsList) {
+	if (signalsList->numberOfElements == 0)
+		printf("%s\n", "There are no signals in the list!");
+	else {
+		printf("Signals are:\nID\tModulated Signal\tSignal type\tPriority number\n");
+		for (int i = 0; i < signalsList->numberOfElements; i++)
+			printSignal(signalsList->elements[i]);
+	}
 }
-
 
 void addElementsToSignalsList(DynamicArray* signals, DynamicArray* undoRedoList)
 {
