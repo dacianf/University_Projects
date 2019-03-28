@@ -85,7 +85,7 @@ DynamicArray* listSignalsByType(char * type, DynamicArray * signalsList){
 	DynamicArray* signalsForListing = createDynamicArray(sizeof(void*), signalsList->createElement, signalsList->destroyElement, signalsList->copyElement, signalsList->compareElements);
 	for (int i = 0; i < signalsList->numberOfElements; i++)
 		if (strcmp(((Signal *)signalsList->elements[i])->type, type) == 0)
-			addElementDynamicArray(signalsForListing, copySignal(signalsList->elements[i]));
+			addElementDynamicArray(signalsForListing, signalsList->elements[i]);
 	return signalsForListing;
 }
 
@@ -97,7 +97,8 @@ DynamicArray* listSignalsByPriority(int priorityNumber, DynamicArray * signalsLi
 	DynamicArray* signalsForListing = createDynamicArray(sizeof(void*), signalsList->createElement, signalsList->destroyElement, signalsList->copyElement, signalsList->compareElements);
 	for (int i = 0; i < signalsList->numberOfElements; i++)
 		if (((Signal *)signalsList->elements[i])->priorityNumber == priorityNumber)
-			addElementDynamicArray(signalsForListing, copySignal(signalsList->elements[i]));
+			addElementDynamicArray(signalsForListing, signalsList->elements[i]);
+	printf("%p", signalsForListing);
 	return signalsForListing;
 }
 
