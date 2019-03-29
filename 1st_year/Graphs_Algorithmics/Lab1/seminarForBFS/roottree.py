@@ -4,8 +4,8 @@ class RootTree:
             Creates a tree with only a root
         '''
         self.__root = root
-        self.__parent={root: None}
-        self.__children={}
+        self.__parent = {root: None}
+        self.__children = {}
 
     def addChild(self, parent, child):
         '''
@@ -16,6 +16,7 @@ class RootTree:
         '''
         self.__parent[child]=parent
         self.__children[parent].append(child)
+        self.__children[child] = []
 
     def getRoot(self):
         '''
@@ -42,3 +43,11 @@ class RootTree:
                   False - otherwise
         '''
         return  theVertex in self.__parent.keys()
+
+    def recursiveToString(self, subRoot, depth):
+        s = "%s%s\n" % ("\t" * depth, subRoot)
+        for child in self.getChildren(subRoot):
+            s += self.recursiveToString(child, depth)
+
+    def __str__(self):
+        self.recursiveToString(self.__root, 0)
