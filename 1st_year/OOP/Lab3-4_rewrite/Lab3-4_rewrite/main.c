@@ -8,6 +8,7 @@
 #include "Signal.h"
 #include "DynamicArray.h"
 #include "Controller.h"
+#include "UndoRedoByCommand.h"
 
 void testSignal();
 void testDynamicArr();
@@ -22,9 +23,11 @@ int main() {
 
 	DynamicArray* signalsList = createDynamicArray(sizeof(Signal*), createSignal, destroySignal, copySignal, compareTwoSignalsByID);
 	DynamicArray* undoRedoList = createDynamicArray(sizeof(DynamicArray*), createDynamicArray, destroyDynamicArray, createCopyOfDynamicArray, compareTwoDynamicArrays);
+	DynamicArray* undiRedoByCommandList = createDynamicArray(sizeof(UndoRedoByCommand*), createUndoRedoByCommand, destroyUndoRedoByCommand, copyUndoRedoByCommand, NULL);
 	addElementDynamicArray(undoRedoList, signalsList);
 	addElementsToSignalsList(signalsList, undoRedoList);
 	signalsList = UI(signalsList, undoRedoList);
+	destroyDynamicArray(undiRedoByCommandList);
 	destroyDynamicArray(signalsList);
 	destroyDynamicArray(undoRedoList);
 	_CrtDumpMemoryLeaks();
