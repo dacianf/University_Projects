@@ -4,9 +4,9 @@
 #include "../Signal.h"
 #include "UndoRedoByCommand.h"
 
-int addSignal(int id, char *modulatedSignal, char *type, int priorityNumber, DynamicArray* signalsList, DynamicArray * undoList, DynamicArray * redoList);
-int updateSignal(int id, char *newModulatedSignal, char *newType, int newPriorityNumber, DynamicArray *signalsList, DynamicArray * undoList, DynamicArray * redoList);
-int deleteSignal(int id, DynamicArray *signalsList, DynamicArray * undoList, DynamicArray * redoList);
+int addSignal(int id, char *modulatedSignal, char *type, int priorityNumber, DynamicArray* signalsList, DynamicArray * undoRedoList);
+int updateSignal(int id, char *newModulatedSignal, char *newType, int newPriorityNumber, DynamicArray *signalsList, DynamicArray * undoRedoList);
+int deleteSignal(int id, DynamicArray *signalsList, DynamicArray * undoRedoList);
 
 DynamicArray* listSignals(DynamicArray* signalsList);
 DynamicArray* listSignalsByType(char * type, DynamicArray* signalsList);

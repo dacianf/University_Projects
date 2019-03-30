@@ -21,9 +21,9 @@ UndoRedoByCommand* copyUndoRedoByCommand(UndoRedoByCommand*);
 
 void addOperationForUndoRedoByCommand(DynamicArray* undoRedoArray, UndoRedoByCommand* operation);
 
-int undoByCommand(DynamicArray * undoArray, DynamicArray* redoArray, DynamicArray * currentList);
+int undoByCommand(DynamicArray * undoArray, DynamicArray * currentList);
 
-int redoByCommand(DynamicArray * redoArray, DynamicArray * undoArray, DynamicArray * currentList);
+int redoByCommand(DynamicArray * redoArray, DynamicArray * currentList);
 
 Command* createCommand(int commandID, void* commandParameter);
 void destroyCommand(Command* commandToDestroy, void* (*functionToDestroyAnElement)());

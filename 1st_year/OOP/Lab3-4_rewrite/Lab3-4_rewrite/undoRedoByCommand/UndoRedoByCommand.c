@@ -40,57 +40,57 @@ void addOperationForUndoRedoByCommand(DynamicArray * undoRedoArray, UndoRedoByCo
 	}
 }
 
-int undoByCommand(DynamicArray* undoArray, DynamicArray* redoArray, DynamicArray* currentList)
+int undoByCommand(DynamicArray* undoRedoArray, DynamicArray* currentList)
 {
-	if (undoArray->indexForCommandBasedUndo <= -1)
+	if (undoRedoArray->indexForCommandBasedUndo <= -1)
 		return -1;
-	undoArray->isCommingFromUndoRedo = 1;
-	Command* commandToUndo = ((UndoRedoByCommand*)undoArray->elements[undoArray->indexForCommandBasedUndo])->undo;
+	undoRedoArray->isCommingFromUndoRedo = 1;
+	Command* commandToUndo = ((UndoRedoByCommand*)undoRedoArray->elements[undoRedoArray->indexForCommandBasedUndo])->undo;
 	Signal* undoSignal = commandToUndo->elementForCommand;
 	if (commandToUndo->commandID == 1)
 		addSignal(undoSignal->id,
 			undoSignal->modulatedSignal,
 			undoSignal->type,
 			undoSignal->priorityNumber,
-			currentList, undoArray, redoArray);
+			currentList, undoRedoArray);
 	else if (commandToUndo->commandID == 2)
 		deleteSignal(undoSignal->id,
-			currentList, undoArray, redoArray);
+			currentList, undoRedoArray);
 	else if (commandToUndo->commandID == 3)
 		updateSignal(undoSignal->id,
 			undoSignal->modulatedSignal,
 			undoSignal->type,
 			undoSignal->priorityNumber,
-			currentList, undoArray, redoArray);
-	undoArray->isCommingFromUndoRedo = 0;
-	undoArray->indexForCommandBasedUndo--;
+			currentList, undoRedoArray);
+	undoRedoArray->isCommingFromUndoRedo = 0;
+	undoRedoArray->indexForCommandBasedUndo--;
 	return 1;
 }
 
-int redoByCommand(DynamicArray* redoArray, DynamicArray* undoArray, DynamicArray* currentList)
+int redoByCommand(DynamicArray* undoRedoArray, DynamicArray* currentList)
 {
-	if (redoArray->indexForCommandBasedUndo >= redoArray->numberOfElements - 1)
+	if (undoRedoArray->indexForCommandBasedUndo >= undoRedoArray->numberOfElements - 1)
 		return -1;
-	redoArray->isCommingFromUndoRedo = 1;
-	Command* commandToRedo = ((UndoRedoByCommand*)redoArray->elements[redoArray->indexForCommandBasedUndo])->redo;
+	undoRedoArray->isCommingFromUndoRedo = 1;
+	Command* commandToRedo = ((UndoRedoByCommand*)undoRedoArray->elements[undoRedoArray->indexForCommandBasedUndo])->redo;
 	Signal* redoSignal = commandToRedo->elementForCommand;
-	redoArray->indexForCommandBasedUndo++;
+	undoRedoArray->indexForCommandBasedUndo++;
 	if (commandToRedo->commandID == 1)
 		addSignal(redoSignal->id,
 			redoSignal->modulatedSignal,
 			redoSignal->type,
 			redoSignal->priorityNumber,
-			currentList, undoArray, redoArray);
+			currentList, undoRedoArray);
 	else if (commandToRedo->commandID == 2)
 		deleteSignal(redoSignal->id,
-			currentList, undoArray, redoArray);
+			currentList, undoRedoArray);
 	else if (commandToRedo->commandID == 3)
 		updateSignal(redoSignal->id,
 			redoSignal->modulatedSignal,
 			redoSignal->type,
 			redoSignal->priorityNumber,
-			currentList, undoArray, redoArray);
-	redoArray->isCommingFromUndoRedo = 0;
+			currentList, undoRedoArray);
+	undoRedoArray->isCommingFromUndoRedo = 0;
 	return 1;
 }
 

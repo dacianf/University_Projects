@@ -1,6 +1,6 @@
 #include "UI_undoByCommands.h"
 
-void* UI(DynamicArray* signalsList, DynamicArray* undoList, DynamicArray* redoList)
+void* UI(DynamicArray* signalsList, DynamicArray* undoRedoList)
 {
 	char command[101], *pointerToCommandParameter, listOfParameters[100][100];
 	int numberOfCommandParameters = 0;
@@ -21,17 +21,17 @@ void* UI(DynamicArray* signalsList, DynamicArray* undoList, DynamicArray* redoLi
 		}
 		if (strcmp(listOfParameters[0], "add") == 0 && numberOfCommandParameters == 5) {
 
-			int success = addSignal(atoi(listOfParameters[1]), listOfParameters[2], listOfParameters[3], atoi(listOfParameters[4]), signalsList, undoList, redoList);
+			int success = addSignal(atoi(listOfParameters[1]), listOfParameters[2], listOfParameters[3], atoi(listOfParameters[4]), signalsList, undoRedoList);
 			if (success == 0) printf("This signal already exist!\n");
 		}
 		else if (strcmp(listOfParameters[0], "update") == 0 && numberOfCommandParameters == 5) {
 
-			int success = updateSignal(atoi(listOfParameters[1]), listOfParameters[2], listOfParameters[3], atoi(listOfParameters[4]), signalsList, undoList, redoList);
+			int success = updateSignal(atoi(listOfParameters[1]), listOfParameters[2], listOfParameters[3], atoi(listOfParameters[4]), signalsList, undoRedoList);
 			if (success == 0) printf("There is no signal with such id!\n");
 		}
 		else if (strcmp(listOfParameters[0], "delete") == 0 && numberOfCommandParameters == 2) {
 
-			int success = deleteSignal(atoi(listOfParameters[1]), signalsList, undoList, redoList);
+			int success = deleteSignal(atoi(listOfParameters[1]), signalsList, undoRedoList);
 			if (success == 0) printf("There is no signal with such id!\n");
 		}
 		else if (strcmp(listOfParameters[0], "list") == 0 && numberOfCommandParameters == 1)
@@ -68,24 +68,24 @@ void* UI(DynamicArray* signalsList, DynamicArray* undoList, DynamicArray* redoLi
 			destroyDynamicArray(signalsToPrint);
 		}
 		else if (strcmp(listOfParameters[0], "undo") == 0 && numberOfCommandParameters == 1)
-			if (undoByCommand(undoList, redoList, signalsList) == -1)
+			if (undoByCommand(undoRedoList, signalsList) == -1)
 				printf("No more undos!!!\n");
 			else if (strcmp(listOfParameters[0], "redo") == 0 && numberOfCommandParameters == 1)
-				if (redoByCommand(redoList, undoList, signalsList) == -1)
+				if (redoByCommand(undoRedoList, signalsList) == -1)
 				printf("No more redos!!!\n");
 	}
 }
 
-void addElementsToSignalsList(DynamicArray* signals, DynamicArray* undoList, DynamicArray* redoList)
+void addElementsToSignalsList(DynamicArray* signals, DynamicArray* undoRedoList)
 {
 	/*
 		Adds staticly 5 elements into a signals list
 	*/
-	addSignal(1, "zab", "d", 1, signals, undoList, redoList);
-	addSignal(2, "zbc", "d", 2, signals, undoList, redoList);
-	addSignal(3, "abc", "d", 3, signals, undoList, redoList);
-	addSignal(4, "aaa", "d", 2, signals, undoList, redoList);
-	addSignal(5, "aab", "d", 3, signals, undoList, redoList);
+	addSignal(1, "zab", "d", 1, signals, undoRedoList);
+	addSignal(2, "zbc", "d", 2, signals, undoRedoList);
+	addSignal(3, "abc", "d", 3, signals, undoRedoList);
+	addSignal(4, "aaa", "d", 2, signals, undoRedoList);
+	addSignal(5, "aab", "d", 3, signals, undoRedoList);
 }
 
 void printSignalsFromArray(DynamicArray *signalsList) {

@@ -1,6 +1,6 @@
 #include "Controller_UndoByCommand.h"
 
-int addSignal(int id, char * modulatedSignal, char * type, int priorityNumber, DynamicArray *signalsList, DynamicArray* undoList, DynamicArray* redoList) {
+int addSignal(int id, char * modulatedSignal, char * type, int priorityNumber, DynamicArray *signalsList, DynamicArray * undoRedoList) {
 	/*Add a given signal into signals list
 	Input: id - positive integer
 		   modulatedSignal - string of chars
@@ -21,14 +21,14 @@ int addSignal(int id, char * modulatedSignal, char * type, int priorityNumber, D
 	UndoRedoByCommand* commands = createUndoRedoByCommand(2, newSignal, 1, newSignal, copySignal, destroySignal);
 	int successfulOperation = updateElementDynamicArray(signalsList, newSignal);
 
-	addOperationForUndoRedoByCommand(undoList, commands);
+	addOperationForUndoRedoByCommand(undoRedoList, commands);
 
 	destroyUndoRedoByCommand(commands);
 	destroySignal(newSignal);
 	return 1;
 }
 
-int updateSignal(int id, char * newModulatedSignal, char * newType, int newPriorityNumber, DynamicArray * signalsList, DynamicArray* undoList, DynamicArray* redoList) {
+int updateSignal(int id, char * newModulatedSignal, char * newType, int newPriorityNumber, DynamicArray * signalsList, DynamicArray * undoRedoList) {
 	/*Updates a signal info from signals list and finding it by id
 	Input: id - positive integer
 		   newModulatedSignal - string of chars
@@ -48,14 +48,14 @@ int updateSignal(int id, char * newModulatedSignal, char * newType, int newPrior
 	UndoRedoByCommand* commands = createUndoRedoByCommand(3, signalToUpdate, 3, newSignal, copySignal, destroySignal);
 	int successfulOperation = updateElementDynamicArray(signalsList, newSignal);
 
-	addOperationForUndoRedoByCommand(undoList, commands);
+	addOperationForUndoRedoByCommand(undoRedoList, commands);
 
 	destroyUndoRedoByCommand(commands);
 	destroySignal(newSignal);
 	return successfulOperation;
 }
 
-int deleteSignal(int id, DynamicArray * signalsList, DynamicArray* undoList, DynamicArray* redoList) {
+int deleteSignal(int id, DynamicArray * signalsList, DynamicArray * undoRedoList) {
 	/*Delets a signal from signals list
 	Input: id - positive integer
 		   signalsList - list of signals
@@ -73,7 +73,7 @@ int deleteSignal(int id, DynamicArray * signalsList, DynamicArray* undoList, Dyn
 
 	removeElementDynamicArray(signalsList, signal);
 
-	addOperationForUndoRedoByCommand(undoList, commands);
+	addOperationForUndoRedoByCommand(undoRedoList, commands);
 
 	destroyUndoRedoByCommand(commands);
 	destroySignal(signal);
