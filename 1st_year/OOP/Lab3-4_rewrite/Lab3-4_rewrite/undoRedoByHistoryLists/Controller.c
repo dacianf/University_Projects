@@ -119,7 +119,6 @@ DynamicArray* listSignalsWithMaximumPriorityNumber(int maximumPriorityNumber, Dy
 		   maximumPriorityNumber - int
 		   sortingWay - integer {0 - ascending | 1 - descending)
 	*/
-	int numberOfSignalsFound = 0;
 	DynamicArray* signalsForListing = createDynamicArray(sizeof(void*), signalsList->createElement, signalsList->destroyElement, signalsList->copyElement, signalsList->compareElements);
 	for (int i = 0; i < signalsList->numberOfElements; i++)
 		if (((Signal *)signalsList->elements[i])->priorityNumber < maximumPriorityNumber)

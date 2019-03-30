@@ -5,7 +5,8 @@
 #include <stdlib.h>
 #include <crtdbg.h>
 
-#include "undoRedoByHistoryLists/UI_undoByStates.h"
+//#include "undoRedoByHistoryLists/UI_undoByStates.h"
+#include "undoRedoByCommand/UI_undoByCommands.h"
 
 void testSignal();
 void testDynamicArr();
@@ -16,19 +17,26 @@ int main() {
 	testDynamicArr();
 
 	DynamicArray* signalsList = createDynamicArray(sizeof(Signal*), createSignal, destroySignal, copySignal, compareTwoSignalsByID);
-	DynamicArray* undoRedoList = createDynamicArray(sizeof(DynamicArray*), createDynamicArray, destroyDynamicArray, createCopyOfDynamicArray, compareTwoDynamicArrays);
-	//DynamicArray* undoByCommandList = createDynamicArray(sizeof(UndoRedoByCommand*), createUndoRedoByCommand, destroyUndoRedoByCommand, copyUndoRedoByCommand, NULL);
-	//DynamicArray* redoByCommandList = createDynamicArray(sizeof(UndoRedoByCommand*), createUndoRedoByCommand, destroyUndoRedoByCommand, copyUndoRedoByCommand, NULL);
-	
+
+	/*DynamicArray* undoRedoList = createDynamicArray(sizeof(DynamicArray*), createDynamicArray, destroyDynamicArray, createCopyOfDynamicArray, compareTwoDynamicArrays);
+
 	addElementDynamicArray(undoRedoList, signalsList);
 	addElementsToSignalsList(signalsList, undoRedoList);
 	signalsList = UI(signalsList, undoRedoList);
 
+	destroyDynamicArray(undoRedoList);*/
 
-	//destroyDynamicArray(undoByCommandList);
-	//destroyDynamicArray(redoByCommandList);
+	//undoRedo by commands list
+	DynamicArray* undoByCommandList = createDynamicArray(sizeof(UndoRedoByCommand*), createUndoRedoByCommand, destroyUndoRedoByCommand, copyUndoRedoByCommand, NULL);
+	DynamicArray* redoByCommandList = createDynamicArray(sizeof(UndoRedoByCommand*), createUndoRedoByCommand, destroyUndoRedoByCommand, copyUndoRedoByCommand, NULL);
+
+	addElementsToSignalsList(signalsList, undoByCommandList, redoByCommandList);
+	signalsList = UI(signalsList, undoByCommandList, redoByCommandList);
+
+	destroyDynamicArray(undoByCommandList);
+	destroyDynamicArray(redoByCommandList);
+
 	destroyDynamicArray(signalsList);
-	destroyDynamicArray(undoRedoList);
 	_CrtDumpMemoryLeaks();
 	return 0;
 }

@@ -121,14 +121,17 @@
     <ClCompile Include="DynamicArray.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="Signal.c" />
-    <ClCompile Include="undoRedoByHistoryLists\Controller.c" />
-    <ClCompile Include="undoRedoByHistoryLists\UI_undoByStates.c" />
+    <ClCompile Include="undoRedoByCommand\Controller_UndoByCommand.c" />
+    <ClCompile Include="undoRedoByCommand\UI_undoByCommands.c" />
+    <ClCompile Include="undoRedoByCommand\UndoRedoByCommand.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DynamicArray.h" />
     <ClInclude Include="Signal.h" />
+    <ClInclude Include="undoRedoByCommand\Controller_UndoByCommand.h" />
+    <ClInclude Include="undoRedoByCommand\UI_undoByCommands.h" />
+    <ClInclude Include="undoRedoByCommand\UndoRedoByCommand.h" />
     <ClInclude Include="undoRedoByHistoryLists\Controller.h" />
-    <ClInclude Include="undoRedoByHistoryLists\UI_undoByStates.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

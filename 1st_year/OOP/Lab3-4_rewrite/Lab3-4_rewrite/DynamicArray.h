@@ -6,6 +6,8 @@ typedef struct {
 	int numberOfElements;
 	int capacity;
 	int undoRedoIndex;
+	int indexForCommandBasedUndo;
+	int isCommingFromUndoRedo; //0-if in undo was not called from another undo
 	void* (*createElement)();
 	void* (*copyElement)();
 	void* (*compareElements)();

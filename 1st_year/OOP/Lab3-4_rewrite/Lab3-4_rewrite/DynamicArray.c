@@ -17,6 +17,8 @@ DynamicArray * createDynamicArray(int elementSize, void * createElement, void * 
 	newDynamicArray->capacity = 100;
 	newDynamicArray->numberOfElements = 0;
 	newDynamicArray->undoRedoIndex = 0;
+	newDynamicArray->indexForCommandBasedUndo = -1;
+	newDynamicArray->isCommingFromUndoRedo = 0;
 	newDynamicArray->compareElements = compareElements;
 	newDynamicArray->copyElement = copyElements;
 	newDynamicArray->createElement = createElement;
@@ -143,8 +145,11 @@ void * popFromDynamicArray(DynamicArray * dynamicArray)
 	void* elementToPop = topOfDynamicArray(dynamicArray);
 	if (elementToPop == NULL)return NULL;
 	void* copyOfLastElement = dynamicArray->copyElement(elementToPop);
-	removeElementDynamicArray(dynamicArray, elementToPop);
-	return elementToPop;
+	dynamicArray->destroyElement(elementToPop);
+	dynamicArray->numberOfElements--;
+	if (dynamicArray->undoRedoIndex > dynamicArray->numberOfElements)
+		dynamicArray->undoRedoIndex = dynamicArray->numberOfElements;
+	return copyOfLastElement;
 }
 
 DynamicArray * createCopyOfDynamicArray(DynamicArray * dynamicArrayToCopy)

@@ -24,10 +24,13 @@
     <ClCompile Include="DynamicArray.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="undoRedoByHistoryLists\Controller.c">
+    <ClCompile Include="undoRedoByCommand\Controller_UndoByCommand.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="undoRedoByHistoryLists\UI_undoByStates.c">
+    <ClCompile Include="undoRedoByCommand\UI_undoByCommands.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="undoRedoByCommand\UndoRedoByCommand.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -35,13 +38,19 @@
     <ClInclude Include="Signal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DynamicArray.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="undoRedoByHistoryLists\Controller.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="undoRedoByHistoryLists\UI_undoByStates.h">
+    <ClInclude Include="undoRedoByCommand\Controller_UndoByCommand.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="undoRedoByCommand\UI_undoByCommands.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="undoRedoByCommand\UndoRedoByCommand.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DynamicArray.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
