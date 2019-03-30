@@ -72,9 +72,9 @@ int redoByCommand(DynamicArray* undoRedoArray, DynamicArray* currentList)
 	if (undoRedoArray->indexForCommandBasedUndo >= undoRedoArray->numberOfElements - 1)
 		return -1;
 	undoRedoArray->isCommingFromUndoRedo = 1;
+	undoRedoArray->indexForCommandBasedUndo++;
 	Command* commandToRedo = ((UndoRedoByCommand*)undoRedoArray->elements[undoRedoArray->indexForCommandBasedUndo])->redo;
 	Signal* redoSignal = commandToRedo->elementForCommand;
-	undoRedoArray->indexForCommandBasedUndo++;
 	if (commandToRedo->commandID == 1)
 		addSignal(redoSignal->id,
 			redoSignal->modulatedSignal,

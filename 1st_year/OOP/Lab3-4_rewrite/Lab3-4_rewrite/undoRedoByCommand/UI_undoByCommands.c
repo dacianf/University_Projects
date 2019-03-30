@@ -67,12 +67,14 @@ void* UI(DynamicArray* signalsList, DynamicArray* undoRedoList)
 			printSignalsFromArray(signalsToPrint);
 			destroyDynamicArray(signalsToPrint);
 		}
-		else if (strcmp(listOfParameters[0], "undo") == 0 && numberOfCommandParameters == 1)
+		else if (strcmp(listOfParameters[0], "undo") == 0 && numberOfCommandParameters == 1) {
 			if (undoByCommand(undoRedoList, signalsList) == -1)
 				printf("No more undos!!!\n");
-			else if (strcmp(listOfParameters[0], "redo") == 0 && numberOfCommandParameters == 1)
-				if (redoByCommand(undoRedoList, signalsList) == -1)
+		}
+		else if (strcmp(listOfParameters[0], "redo") == 0 && numberOfCommandParameters == 1) {
+			if (redoByCommand(undoRedoList, signalsList) == -1)
 				printf("No more redos!!!\n");
+		}
 	}
 }
 
