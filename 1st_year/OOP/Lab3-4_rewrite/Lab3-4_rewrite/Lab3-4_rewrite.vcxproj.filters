@@ -27,7 +27,7 @@
     <ClCompile Include="Controller.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="UndoRedoByCommand.c">
+    <ClCompile Include="UI_undoByStates.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -41,7 +41,7 @@
     <ClInclude Include="Controller.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="UndoRedoByCommand.h">
+    <ClInclude Include="UI_undoByStates.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

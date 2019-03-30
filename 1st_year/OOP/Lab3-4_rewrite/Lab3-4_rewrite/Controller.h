@@ -1,9 +1,6 @@
 #pragma once
 #include <stdlib.h>
-
-#ifndef DYNAMICARRAY_H
 #include "DynamicArray.h"
-#ifndef SIGNAL_H
 #include "Signal.h"
 
 int addSignal(int id, char *modulatedSignal, char *type, int priorityNumber, DynamicArray* signalsList, DynamicArray * undoRedoList);
@@ -19,9 +16,3 @@ DynamicArray* undo(DynamicArray* undoRedoList, DynamicArray* currentList);
 DynamicArray* redo(DynamicArray* undoRedoList, DynamicArray* currentList);
 
 void prepareUndo(DynamicArray * undoRedoList);
-
-void undoCMD(DynamicArray *undoList, int command, void *element);
-void redoCMD(DynamicArray *redoList, int cmd, void *element);
-
-#endif
-#endif

@@ -24,6 +24,10 @@ int updateElementDynamicArray(DynamicArray *dynamicArray, void* newElement);
 
 void* findElementFromDynamicArray(DynamicArray *dynamicArray, void *element);
 
+void * topOfDynamicArray(DynamicArray * dynamicArray);
+
+void* popFromDynamicArray(DynamicArray *dynamicArray);
+
 DynamicArray* createCopyOfDynamicArray(DynamicArray* dynamicArrayToCopy);
 
 int compareTwoDynamicArrays(DynamicArray* firstArray, DynamicArray* secondArray);

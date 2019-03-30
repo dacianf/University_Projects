@@ -1,5 +1,4 @@
 #include "Controller.h"
-#include <stdio.h>
 
 int addSignal(int id, char * modulatedSignal, char * type, int priorityNumber, DynamicArray *signalsList, DynamicArray * undoRedoList){
 	/*Add a given signal into signals list
@@ -17,7 +16,10 @@ int addSignal(int id, char * modulatedSignal, char * type, int priorityNumber, D
 		return 0;
 	addElementDynamicArray(signalsList, newSignal);
 	prepareUndo(undoRedoList);
+
+	//undo with list of states
 	addElementDynamicArray(undoRedoList, signalsList);
+
 	destroySignal(newSignal);
 	return 1;
 }
@@ -34,9 +36,15 @@ int updateSignal(int id, char * newModulatedSignal, char * newType, int newPrior
 			0 - otherwise
 	*/
 	Signal* newSignal = createSignal(id, newModulatedSignal, newType, newPriorityNumber);
+
 	int successfulOperation = updateElementDynamicArray(signalsList, newSignal);
+	if (!successfulOperation)return successfulOperation;
+
 	prepareUndo(undoRedoList);
+
+	//undo by list of states
 	addElementDynamicArray(undoRedoList, signalsList);
+
 	destroySignal(newSignal);
 	return successfulOperation;
 }
@@ -50,11 +58,14 @@ int deleteSignal(int id, DynamicArray * signalsList, DynamicArray * undoRedoList
 			-1 - otherwise
 	*/
 	Signal* signal = createSignal(id, "", "", 0);
-	if (findElementFromDynamicArray(signalsList, signal)==NULL)
+	Signal* signalToDelete = findElementFromDynamicArray(signalsList, signal);
+	if (signalToDelete==NULL)
 		return -1;
-	removeElementDynamicArray(signalsList, signal);
 	prepareUndo(undoRedoList);
+	removeElementDynamicArray(signalsList, signal);
+	//undo by list of states
 	addElementDynamicArray(undoRedoList, signalsList);
+
 	destroySignal(signal);
 	return 1;
 }
@@ -98,7 +109,6 @@ DynamicArray* listSignalsByPriority(int priorityNumber, DynamicArray * signalsLi
 	for (int i = 0; i < signalsList->numberOfElements; i++)
 		if (((Signal *)signalsList->elements[i])->priorityNumber == priorityNumber)
 			addElementDynamicArray(signalsForListing, signalsList->elements[i]);
-	printf("%p", signalsForListing);
 	return signalsForListing;
 }
 
@@ -110,12 +120,15 @@ DynamicArray* listSignalsWithMaximumPriorityNumber(int maximumPriorityNumber, Dy
 		   sortingWay - integer {0 - ascending | 1 - descending)
 	*/
 	int numberOfSignalsFound = 0;
-	DynamicArray *copyOfSignalsList = createCopyOfDynamicArray(signalsList);
+	DynamicArray* signalsForListing = createDynamicArray(sizeof(void*), signalsList->createElement, signalsList->destroyElement, signalsList->copyElement, signalsList->compareElements);
+	for (int i = 0; i < signalsList->numberOfElements; i++)
+		if (((Signal *)signalsList->elements[i])->priorityNumber < maximumPriorityNumber)
+			addElementDynamicArray(signalsForListing, signalsList->elements[i]);
 	if (sortingWay)
-		qsort(copyOfSignalsList->elements, copyOfSignalsList->numberOfElements, sizeof(Signal*), compareTwoSignalsLexicographicByModulatedSignalReverse);
+		qsort(signalsForListing->elements, signalsForListing->numberOfElements, sizeof(Signal*), compareTwoSignalsLexicographicByModulatedSignalReverse);
 	else
-		qsort(copyOfSignalsList->elements, copyOfSignalsList->numberOfElements, sizeof(Signal*), compareTwoSignalsLexicographicByModulatedSignal);
-	return copyOfSignalsList;
+		qsort(signalsForListing->elements, signalsForListing->numberOfElements, sizeof(Signal*), compareTwoSignalsLexicographicByModulatedSignal);
+	return signalsForListing;
 }
 
 void prepareUndo(DynamicArray * undoRedoList)
@@ -126,14 +139,6 @@ void prepareUndo(DynamicArray * undoRedoList)
 	undoRedoList->numberOfElements = undoRedoList->undoRedoIndex;
 }
 
-void undoCMD(DynamicArray * undoList, int command, void * element)
-{
-
-}
-
-void redoCMD(DynamicArray * redoList, int cmd, void * element)
-{
-}
 
 DynamicArray* undo(DynamicArray * undoRedoList, DynamicArray *currentList)
 {

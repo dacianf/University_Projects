@@ -115,6 +115,38 @@ void* findElementFromDynamicArray(DynamicArray * dynamicArray, void * element)
 	return NULL;
 }
 
+void * topOfDynamicArray(DynamicArray * dynamicArray)
+{
+	/*
+			Returns a pointer to the last element in the dynamic array
+		Input:
+			dynamicArray - pointer to a dynamic array
+		Output:
+			pointer to last element if it exist
+			null pointer otherwise
+	*/
+	if (dynamicArray->numberOfElements == 0)return NULL;
+	return dynamicArray->elements[dynamicArray->numberOfElements - 1];
+}
+
+void * popFromDynamicArray(DynamicArray * dynamicArray)
+{
+	/*
+			Returns a pointer to a copy of the last element in the dynamic array
+		and deletes the last element from the dynamic array
+		Input:
+			dynamicArray - pointer to a dynamic array
+		Output:
+			pointer to a copy of last element if it exist (that element must be destroy after you use it)
+			null pointer otherwise
+	*/
+	void* elementToPop = topOfDynamicArray(dynamicArray);
+	if (elementToPop == NULL)return NULL;
+	void* copyOfLastElement = dynamicArray->copyElement(elementToPop);
+	removeElementDynamicArray(dynamicArray, elementToPop);
+	return elementToPop;
+}
+
 DynamicArray * createCopyOfDynamicArray(DynamicArray * dynamicArrayToCopy)
 {
 	/*
