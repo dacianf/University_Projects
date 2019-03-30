@@ -1,7 +1,7 @@
 #pragma once
 #include <stdlib.h>
-#include "DynamicArray.h"
-#include "Signal.h"
+#include "../DynamicArray.h"
+#include "../Signal.h"
 
 int addSignal(int id, char *modulatedSignal, char *type, int priorityNumber, DynamicArray* signalsList, DynamicArray * undoRedoList);
 int updateSignal(int id, char *newModulatedSignal, char *newType, int newPriorityNumber, DynamicArray *signalsList, DynamicArray * undoRedoList);

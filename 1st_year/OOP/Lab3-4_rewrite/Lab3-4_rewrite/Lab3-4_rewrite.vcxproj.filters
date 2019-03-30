@@ -24,10 +24,10 @@
     <ClCompile Include="DynamicArray.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Controller.c">
+    <ClCompile Include="undoRedoByHistoryLists\Controller.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="UI_undoByStates.c">
+    <ClCompile Include="undoRedoByHistoryLists\UI_undoByStates.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -38,10 +38,10 @@
     <ClInclude Include="DynamicArray.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Controller.h">
+    <ClInclude Include="undoRedoByHistoryLists\Controller.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="UI_undoByStates.h">
+    <ClInclude Include="undoRedoByHistoryLists\UI_undoByStates.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
