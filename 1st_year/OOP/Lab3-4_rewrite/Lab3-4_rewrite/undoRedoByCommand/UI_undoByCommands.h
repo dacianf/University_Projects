@@ -6,8 +6,8 @@
 #include "Controller_UndoByCommand.h"
 #include "UndoRedoByCommand.h"
 
-void* UI(DynamicArray* signalsList, DynamicArray* undoList, DynamicArray* redoList);
+void* UI(DynamicArray* signalsList, DynamicArray* undoRedoList);
 
-void addElementsToSignalsList(DynamicArray * signals, DynamicArray * undoList, DynamicArray * redoList);
+void addElementsToSignalsList(DynamicArray * signals, DynamicArray * undoRedoList);
 
 void printSignalsFromArray(DynamicArray *signalsList);

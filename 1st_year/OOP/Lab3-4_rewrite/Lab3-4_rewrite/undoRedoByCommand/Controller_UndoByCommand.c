@@ -19,7 +19,6 @@ int addSignal(int id, char * modulatedSignal, char * type, int priorityNumber, D
 	addElementDynamicArray(signalsList, newSignal);
 
 	UndoRedoByCommand* commands = createUndoRedoByCommand(2, newSignal, 1, newSignal, copySignal, destroySignal);
-	int successfulOperation = updateElementDynamicArray(signalsList, newSignal);
 
 	addOperationForUndoRedoByCommand(undoRedoList, commands);
 

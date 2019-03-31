@@ -26,6 +26,8 @@ UndoRedoByCommand * copyUndoRedoByCommand(UndoRedoByCommand *undoRedoInstance)
 	UndoRedoByCommand *copyUndoRedo = (UndoRedoByCommand*)malloc(sizeof(UndoRedoByCommand));
 	copyUndoRedo->undo = createCommand(undoRedoInstance->undo->commandID, undoRedoInstance->copyElement(undoRedoInstance->undo->elementForCommand));
 	copyUndoRedo->redo = createCommand(undoRedoInstance->redo->commandID, undoRedoInstance->copyElement(undoRedoInstance->redo->elementForCommand));
+	copyUndoRedo->copyElement = undoRedoInstance->copyElement;
+	copyUndoRedo->deleteElement = undoRedoInstance->deleteElement;
 	return copyUndoRedo;
 }
 

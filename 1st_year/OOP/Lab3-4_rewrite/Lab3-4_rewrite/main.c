@@ -27,14 +27,12 @@ int main() {
 	destroyDynamicArray(undoRedoList);*/
 
 	//undoRedo by commands list
-	DynamicArray* undoByCommandList = createDynamicArray(sizeof(UndoRedoByCommand*), createUndoRedoByCommand, destroyUndoRedoByCommand, copyUndoRedoByCommand, NULL);
-	DynamicArray* redoByCommandList = createDynamicArray(sizeof(UndoRedoByCommand*), createUndoRedoByCommand, destroyUndoRedoByCommand, copyUndoRedoByCommand, NULL);
+	DynamicArray* undoRedoCommandList = createDynamicArray(sizeof(UndoRedoByCommand*), createUndoRedoByCommand, destroyUndoRedoByCommand, copyUndoRedoByCommand, NULL);
+	
+	addElementsToSignalsList(signalsList, undoRedoCommandList);
+	signalsList = UI(signalsList, undoRedoCommandList);
 
-	addElementsToSignalsList(signalsList, undoByCommandList, redoByCommandList);
-	signalsList = UI(signalsList, undoByCommandList, redoByCommandList);
-
-	destroyDynamicArray(undoByCommandList);
-	destroyDynamicArray(redoByCommandList);
+	destroyDynamicArray(undoRedoCommandList);
 
 	destroyDynamicArray(signalsList);
 	_CrtDumpMemoryLeaks();
