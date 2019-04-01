@@ -6,10 +6,10 @@ void UI_Admin::start()
 	this->printMenu();
 	std::string command;
 	std::vector<std::string> commandsParameters;
+	auto x = SecurityRecord("Dibu", "mmc", Date(1, 1, 1), 2, "da.mp3");
+	this->controllerRecords.addRecord(x);
 	while (true) {
 		try {
-			auto x = SecurityRecord("Dibu", "mmc", Date(1, 1, 1), 2, "da.mp3");
-			this->controllerRecords.addRecord(x);
 			std::cout << "\n>";
 			std::getline(std::cin, command);
 			if (command.compare("exit") == 0)exit(0);
@@ -19,7 +19,7 @@ void UI_Admin::start()
 			else if (commandsParameters[0].compare("list") == 0 && commandsParameters.size() == 1)
 				this->listElements();
 		}
-		catch (char *er)
+		catch (const char *er)
 		{
 			std::cout << er;
 		}
