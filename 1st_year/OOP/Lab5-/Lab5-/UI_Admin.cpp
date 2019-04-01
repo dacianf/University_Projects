@@ -8,6 +8,8 @@ void UI_Admin::start()
 	std::vector<std::string> commandsParameters;
 	while (true) {
 		try {
+			auto x = SecurityRecord("Dibu", "mmc", Date(1, 1, 1), 2, "da.mp3");
+			this->controllerRecords.addRecord(x);
 			std::cout << "\n>";
 			std::getline(std::cin, command);
 			if (command.compare("exit") == 0)exit(0);

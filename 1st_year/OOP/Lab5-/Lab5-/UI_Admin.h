@@ -7,10 +7,9 @@
 class UI_Admin
 {
 private:
-	Repository recordsRepo;
 	Controller_Admin controllerRecords;
 public:
-	UI_Admin() { this->controllerRecords = Controller_Admin(recordsRepo); }
+	UI_Admin() {}
 
 	void start();
 private:

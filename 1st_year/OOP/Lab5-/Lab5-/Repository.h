@@ -6,6 +6,7 @@ class Repository
 private:
 	DynamicArray<SecurityRecord> listOfSecurityRecords;
 public:
+	Repository() {}
 	void addRecord(SecurityRecord& newRecord);
 	bool deleteRecord(SecurityRecord& newRecord);
 	bool updateRecord(SecurityRecord& recordToDelete);

@@ -5,8 +5,7 @@ class Controller_Admin
 private:
 	Repository recordsRepository;
 public:
-	Controller_Admin(){}
-	Controller_Admin(Repository& recordsRepository) { this->recordsRepository = recordsRepository; }
+	Controller_Admin() {}
 	void addRecord(const std::string &title, const std::string &location, const Date &timeOfCreation, const int numberOfAccessings, const std::string &footagePreview);
 	void addRecord(SecurityRecord& newRecord);
 

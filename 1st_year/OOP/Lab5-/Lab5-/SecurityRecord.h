@@ -11,7 +11,7 @@ private:
 	std::string footagePreview;
 
 public:
-	SecurityRecord() : title(""), location(""), timeOfCreation(Date()), numberOfAccessings(0), footagePreview(""){}
+	SecurityRecord() : title(" "), location(" "), timeOfCreation(Date()), numberOfAccessings(0), footagePreview(" "){}
 	SecurityRecord(const std::string &title, const std::string &location, const Date &timeOfCreation, const int numberOfAccessings, const std::string &footagePreview);
 	SecurityRecord(const SecurityRecord& copyForRecord);
 
