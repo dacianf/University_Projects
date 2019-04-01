@@ -1,37 +1,34 @@
 #include "Date.h"
 
-Date::Date(std::string & date)
+Date::Date(const Date & copyForDate)
 {
-	if (date.length() != 10)throw "Date incorect! It must have the form MM-DD-YYYY!";
-	std::string dayAsString;
-	std::string monthAsString;
-	std::string yearAsString;
-	monthAsString.append(date, 2);
-	monthAsString.append("\n");
-	dayAsString.append(date, 3, 2);
-	dayAsString.append("\n");
-	yearAsString.append(date, 6, 4);
-	yearAsString.append("\n");
-	
-	this->month = std::stoi(monthAsString);
-	this->day = std::stoi(dayAsString);
-	this->year = std::stoi(yearAsString);
+	this->day = copyForDate.day;
+	this->month = copyForDate.month;
+	this->year = copyForDate.year;
+}
+
+Date::Date(const std::string & dateMDY)
+{
+	std::istringstream dateAsStream(dateMDY);
+	std::string dateParameter;
+	std::array<int, 3> dateParameters;
+	dateParameters.fill(0);
+	int index = { 0 };
+	while (std::getline(dateAsStream, dateParameter, '-') and index < 3)
+		dateParameters[index++] = atoi(dateParameter.c_str());
+	this->month = dateParameters[0];
+	this->day = dateParameters[1];
+	this->year = dateParameters[2];
 	if(!validateDate())
 		throw("Invalid date!");
 }
 
-int Date::getNumberOfDays()
+const std::string Date::toString()
 {
-	//getDayNbFromDate returns the this->day of the this->year from the current date
-	//Output: dayNumber - number
-	//		  false - in case of invalid date
-	if (validateDate())
-		return false;
-	int months[] = { 0, 31,28,31,30,31,30,31,31,30,31,30,31 };
-	int sum = this->day;
-	for (int i = 1; i < this->month; i++)
-		sum += months[i];
-	return sum + (isLeapYear(this->year) && this->month > 2);
+	std::ostringstream dateAsStream;
+	dateAsStream << *this;
+	std::string stringToPrint = dateAsStream.str();
+	return stringToPrint;
 }
 
 bool Date::validateDate()

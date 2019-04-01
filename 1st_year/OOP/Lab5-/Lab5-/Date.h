@@ -1,5 +1,7 @@
 #pragma once
 #include <string>
+#include <array>
+#include <sstream>
 
 class Date
 {
@@ -7,37 +9,57 @@ private:
 	int day;
 	int month;
 	int year;
+
 public:
 	Date(): day(1), month(1), year(2000){}
-	Date(int givenDay, int givenMonth, int givenYear) : day(givenDay), month(givenMonth), year(givenYear) { validateDate(); }
-	Date(std::string& date);
+	Date(int givenMonth, int givenDay, int givenYear) : day(givenDay), month(givenMonth), year(givenYear)
+		{this->validateDate() == false ? throw("Invalid date"):0; }
+	Date(const Date& copyForDate);
+	Date(const std::string& date);
 
 	int getDay() const { return day; }
 	int getYear() const { return year; }
 	int getMonth() const { return month; }
-	int getNumberOfDays();
-
-	int operator =(Date secondDate)
+	const int getNumberOfDays()
 	{
-		return this->getNumberOfDays == secondDate.getNumberOfDays && this->year == secondDate.year;
+		//getDayNbFromDate returns the this->day of the this->year from the current date
+		//Output: dayNumber - number
+		//		  false - in case of invalid date
+		if (!this->validateDate())
+			return false;
+		int months[] = { 0,31,28,31,30,31,30,31,31,30,31,30,31 };
+		int sum = this->day;
+		for (int i = 1; i < this->month; i++)
+			sum += months[i];
+		return sum + (isLeapYear(this->year) && this->month > 2);
 	}
 
-	int operator -(Date secondDate)
-	{
-		return (this->getNumberOfDays + this->year) - (secondDate.getNumberOfDays + secondDate.year);
+	Date& operator =(const Date& dateToAssign) {
+		this->day = dateToAssign.day;
+		this->month = dateToAssign.month;
+		this->year = dateToAssign.year;
+		return *this;
 	}
-	int operator +(Date secondDate)
-	{
-		return (this->getNumberOfDays + this->year) + (secondDate.getNumberOfDays + secondDate.year);
+
+	int operator <(Date& dateToCompare) {
+		if (dateToCompare.year == this->year)
+			return this->getNumberOfDays() < dateToCompare.getNumberOfDays();
+		return this->getNumberOfDays() < dateToCompare.getNumberOfDays();
 	}
-	int operator <(Date secondDate)
-	{
-		return (this->getNumberOfDays + this->year) - (secondDate.getNumberOfDays + secondDate.year) < 0 ? 1 : 0;
+
+	friend std::ostream& operator<<(std::ostream& streamToPrint, const Date& dateToPrint) {
+		streamToPrint << dateToPrint.month << "-" << dateToPrint.day << "-" << dateToPrint.year;
+		return streamToPrint;
 	}
-	int operator >(Date secondDate)
-	{
-		return (this->getNumberOfDays + this->year) - (secondDate.getNumberOfDays + secondDate.year) > 0 ? 1 : 0;
+
+	bool operator ==(Date& dateToCompare) const {
+		return (this->day == dateToCompare.day) &&
+			(this->month == dateToCompare.month) &&
+			(this->year == dateToCompare.year);
 	}
+
+	const std::string toString();
+
 private:
 	bool validateDate();
 	bool isLeapYear(int year);
