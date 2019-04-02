@@ -16,8 +16,13 @@ void UI_Admin::start()
 			commandsParameters = this->splitCommand(command);
 			if (commandsParameters[0].compare("add") == 0 && commandsParameters.size() == 6)
 				this->addRecord(commandsParameters);
+			else if (commandsParameters[0].compare("update") == 0 && commandsParameters.size() == 6)
+				this->updateRecord(commandsParameters);
 			else if (commandsParameters[0].compare("list") == 0 && commandsParameters.size() == 1)
 				this->listElements();
+			else if (commandsParameters[0].compare("delete") == 0 && commandsParameters.size() == 2)
+				this->deleteRecord(commandsParameters);
+			else std::cout << "Invalid command!";
 		}
 		catch (const char *er)
 		{
@@ -44,12 +49,26 @@ void UI_Admin::addRecord(std::vector<std::string> command)
 	this->controllerRecords.addRecord(command[1], command[2], Date(command[3]), atoi(command[4].c_str()), command[5]);
 }
 
+void UI_Admin::updateRecord(std::vector<std::string> command)
+{
+	if (command.size() != 6)
+		throw"Command update invalid!";
+	controllerRecords.updateRecord(command[1], command[2], Date(command[3]), atoi(command[4].c_str()), command[5]);
+}
+
+void UI_Admin::deleteRecord(std::vector<std::string> command)
+{
+	if (command.size() != 2)
+		throw"Command delete invalid!";
+	controllerRecords.deleteRecord(command[1]);
+}
+
 void UI_Admin::listElements()
 {
 	auto signals = controllerRecords.getRecords();
-	if(signals.getSize()!=0)
+	if (signals.getSize() != 0)
 		for (int i = 0; i < signals.getSize(); i++)
-			std::cout << signals[i];
+			std::cout << signals[i] << "\n";
 	else std::cout << "No item in the list!";
 }
 
