@@ -74,14 +74,23 @@ void UI_Admin::listElements()
 
 std::vector<std::string> UI_Admin::splitCommand(std::string & command)
 {
-	for (int i = 0; i < command.size(); i++)
-		if (command[i] == ',')
-			command[i] = ' ';
-	std::istringstream commandAsStream(command);
+	int firstSpace = -1;
+	for (int i = 0; i < command.size(); i++) {
+		if (command[i] == ' ')
+			firstSpace = i, i = command.size();
+	}
+	//add matrix, deck d floor 7, 7-10-2010, 5, da.mp4
+	std::istringstream commandAsStream(command.substr(firstSpace + 1));
 	std::string commandParameter;
 	std::vector<std::string> dateParameters;
+	if (firstSpace != -1)
+		dateParameters.push_back(command.substr(0, firstSpace));
+	else{
+		dateParameters.push_back(command);
+		return dateParameters;
+	}
 	int index = { 0 };
-	while (std::getline(commandAsStream, commandParameter, ' '))
+	while (std::getline(commandAsStream, commandParameter, ','))
 		dateParameters.push_back(commandParameter);
 	return dateParameters;
 }
