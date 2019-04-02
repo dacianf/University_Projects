@@ -11,5 +11,8 @@ public:
 	bool deleteRecord(SecurityRecord& newRecord);
 	bool updateRecord(SecurityRecord& recordToDelete);
 	DynamicArray<SecurityRecord> getRecords();
+	void operator =(Repository& repositoryToAssign) {
+		listOfSecurityRecords = repositoryToAssign.getRecords();
+	}
 };
 

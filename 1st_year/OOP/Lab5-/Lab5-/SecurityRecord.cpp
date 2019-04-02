@@ -20,6 +20,12 @@ SecurityRecord::SecurityRecord(const SecurityRecord & copyForRecord)
 	this->numberOfAccessings = copyForRecord.numberOfAccessings;
 }
 
+SecurityRecord::SecurityRecord(const std::string & title)
+{
+	SecurityRecord();
+	this->title = title;
+}
+
 const std::string SecurityRecord::toString()
 {
 	std::ostringstream recordAsStream;

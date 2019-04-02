@@ -28,6 +28,9 @@ public:
 	void removeFromIndex(int index);
 	//std::string toString();
 	TemplateForDynamicArray& operator [](int index);
+	void operator =(TemplateForDynamicArray& newArray) {
+		this = DynamicArray<TemplateForDynamicArray>(newArray);
+	}
 private:
 	//resize the dynamic array by factor times
 	void resize(double factor = 2);
