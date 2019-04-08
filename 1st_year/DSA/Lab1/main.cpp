@@ -7,6 +7,7 @@ using namespace std;
 int main()
 {
 	testAll();
+	cout << "shortTests done!\n";
 	testAllExtended();
 	cout << "Done!";
 	return 0;

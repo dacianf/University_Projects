@@ -14,7 +14,7 @@ class RootTree:
         Pre: Parent is an existing vertex
             Child doesn't exist in the tree
         '''
-        self.__parent[child]=parent
+        self.__parent[child] = parent
         self.__children[parent].append(child)
         self.__children[child] = []
 
@@ -42,7 +42,7 @@ class RootTree:
             post: TRUE - the Vertex is a vertex of the tree
                   False - otherwise
         '''
-        return  theVertex in self.__parent.keys()
+        return theVertex in self.__parent.keys()
 
     def recursiveToString(self, subRoot, depth):
         s = "%s%s\n" % ("\t" * depth, subRoot)

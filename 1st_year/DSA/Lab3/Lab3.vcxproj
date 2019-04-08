@@ -123,6 +123,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ExtendedTest.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="ShortTest.cpp" />
+    <ClCompile Include="SortedSet.cpp" />
+    <ClCompile Include="SortedSetIterator.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DLL.h" />
+    <ClInclude Include="ExtendedTest.h" />
+    <ClInclude Include="Node.h" />
+    <ClInclude Include="ShortTest.h" />
+    <ClInclude Include="SortedSet.h" />
+    <ClInclude Include="SortedSetIterator.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

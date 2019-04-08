@@ -16,4 +16,12 @@ void testAll() {
 	assert(q.top() == 10);
 	assert(q.pop() == 10);
 	assert(q.isEmpty() == true);
+	q.push(5);
+	q.push(1);
+	q.push(10);
+	assert(q.search(1) == true);
+	assert(q.search(5) == true);
+	assert(q.search(10) == true);
+	assert(q.search(7) == false);
+	assert(q.search(23) == false);
 }

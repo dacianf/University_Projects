@@ -42,6 +42,19 @@ bool Queue::isEmpty() const
 	return (this->size == this->front);
 }
 
+bool Queue::search(TElem elem) const
+{
+	//checks if a given element appears in the Queue
+	for (int i = this->front; i < this->size; i++)
+		if (this->elements[i] == elem)
+			return true;
+	if (this->size < this->front)
+		for (int i = 0; i < this->size; i++)
+			if (this->elements[i] == elem)
+				return true;
+	return false;
+}
+
 Queue::~Queue()
 {//theta(1)
 	this->front = 0;
@@ -51,7 +64,7 @@ Queue::~Queue()
 }
 
 void Queue::resize(double val)
-{//O(nbOfElements)
+{//theta(nbOfElements)
 	int tail = this->capacity;
 	this->capacity += 100;
 	TElem* aux = new TElem[this->capacity];
@@ -60,7 +73,7 @@ void Queue::resize(double val)
 	for (int i = this->front; i < tail; i++)
 		aux[auxIndex++] = this->elements[i];
 	if (this->size < this->front)
-		for(int i = 0; i< this->size;i++)
+		for (int i = 0; i < this->size; i++)
 			aux[auxIndex++] = this->elements[i];
 	delete[] this->elements;
 	this->elements = aux;

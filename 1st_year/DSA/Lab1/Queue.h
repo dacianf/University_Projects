@@ -33,6 +33,8 @@ public:
 	bool isEmpty() const;
 	// destructor
 
+	bool search(TElem elem) const;
+
 	~Queue();
 private:
 	void resize(double val = 1.3);
