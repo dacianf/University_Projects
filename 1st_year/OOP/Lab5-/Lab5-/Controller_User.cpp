@@ -1,7 +1,7 @@
 #include "Controller_User.h"
 
 
-Controller_User::Controller_User(Controller_User & copyOfControllerUser)
+Controller_User::Controller_User(const Controller_User & copyOfControllerUser)
 {
 	this->indexOfCurrentRecord = copyOfControllerUser.indexOfCurrentRecord;
 	this->listOfAllRecords = copyOfControllerUser.listOfAllRecords;

@@ -48,7 +48,12 @@ public:
 	}
 
 	friend std::ostream& operator<<(std::ostream& streamToPrint, const Date& dateToPrint) {
-		streamToPrint << dateToPrint.month << "-" << dateToPrint.day << "-" << dateToPrint.year;
+		if (dateToPrint.month < 10)streamToPrint << "0" << dateToPrint.month;
+		else streamToPrint << dateToPrint.month;
+		streamToPrint << "-";
+		if (dateToPrint.day < 10)streamToPrint << "0" << dateToPrint.day;
+		else streamToPrint << dateToPrint.day;
+		streamToPrint << "-" << dateToPrint.year;
 		return streamToPrint;
 	}
 

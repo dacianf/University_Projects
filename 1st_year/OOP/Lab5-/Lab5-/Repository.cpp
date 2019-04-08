@@ -1,6 +1,6 @@
 #include "Repository.h"
 
-void Repository::addRecord(SecurityRecord & newRecord)
+void Repository::addRecord(SecurityRecord& newRecord)
 {
 	if (listOfSecurityRecords.findElement(newRecord) != -1)
 		throw "This element already exists in repo!";
@@ -25,8 +25,8 @@ bool Repository::updateRecord(SecurityRecord & recordToUpdate)
 	return true;
 }
 
-DynamicArray<SecurityRecord> Repository::getRecords()
+DynamicArray<SecurityRecord>& Repository::getRecords()
 {
-	return DynamicArray<SecurityRecord>(listOfSecurityRecords);
+	return this->listOfSecurityRecords;
 }
 

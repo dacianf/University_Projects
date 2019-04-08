@@ -2,8 +2,8 @@
 
 void Controller_Admin::addRecord(const std::string & title, const std::string & location, const Date & timeOfCreation, const int numberOfAccessings, const std::string & footagePreview)
 {
-	auto newRecord = SecurityRecord(title, location, timeOfCreation, numberOfAccessings, footagePreview);
-	recordsRepository.addRecord(newRecord);
+	auto newRecord = new SecurityRecord(title, location, timeOfCreation, numberOfAccessings, footagePreview);
+	recordsRepository.addRecord(*newRecord);
 }
 
 void Controller_Admin::addRecord(SecurityRecord & newRecord)
@@ -34,7 +34,13 @@ void Controller_Admin::updateRecord(SecurityRecord & recordToUpdate)
 	recordsRepository.updateRecord(recordToUpdate);
 }
 
-DynamicArray<SecurityRecord> Controller_Admin::getRecords()
+DynamicArray<SecurityRecord>& Controller_Admin::getRecords()
 {
 	return recordsRepository.getRecords();
 }
+
+Repository Controller_Admin::getCopyOfRepository()
+{
+	return Repository(this->recordsRepository);
+}
+

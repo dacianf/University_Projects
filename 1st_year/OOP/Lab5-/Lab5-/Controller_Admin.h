@@ -15,6 +15,7 @@ public:
 	void updateRecord(const std::string &title, const std::string &newLocation, const Date &newTimeOfCreation, const int newNumberOfAccessings, const std::string &newFootagePreview);
 	void updateRecord(SecurityRecord& recordToUpdate);
 
-	DynamicArray<SecurityRecord> getRecords();
+	DynamicArray<SecurityRecord>& getRecords();
+	Repository getCopyOfRepository();
 };
 

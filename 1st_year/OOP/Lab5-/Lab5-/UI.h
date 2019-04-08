@@ -1,16 +1,17 @@
 #pragma once
 #include "Controller_Admin.h"
+#include "Controller_User.h"
 #include "Repository.h"
 #include <iostream>
 #include <vector>
 
-class UI_Admin
+class UI
 {
 private:
-	Controller_Admin controllerRecords;
+	Controller_Admin controllerAdminRecords;
+	Controller_User controllerUserRecords;
 public:
-	UI_Admin() {}
-
+	UI();
 	void start();
 private:
 void printMenu();

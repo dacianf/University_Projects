@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include <cstdlib>
-
+#include <iostream>
 template <typename TemplateForDynamicArray>
 class DynamicArray
 {
@@ -20,7 +20,7 @@ public:
 	int getCapacity() const{ return this->capacity; }
 	int getSize() const { return this->size; }
 
-	void addElement(TemplateForDynamicArray element);
+	void addElement(TemplateForDynamicArray& element);
 	TemplateForDynamicArray insertElement(int position, TemplateForDynamicArray element);
 	TemplateForDynamicArray getElementFromPosition(int position) const;
 	int findElement(TemplateForDynamicArray element) const;
@@ -28,7 +28,7 @@ public:
 	void removeFromIndex(int index);
 	//std::string toString();
 	TemplateForDynamicArray& operator [](int index);
-	void operator =(TemplateForDynamicArray& newArray) {
+	void operator =(const TemplateForDynamicArray& newArray) {
 		this = DynamicArray<TemplateForDynamicArray>(newArray);
 	}
 private:
@@ -42,6 +42,7 @@ DynamicArray<TemplateForDynamicArray>::DynamicArray(int capacity)
 	this->size = 0;
 	this->capacity = capacity;
 	this->elements = new TemplateForDynamicArray[this->capacity];
+	std::cout << "MATeI!!!\n";
 }
 
 template<typename TemplateForDynamicArray>
@@ -57,17 +58,19 @@ DynamicArray<TemplateForDynamicArray>::DynamicArray(const DynamicArray & copyOfD
 template <typename TemplateForDynamicArray>
 DynamicArray<TemplateForDynamicArray>::~DynamicArray()
 {
+	std::cout << "~Matei!\n";
 	delete[] this->elements;
 	this->size = 0;
 	this->capacity = 0;
 }
 
 template<typename TemplateForDynamicArray>
-void DynamicArray<TemplateForDynamicArray>::addElement(TemplateForDynamicArray element)
+void DynamicArray<TemplateForDynamicArray>::addElement(TemplateForDynamicArray& element)
 {
 	if (this->capacity == this->size + 1)
 		resize();
-	this->elements[this->size++] = element;
+	this->elements[this->size] = element;
+	this->size++;
 }
 
 template<typename TemplateForDynamicArray>
