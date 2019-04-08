@@ -42,7 +42,6 @@ DynamicArray<TemplateForDynamicArray>::DynamicArray(int capacity)
 	this->size = 0;
 	this->capacity = capacity;
 	this->elements = new TemplateForDynamicArray[this->capacity];
-	std::cout << "MATeI!!!\n";
 }
 
 template<typename TemplateForDynamicArray>
@@ -58,7 +57,6 @@ DynamicArray<TemplateForDynamicArray>::DynamicArray(const DynamicArray & copyOfD
 template <typename TemplateForDynamicArray>
 DynamicArray<TemplateForDynamicArray>::~DynamicArray()
 {
-	std::cout << "~Matei!\n";
 	delete[] this->elements;
 	this->size = 0;
 	this->capacity = 0;

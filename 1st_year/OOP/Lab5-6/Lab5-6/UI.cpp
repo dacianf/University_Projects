@@ -1,22 +1,21 @@
 #include "UI.h"
 
-
-UI::UI() : controllerUserRecords(Controller_User(controllerAdminRecords.getCopyOfRepository())) {};
-
 void UI::start()
 {
-	std::cout << "Please select mode:\n\tFor admin type: mode A\n\tFor user type: menu B\n";
+	std::cout << "Please select mode:\n\tFor admin type: mode A\n\tFor user type: menu B\nIf you want to exit type:\n\texit\n";
 	std::string command;
 	std::vector<std::string> commandsParameters;
 	int mode = -1;
-	//auto x = SecurityRecord("Dibu", "mmc", Date(1, 1, 1), 2, "da.mp3");
-	//this->controllerRecords.addRecord(x);
+	auto x1 = SecurityRecord("Dibu", "mmc", Date(1, 1, 1), 2, "da.mp3");
+	auto x2 = SecurityRecord("Daci", "mmc", Date(1, 1, 1), 2, "da.mp3");
+	this->controller.addRecord(x1);
+	this->controller.addRecord(x2);
 	while (true) {
 		try {
 			std::cout << "\n>";
 			std::getline(std::cin, command);
 			if (command.compare("exit") == 0)
-				exit(0);
+				return;
 			commandsParameters = this->splitCommand(command);
 			if (mode == 0){
 				if (commandsParameters[0].compare("add") == 0 && commandsParameters.size() == 6) {
@@ -34,25 +33,27 @@ void UI::start()
 			}
 			else if (mode == 1)
 			{
-				if (commandsParameters[0].compare("mode") == 0 and commandsParameters[1].compare("B") == 0)
-					std::cout << "Welcome in user mode!", mode = 1;
+				if (commandsParameters[0].compare("mode") == 0 and commandsParameters[1].compare("A") == 0)
+					std::cout << "Welcome in admin mode!", mode = 0;
 				else if (commandsParameters[0].compare("next") == 0 and commandsParameters.size() == 1) {
-
+					this->nextRecord();
 				}
 				else if (commandsParameters[0].compare("save") == 0 and commandsParameters.size() == 2) {
-
+					this->saveByTitle(commandsParameters);
 				}
 				else if (commandsParameters[0].compare("list") == 0 and commandsParameters.size() == 3) {
-
+					this->listByLocationAndAccessingTimes(commandsParameters);
 				}
 				else if (commandsParameters[0].compare("mylist") == 0 and commandsParameters.size() == 1) {
-
+					this->userList();
 				}
 			}
-			if (commandsParameters[0].compare("mode") == 0 and commandsParameters[1].compare("A") == 0)
-				this->printMenu(), mode = 0;
-			else if (commandsParameters[0].compare("mode") == 0 and commandsParameters[1].compare("B") == 0)
-				std::cout << "Welcome in user mode!", mode = 1;
+			else {
+				if (commandsParameters[0].compare("mode") == 0 and commandsParameters[1].compare("A") == 0)
+					this->printAdminMenu(), mode = 0;
+				else if (commandsParameters[0].compare("mode") == 0 and commandsParameters[1].compare("B") == 0)
+					std::cout << "Welcome in user mode!", mode = 1;
+			}
 		}
 		catch (const char *error)
 		{
@@ -61,7 +62,7 @@ void UI::start()
 	}
 }
 
-void UI::printMenu()
+void UI::printAdminMenu()
 {
 	std::string menuString = { "\t  Welcome to records management!!!\n\n" };
 	menuString += "for adding a record please type:\n\t\'add title, location, timeOfCreation, timesAccessed, footagePreview\'\n";
@@ -78,29 +79,53 @@ void UI::addRecord(std::vector<std::string> command)
 		throw"Invalid add command";
 	auto d = Date(command[3]);
 	auto r = stoi(command[4]);
-	this->controllerAdminRecords.addRecord(command[1], command[2], d, r, command[5]);
+	this->controller.addRecord(command[1], command[2], d, r, command[5]);
 }
 
 void UI::updateRecord(std::vector<std::string> command)
 {
 	if (command.size() != 6)
 		throw"Command update invalid!";
-	controllerAdminRecords.updateRecord(command[1], command[2], Date(command[3]), atoi(command[4].c_str()), command[5]);
+	controller.updateRecord(command[1], command[2], Date(command[3]), atoi(command[4].c_str()), command[5]);
 }
 
 void UI::deleteRecord(std::vector<std::string> command)
 {
 	if (command.size() != 2)
 		throw"Command delete invalid!";
-	controllerAdminRecords.deleteRecord(command[1]);
+	controller.deleteRecord(command[1]);
 }
 
 void UI::listElements()
 {
-	DynamicArray<SecurityRecord>& signals = controllerAdminRecords.getRecords();
-	if (signals.getSize() != 0)
-		for (int i = 0; i < signals.getSize(); i++)
-			std::cout << signals[i] << "\n";
+	this->printList(controller.getRecords());
+}
+
+void UI::nextRecord()
+{
+	std::cout << this->controller.nextRecord();
+}
+
+void UI::saveByTitle(std::vector<std::string> command)
+{
+	this->controller.saveTitle(command[1]);
+}
+
+void UI::listByLocationAndAccessingTimes(std::vector<std::string> command)
+{
+	auto recordsToPrint = this->controller.getSavedRecordsByLocationAndMaximumNumberOfAccessings(command[1], stoi(command[2]));
+	this->printList(recordsToPrint);
+}
+
+void UI::userList()
+{
+	this->printList(this->controller.getSavedRecords());
+}
+
+void UI::printList(DynamicArray<SecurityRecord>& recordsToPrint) {
+	if (recordsToPrint.getSize() != 0)
+		for (int i = 0; i < recordsToPrint.getSize(); i++)
+			std::cout << recordsToPrint[i] << "\n";
 	else std::cout << "No item in the list!";
 }
 
@@ -124,5 +149,9 @@ std::vector<std::string> UI::splitCommand(std::string & command)
 	int index = { 0 };
 	while (std::getline(commandAsStream, commandParameter, ','))
 		dateParameters.push_back(commandParameter);
+	for (auto& parameter : dateParameters) {
+		removeSpacesBeforeAndAfterAString(parameter);
+	}
 	return dateParameters;
 }
+

@@ -16,7 +16,7 @@ int main()
 		auto x = SecurityRecord("Matei", "108", Date("2-28-2010"), 5, "Mircea.mp4");
 		auto d1 = x.getTimeOfCreation();
 		testDA();
-		auto n = Controller_Admin();
+		auto n = Controller();
 		auto da = SecurityRecord("Bla", "DA", Date(), 0, "DAS");
 		n.addRecord(da);
 		n.addRecord("Bla3", "DA", Date(), 0, "DAS");

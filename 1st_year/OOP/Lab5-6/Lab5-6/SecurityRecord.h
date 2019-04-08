@@ -16,7 +16,7 @@ public:
 	SecurityRecord(const std::string &title, const std::string &location, const Date &timeOfCreation, const int numberOfAccessings, const std::string &footagePreview);
 	SecurityRecord(const SecurityRecord& copyForRecord);
 	SecurityRecord(const std::string &title);
-	~SecurityRecord() { std::cout << "destroy record!\t"; }
+	~SecurityRecord() {}
 	void setTitle(std::string newTitle) { this->title = newTitle; }
 	const std::string getTitle() { return this->title; }
 
