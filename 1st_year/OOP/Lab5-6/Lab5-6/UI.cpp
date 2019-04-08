@@ -6,10 +6,10 @@ void UI::start()
 	std::string command;
 	std::vector<std::string> commandsParameters;
 	int mode = -1;
-	auto x1 = SecurityRecord("Dibu", "mmc", Date(1, 1, 1), 2, "da.mp3");
-	auto x2 = SecurityRecord("Daci", "mmc", Date(1, 1, 1), 2, "da.mp3");
-	this->controller.addRecord(x1);
-	this->controller.addRecord(x2);
+	//auto x1 = SecurityRecord("Dibu", "mmc", Date(1, 1, 1), 2, "da.mp3");
+	//auto x2 = SecurityRecord("Daci", "mmc", Date(1, 1, 1), 2, "da.mp3");
+	//this->controller.addRecord(x1);
+	//this->controller.addRecord(x2);
 	while (true) {
 		try {
 			std::cout << "\n>";
@@ -47,12 +47,14 @@ void UI::start()
 				else if (commandsParameters[0].compare("mylist") == 0 and commandsParameters.size() == 1) {
 					this->userList();
 				}
+				else std::cout << "Incorrect command!";
 			}
 			else {
 				if (commandsParameters[0].compare("mode") == 0 and commandsParameters[1].compare("A") == 0)
 					this->printAdminMenu(), mode = 0;
 				else if (commandsParameters[0].compare("mode") == 0 and commandsParameters[1].compare("B") == 0)
 					std::cout << "Welcome in user mode!", mode = 1;
+				else std::cout << "Incorrect command!";
 			}
 		}
 		catch (const char *error)
