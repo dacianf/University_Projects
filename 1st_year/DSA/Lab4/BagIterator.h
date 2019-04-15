@@ -1,7 +1,6 @@
 #pragma once
 #include <exception>
-#include "Bag_DLLA.h"
-
+#include"Bag_DLLA.h"
 
 //unidirectional iterator for a container
 class Bag_DLLA;
@@ -13,12 +12,13 @@ private:
 
 	//after creation the iterator will refer to the first element of the container, or it will be invalid if the container is empty
 
-	explicit BagIterator(const Bag_DLLA& c) : bag(c), crt(c.start) {};
-
-	//contains a reference of the container it iterates over
-
 	const Bag_DLLA& bag;
 	int crt;
+	int crtFreq;
+
+	explicit BagIterator(const Bag_DLLA& c) : bag(c), crt(c.start), crtFreq(c.perechi[crt].second) {};
+	//contains a reference of the container it iterates over
+
 	/* representation specific for the iterator*/
 public:
 	//sets the iterator to the first element of the container

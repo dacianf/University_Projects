@@ -2,7 +2,6 @@
 #include <utility>
 #include <queue>
 typedef int TElem;
-#include "BagIterator.h"
 
 class BagIterator;
 class Bag_DLLA
@@ -10,8 +9,9 @@ class Bag_DLLA
 	friend class BagIterator;
 private:
 
-	int sizeI;
+	int sizeUniq;
 	int capacity;
+	int nbOfElements;
 	std::pair < TElem, int > * perechi;
 	std::queue<int> freePos;
 	int* next;
@@ -23,6 +23,7 @@ public:
 	//constructor
 
 	Bag_DLLA();
+	Bag_DLLA(const Bag_DLLA&);
 
 	//adds an element to the bag
 

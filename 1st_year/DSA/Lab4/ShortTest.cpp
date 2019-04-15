@@ -1,3 +1,4 @@
+#pragma once
 #include "ShortTest.h"
 #include <assert.h>
 #include "Bag_DLLA.h"

@@ -1,3 +1,4 @@
+#pragma once
 #include <assert.h>
 #include "Bag_DLLA.h"
 #include "ExtendedTest.h"
@@ -90,7 +91,6 @@ void testRemove() {
 		b.add(i);
 	}
 	for (int i = -100; i < 100; i++) {
-
 		if (i % 2 == 0) {
 			assert(b.remove(i) == true);
 		}
@@ -110,9 +110,11 @@ void testRemove() {
 			assert(b.remove(i) == false);
 		}
 	}
-
 	assert(b.size() == 1);
+	b.printPairs();
 	b.remove(-100);
+	std::cout << "MEH\n";
+	b.printPairs();
 	for (int i = -100; i < 100; i++) { 
 		b.add(i);
 		b.add(i);
