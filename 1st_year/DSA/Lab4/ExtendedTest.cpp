@@ -111,10 +111,8 @@ void testRemove() {
 		}
 	}
 	assert(b.size() == 1);
-	b.printPairs();
 	b.remove(-100);
-	std::cout << "MEH\n";
-	b.printPairs();
+	assert(b.size() == 0);
 	for (int i = -100; i < 100; i++) { 
 		b.add(i);
 		b.add(i);
@@ -348,6 +346,7 @@ void testAllExtended() {
 	testAdd();
 	testRemove();
 	testIterator();
+	std::cout << "\nAlmost done. Quantity test is next.......\n";
 	testQuantity();
 
 

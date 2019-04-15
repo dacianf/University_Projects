@@ -76,7 +76,8 @@ bool Bag_DLLA::remove(TElem e)
 {
 	if (this->isEmpty())return false;
 	int crt = this->start;
-	if (crt == this->last and this->perechi[crt].second == 1) {
+	if (crt == this->last and this->perechi[crt].first != e)return false;
+	if (crt == this->last and this->perechi[crt].first == e and this->perechi[crt].second == 1) {
 		this->perechi[crt].second = 0;
 		this->nbOfElements--;
 		this->sizeUniq--;
@@ -85,6 +86,7 @@ bool Bag_DLLA::remove(TElem e)
 	}
 	else if (crt == this->last and this->perechi[crt].second > 1){
 		this->perechi[crt].second--;
+		this->nbOfElements--;
 		return true;
 	}
 	while (this->perechi[crt].first != e and crt != -1)
