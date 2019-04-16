@@ -90,7 +90,7 @@ def start():
             for i in gr.parse_inbound(vr):
                 print(i)
         elif(cmd == "6"):
-
+            pass
 
 printMenu()
 start()
