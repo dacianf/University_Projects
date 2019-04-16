@@ -18,22 +18,6 @@ Bag_DLLA::Bag_DLLA()
 		this->freePos.push(i);
 }
 
-Bag_DLLA::Bag_DLLA(const Bag_DLLA & cBag)
-{
-	this->sizeUniq = cBag.sizeUniq;
-	this->capacity = cBag.capacity;
-	this->start = cBag.start;
-	this->last = cBag.last;
-	this->next = new int[this->capacity];
-	this->prev = new int[this->capacity];
-	this->perechi = new std::pair< TElem, int>[this->capacity];
-	this->freePos = cBag.freePos;
-	for (int i = 0; i < this->capacity; i++)
-		this->prev[i] = cBag.prev[i],
-		this->next[i] = cBag.next[i],
-		this->perechi[i] = cBag.perechi[i];
-}
-
 void Bag_DLLA::add(TElem e)
 {
 	if (this->sizeUniq == this->capacity)

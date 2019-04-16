@@ -16,6 +16,7 @@ private:
 	int crt;
 	int crtFreq;
 
+	//theta(1)
 	explicit BagIterator(const Bag_DLLA& c) : bag(c), crt(c.start), crtFreq(c.perechi[crt].second) {};
 	//contains a reference of the container it iterates over
 
@@ -23,19 +24,23 @@ private:
 public:
 	//sets the iterator to the first element of the container
 
+	//theta(1)
 	void first();
 
 	//moves the iterator to the next element
 
 	//throws exception if the iterator is not valid
 
+	//theta(1)
 	void next();
 	//checks if the iterator is valid
 
+	//theta(1)
 	bool valid() const;
 	//returns the value of the current element from the iterator
 
 	// throws exception if the iterator is not valid
 
+	//theta(1)
 	TElem getCurrent() const;
 };

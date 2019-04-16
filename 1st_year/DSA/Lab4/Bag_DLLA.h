@@ -21,47 +21,57 @@ private:
 public:
 
 	//constructor
-
+	
+	//theta(10)
 	Bag_DLLA();
-	Bag_DLLA(const Bag_DLLA&);
 
 	//adds an element to the bag
 
+	//O(n)
 	void add(TElem e);
 
 	//removes one occurrence of an element from a bag
 
 	//returns true if an element was removed, false otherwise (if e was not part of the bag)
 
+	//O(n)
 	bool remove(TElem e);
 
 	//checks if an element appears in the bag
-
+	
+	//O(n)
 	bool search(TElem e) const;
 
 	//returns the number of occurrences for an element in the bag
-
+	
+	//O(n)
 	int nrOccurrences(TElem e) const;
 
 
 	//returns the number of elements from the bag
 
+	//theta(1)
 	int size() const;
 
 	//returns an iterator for this bag
 
+	//theta(1)
 	BagIterator iterator() const;
 
 	//checks if the bag is empty
 
+	//theta(1)
 	bool isEmpty() const;
 
 	//destructor
 
+	//theta(1)
 	~Bag_DLLA();
 
+	//O(n)
 	void printPairs();
 private:
+	//O(n)
 	void resize();
 };
 
