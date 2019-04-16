@@ -1,24 +1,28 @@
+#pragma once
+#include <exception>
+#include "SortedSet.h"
 #include "SortedSetIterator.h"
-
 
 void SortedSetIterator::first()
 {
-	this->index = 0;
-	this->currentElement = this->c.listOfElements.headNode;
+	this->crt = this->head;
 }
 
 void SortedSetIterator::next()
 {
-	if(this->valid)
+	if (!this->valid())
+		throw std::exception("Invalid iterator!");
+	this->crt = this->crt->nextNode;
 }
 
-bool SortedSetIterator::valid(Node<TElem>& x) const
+bool SortedSetIterator::valid() const
 {
-	return this->currentElement;
+	return this->crt!=nullptr;
 }
 
 TElem SortedSetIterator::getCurrent() const
 {
-
-	return TElem();
+	if (!this->valid())
+		throw std::exception("Invalid!");
+	return this->crt->valoare;
 }

@@ -3,6 +3,7 @@
 #include "SortedSetIterator.h"
 #include <exception>
 #include "ExtendedTest.h"
+#include<iostream>
 
 using namespace std;
 
@@ -291,7 +292,9 @@ void testAllExtended() {
 	testRemove(rGreater);
 	testIterator(rLessEqual);
 	testIterator(rGreater);
+	std::cout << "\nQuantity is next!\n";
 	testQuantity(rLessEqual);
+	std::cout << "less or eq done!\n";
 	testQuantity(rGreater);
 
 }
