@@ -13,16 +13,16 @@ private:
 	int capacity;
 	int nbOfElements;
 	std::pair < TElem, int > * perechi;
-	std::queue<int> freePos;
 	int* next;
 	int* prev;
 	int start;
 	int last;
+	int firstEmpty;
 public:
 
 	//constructor
 	
-	//theta(10)
+	//theta(1)
 	Bag_DLLA();
 
 	//adds an element to the bag
@@ -62,6 +62,11 @@ public:
 
 	//theta(1)
 	bool isEmpty() const;
+
+	//returns the number of unique elements that appear frequency times
+	//throws an exception if frequency is negative or zero
+	//O(n)
+	int elementsWithThisFrequency(int frequency) const;
 
 	//destructor
 

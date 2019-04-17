@@ -348,6 +348,4 @@ void testAllExtended() {
 	testIterator();
 	std::cout << "\nAlmost done. Quantity test is next.......\n";
 	testQuantity();
-
-
 }

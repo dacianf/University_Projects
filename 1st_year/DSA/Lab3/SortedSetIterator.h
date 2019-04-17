@@ -47,6 +47,10 @@ public:
 	//theta(1)
 	TElem getCurrent() const;
 
+	//moves the current element from the iterator k steps backwards or makes iterator invalid 
+	//throws an exception if the iterator is invalid
+	void jumpBackward(int k);
+
 };
 
 

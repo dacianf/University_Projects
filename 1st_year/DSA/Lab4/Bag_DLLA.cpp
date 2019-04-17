@@ -6,16 +6,18 @@
 
 Bag_DLLA::Bag_DLLA()
 {
-	this->capacity = 10;
+	this->capacity = 1;
 	this->sizeUniq = 0;
 	this->nbOfElements = 0;
-	this->perechi = new std::pair<TElem, int>[10];
-	this->next = new int[10];
-	this->prev= new int[10];
+	this->perechi = new std::pair<TElem, int>[this->capacity];
+	this->next = new int[this->capacity];
+	this->prev= new int[this->capacity];
+	for (int i = 0; i < this->capacity; i++)
+		this->next[i] = i + 1;
+	this->next[this->capacity - 1] = -1;
 	this->start = 0;
 	this->last = 0;
-	for (int i = 0; i < this->capacity; i++)
-		this->freePos.push(i);
+	this->firstEmpty = 0;
 }
 
 void Bag_DLLA::add(TElem e)
@@ -24,8 +26,8 @@ void Bag_DLLA::add(TElem e)
 		this->resize();
 	int currentIndex = this->start;
 	if (this->sizeUniq == 0) {
-		this->start = this->last = this->freePos.front();
-		this->freePos.pop();
+		this->start = this->last = this->firstEmpty;
+		this->firstEmpty = this->next[this->firstEmpty];
 		this->perechi[this->start].first = e;
 		this->perechi[this->start].second = 1;
 		this->next[this->start] = -1;
@@ -37,8 +39,8 @@ void Bag_DLLA::add(TElem e)
 	while (this->next[currentIndex] != -1 and this->perechi[currentIndex].first != e)
 		currentIndex = this->next[currentIndex];
 	if (this->perechi[currentIndex].first != e) {
-		int nextFree = this->freePos.front();
-		this->freePos.pop();
+		int nextFree = this->firstEmpty;
+		this->firstEmpty = this->next[this->firstEmpty];
 		this->perechi[nextFree].first = e;
 		this->perechi[nextFree].second = 1;
 		this->next[nextFree] = -1;
@@ -63,9 +65,10 @@ bool Bag_DLLA::remove(TElem e)
 	if (crt == this->last and this->perechi[crt].first != e)return false;
 	if (crt == this->last and this->perechi[crt].first == e and this->perechi[crt].second == 1) {
 		this->perechi[crt].second = 0;
+		this->next[crt] = this->firstEmpty;
+		this->firstEmpty = crt;
 		this->nbOfElements--;
 		this->sizeUniq--;
-		this->freePos.push(crt);
 		return true;
 	}
 	else if (crt == this->last and this->perechi[crt].second > 1){
@@ -85,9 +88,10 @@ bool Bag_DLLA::remove(TElem e)
 		if (crt != this->last)
 			this->prev[this->next[crt]] = this->prev[crt];
 		else this->last = this->prev[crt];
+		this->next[crt] = this->firstEmpty;
+		this->firstEmpty = crt;
 		this->nbOfElements--;
 		this->sizeUniq--;
-		this->freePos.push(crt);
 	}
 	else this->nbOfElements--, this->perechi[crt].second--;
 	return true;
@@ -129,6 +133,20 @@ bool Bag_DLLA::isEmpty() const
 	return !this->sizeUniq;
 }
 
+int Bag_DLLA::elementsWithThisFrequency(int frequency) const
+{
+	if (frequency <= 0)
+		throw std::exception("Frequency must be > 0!");
+	int k = 0;
+	auto crt = this->start;
+	while (crt != -1) {
+		if (this->perechi[crt].second == frequency)
+			k++;
+		crt = this->next[crt];
+	}
+	return k;
+}
+
 Bag_DLLA::~Bag_DLLA()
 {
 	this->capacity = 0;
@@ -151,14 +169,16 @@ void Bag_DLLA::resize()
 		auxEL[i] = this->perechi[i],
 		auxN[i] = this->next[i],
 		auxP[i] = this->prev[i];
+	for (int i = this->sizeUniq; i < this->capacity; i++)
+		auxN[i] = i + 1;
+	auxN[this->capacity - 1] = -1;
+	this->firstEmpty = this->capacity/2;
 	delete[] this->perechi;
-	delete[] this->next;
 	delete[] this->prev;
+	delete[] this->next;
 	this->perechi = auxEL;
 	this->next = auxN;
 	this->prev = auxP;
-	for (int i = this->sizeUniq; i < this->capacity; i++)
-		this->freePos.push(i);
 }
 
 void Bag_DLLA::printPairs() {

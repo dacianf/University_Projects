@@ -3,6 +3,7 @@
 #include <assert.h>
 #include "Bag_DLLA.h"
 #include "BagIterator.h"
+#include <exception>
 
 
 void testAll() { 
@@ -31,4 +32,28 @@ void testAll() {
 		TElem e = it.getCurrent();
 		it.next();
 	}
+
+	//test elementsWithThisFrequency
+	Bag_DLLA bg = Bag_DLLA();
+	bg.add(5);
+	bg.add(5);
+	bg.add(5);
+	assert(bg.elementsWithThisFrequency(3) == 1);
+	bg.add(3);
+	assert(bg.elementsWithThisFrequency(3) == 1);
+	bg.add(3);
+	bg.add(3);
+	assert(bg.elementsWithThisFrequency(3) == 2);
+	bg.add(4);
+	bg.add(4);
+	bg.add(9);
+	assert(bg.elementsWithThisFrequency(3) == 2);
+	try {
+		bg.elementsWithThisFrequency(0);
+		assert(false);
+	}
+	catch (std::exception&) {
+		assert(true);
+	}
+
 }

@@ -26,3 +26,11 @@ TElem SortedSetIterator::getCurrent() const
 		throw std::exception("Invalid!");
 	return this->crt->valoare;
 }
+
+void SortedSetIterator::jumpBackward(int k)
+{
+	if(!this->valid())
+		throw std::exception("Invalid!");
+	while (k-- and this->valid())
+		this->crt = this->crt->prevNode;
+}
