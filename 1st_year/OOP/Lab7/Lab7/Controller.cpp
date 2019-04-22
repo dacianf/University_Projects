@@ -55,13 +55,12 @@ bool Controller::saveTitle(std::string titleToSave)
 
 std::vector<SecurityRecord> Controller::getSavedRecordsByLocationAndMaximumNumberOfAccessings(std::string recordsLocation, int timesAccessed)
 {
-	auto listOfRecordsFromGivenLocation = std::vector<SecurityRecord>();
 	auto recordsArray = this->recordsRepository.getRecords();
-	for (int i = 0; i < this->getRecords().size(); i++) {
-		if (recordsArray[i].getLocation() == recordsLocation
-			and recordsArray[i].getNumberOfAccessing() < timesAccessed)
-			listOfRecordsFromGivenLocation.push_back(recordsArray[i]);
-	}
+	auto listOfRecordsFromGivenLocation = std::vector<SecurityRecord>(recordsArray.size());
+	auto records = std::copy_if(recordsArray.begin(), recordsArray.end(), listOfRecordsFromGivenLocation.begin(), [recordsLocation, timesAccessed](auto record) {
+		return record.getLocation() == recordsLocation and record.getNumberOfAccessing() < timesAccessed;
+		});
+	listOfRecordsFromGivenLocation.resize(std::distance(listOfRecordsFromGivenLocation.begin(), records));
 	return listOfRecordsFromGivenLocation;
 }
 

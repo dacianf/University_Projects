@@ -130,8 +130,8 @@ void UI::userList()
 
 void UI::printList(std::vector<SecurityRecord>& recordsToPrint) {
 	if (recordsToPrint.size() != 0)
-		for (int i = 0; i < recordsToPrint.size(); i++)
-			std::cout << recordsToPrint[i] << "\n";
+		for (auto record : recordsToPrint)
+			std::cout << record << "\n";
 	else std::cout << "No item in the list!";
 }
 
