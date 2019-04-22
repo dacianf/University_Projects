@@ -8,18 +8,19 @@
 using namespace std;
 
 void testDA();
+
 int main()
 {
 	auto menu = UI();
 	menu.start();
 	try {
-		auto x = SecurityRecord("Matei", "108", Date("2-28-2010"), 5, "Mircea.mp4");
-		auto d1 = x.getTimeOfCreation();
+		auto record_matei = SecurityRecord("Matei", "108", Date("2-28-2010"), 5, "Mircea.mp4");
+		auto dateOfRecord = record_matei.getTimeOfCreation();
 		testDA();
-		auto n = Controller();
-		auto da = SecurityRecord("Bla", "DA", Date(), 0, "DAS");
-		n.addRecord(da);
-		n.addRecord("Bla3", "DA", Date(), 0, "DAS");
+		auto newController = Controller();
+		auto record_bla = SecurityRecord("Bla", "DA", Date(), 0, "DAS");
+		newController.addRecord(record_bla);
+		newController.addRecord("Bla3", "DA", Date(), 0, "DAS");
 	}
 	catch (const char* s) {
 		cout <<"ERROR!!! --->\t"<< s<<endl;
@@ -37,9 +38,9 @@ void testDA() {
 		da.addElement(x);
 	assert(da.getCapacity() == 20);
 	assert(da.getSize() == 12);
-	auto rec1 = SecurityRecord("bla", "iad", Date("2-10-2010"), 4, "da.mp4");
-	auto rec2 = SecurityRecord("blaa", "iad", Date("2-10-2010"), 4, "da.mp4");
-	assert((rec1 == rec2) == 0);
-	rec2.setTitle("bla");
-	assert((rec1 == rec2) == 1);
+	auto record_bla = SecurityRecord("bla", "iad", Date("2-10-2010"), 4, "da.mp4");
+	auto record_blaa = SecurityRecord("blaa", "iad", Date("2-10-2010"), 4, "da.mp4");
+	assert((record_bla == record_blaa) == 0);
+	record_blaa.setTitle("bla");
+	assert((record_bla == record_blaa) == 1);
 }

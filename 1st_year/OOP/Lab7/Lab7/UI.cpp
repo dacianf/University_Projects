@@ -2,20 +2,23 @@
 
 void UI::start()
 {
-	std::cout << "Please select mode:\n\tFor admin type: mode A\n\tFor user type: menu B\nIf you want to exit type:\n\texit\n";
+	std::cout << "Please select mode:\n\tFor admin type: mode A\n\tFor user type: menu B\nIf you want to exit type:\n\texit\n"
+		<<"If you want to load/save from/into a file type:\n\tfileLocation [path]\n";
 	std::string command;
 	std::vector<std::string> commandsParameters;
 	int mode = -1;
-	//auto x1 = SecurityRecord("Mircea", "mmc", Date(1, 1, 1), 2, "da.mp3");
-	//auto x2 = SecurityRecord("Cornel", "mmc", Date(1, 1, 1), 2, "da.mp3");
+	//auto x1 = SecurityRecord("Dibu", "mmc", Date(1, 1, 1), 2, "da.mp3");
+	//auto x2 = SecurityRecord("Daci", "mmc", Date(1, 1, 1), 2, "da.mp3");
 	//this->controller.addRecord(x1);
 	//this->controller.addRecord(x2);
 	while (true) {
 		try {
 			std::cout << "\n>";
 			std::getline(std::cin, command);
-			if (command.compare("exit") == 0)
+			if (command.compare("exit") == 0) {
+				this->controller.saveRecordsInFile();
 				return;
+			}
 			commandsParameters = this->splitCommand(command);
 			if (mode == 0){
 				if (commandsParameters[0].compare("add") == 0 && commandsParameters.size() == 6) {
@@ -54,6 +57,10 @@ void UI::start()
 					this->printAdminMenu(), mode = 0;
 				else if (commandsParameters[0].compare("mode") == 0 and commandsParameters[1].compare("B") == 0)
 					std::cout << "Welcome in user mode!", mode = 1;
+				else if (commandsParameters[0] == "fileLocation" and commandsParameters.size() == 2) {
+					this->controller.saveRecordsInFile();
+					this->controller = Controller(commandsParameters[1]);
+				}
 				else std::cout << "Incorrect command!";
 			}
 		}
@@ -79,9 +86,9 @@ void UI::addRecord(std::vector<std::string> command)
 {
 	if (command.size() != 6)
 		throw"Invalid add command";
-	auto date = Date(command[3]);
-	auto numberOfAccessings= stoi(command[4]);
-	this->controller.addRecord(command[1], command[2], date, numberOfAccessings, command[5]);
+	auto d = Date(command[3]);
+	auto r = stoi(command[4]);
+	this->controller.addRecord(command[1], command[2], d, r, command[5]);
 }
 
 void UI::updateRecord(std::vector<std::string> command)
@@ -124,9 +131,9 @@ void UI::userList()
 	this->printList(this->controller.getSavedRecords());
 }
 
-void UI::printList(DynamicArray<SecurityRecord>& recordsToPrint) {
-	if (recordsToPrint.getSize() != 0)
-		for (int i = 0; i < recordsToPrint.getSize(); i++)
+void UI::printList(std::vector<SecurityRecord>& recordsToPrint) {
+	if (recordsToPrint.size() != 0)
+		for (int i = 0; i < recordsToPrint.size(); i++)
 			std::cout << recordsToPrint[i] << "\n";
 	else std::cout << "No item in the list!";
 }

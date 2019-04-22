@@ -1,18 +1,18 @@
 #pragma once
-#include "DynamicArray.h"
+#include <vector>
 #include "SecurityRecord.h"
 class Repository
 {
-private:
-	DynamicArray<SecurityRecord> listOfSecurityRecords;
+protected:
+	std::vector<SecurityRecord> listOfSecurityRecords;
 public:
 	Repository() {}
 	Repository(const Repository & copyOfRepository) { this->listOfSecurityRecords = copyOfRepository.listOfSecurityRecords; }
 	void addRecord(SecurityRecord& newRecord);
 	bool deleteRecord(SecurityRecord& newRecord);
 	bool updateRecord(SecurityRecord& recordToDelete);
-	DynamicArray<SecurityRecord>& getRecords();
-	// hello world
+	int findRecord(SecurityRecord& recordToFind);
+	std::vector<SecurityRecord>& getRecords();
 
 	void operator=(const Repository& repositoryToAssign) {
 		this->listOfSecurityRecords = repositoryToAssign.listOfSecurityRecords;

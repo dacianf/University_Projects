@@ -36,40 +36,46 @@ void Controller::updateRecord(SecurityRecord & recordToUpdate)
 
 SecurityRecord Controller::nextRecord()
 {
-	if (this->indexRecords == this->recordsRepository.getRecords().getSize())
+	if (this->indexRecords == this->recordsRepository.getRecords().size())
 		this->indexRecords = 0;
 	return this->recordsRepository.getRecords()[this->indexRecords++];
 }
 
 bool Controller::saveTitle(std::string titleToSave)
 {
-	if (this->savedRecords.getRecords().findElement(SecurityRecord(titleToSave)) != -1)
+	auto recordToBeSaved = SecurityRecord(titleToSave);
+	if (this->savedRecords.findRecord(recordToBeSaved) != -1)
 		throw "This element already exist in your list!";
-	int recordToAddIndex = this->recordsRepository.getRecords().findElement(SecurityRecord(titleToSave));
+	int recordToAddIndex = this->recordsRepository.findRecord(recordToBeSaved);
 	if (recordToAddIndex == -1)
 		throw "This record does not exist!";
 	this->savedRecords.addRecord(this->recordsRepository.getRecords()[recordToAddIndex]);
 	return true;
 }
 
-DynamicArray<SecurityRecord> Controller::getSavedRecordsByLocationAndMaximumNumberOfAccessings(std::string recordsLocation, int timesAccessed)
+std::vector<SecurityRecord> Controller::getSavedRecordsByLocationAndMaximumNumberOfAccessings(std::string recordsLocation, int timesAccessed)
 {
-	auto listOfRecordsFromGivenLocation = DynamicArray<SecurityRecord>();
+	auto listOfRecordsFromGivenLocation = std::vector<SecurityRecord>();
 	auto recordsArray = this->recordsRepository.getRecords();
-	for (int i = 0; i < this->getRecords().getSize(); i++) {
+	for (int i = 0; i < this->getRecords().size(); i++) {
 		if (recordsArray[i].getLocation() == recordsLocation
 			and recordsArray[i].getNumberOfAccessing() < timesAccessed)
-			listOfRecordsFromGivenLocation.addElement(recordsArray[i]);
+			listOfRecordsFromGivenLocation.push_back(recordsArray[i]);
 	}
 	return listOfRecordsFromGivenLocation;
 }
 
-DynamicArray<SecurityRecord>& Controller::getSavedRecords()
+std::vector<SecurityRecord>& Controller::getSavedRecords()
 {
 	return this->savedRecords.getRecords();
 }
 
-DynamicArray<SecurityRecord>& Controller::getRecords()
+void Controller::saveRecordsInFile()
+{
+	this->recordsRepository.saveInFile();
+}
+
+std::vector<SecurityRecord>& Controller::getRecords()
 {
 	return this->recordsRepository.getRecords();
 }
