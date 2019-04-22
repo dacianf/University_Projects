@@ -7,10 +7,6 @@ void UI::start()
 	std::string command;
 	std::vector<std::string> commandsParameters;
 	int mode = -1;
-	//auto x1 = SecurityRecord("Dibu", "mmc", Date(1, 1, 1), 2, "da.mp3");
-	//auto x2 = SecurityRecord("Daci", "mmc", Date(1, 1, 1), 2, "da.mp3");
-	//this->controller.addRecord(x1);
-	//this->controller.addRecord(x2);
 	while (true) {
 		try {
 			std::cout << "\n>";
@@ -19,6 +15,7 @@ void UI::start()
 				this->controller.saveRecordsInFile();
 				return;
 			}
+			removeSpacesBeforeAndAfterAString(command);
 			commandsParameters = this->splitCommand(command);
 			if (mode == 0){
 				if (commandsParameters[0].compare("add") == 0 && commandsParameters.size() == 6) {

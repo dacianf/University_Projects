@@ -20,18 +20,21 @@ public:
 		this->loadFromFile(this->fileLocation);
 	};
 	void loadFromFile(std::string fileLocation) {
-		this->fin.open(fileLocation, std::fstream::out);
+		this->fin.open(fileLocation, std::fstream::in | std::fstream::out);
 		auto readRecord = SecurityRecord();
-		while (this->fin >> readRecord)
-			this->addRecord(readRecord);
+		if(fin)
+			while (this->fin >> readRecord)
+				this->addRecord(readRecord);
 		this->fin.close();
 	}
 
 	void saveInFile() {
-		this->fout.open(this->fileLocation, std::fstream::out);
-		for (int i = 0; i < this->listOfSecurityRecords.size(); i++)
-			fout << this->listOfSecurityRecords[i] << "\n";
-		this->fout.close();
+		if (this->fileLocation != "") {
+			this->fout.open(this->fileLocation, std::fstream::out);
+			for (int i = 0; i < this->listOfSecurityRecords.size(); i++)
+				fout << this->listOfSecurityRecords[i] << "\n";
+			this->fout.close();
+		}
 	}
 	File_Repository operator =(File_Repository assignedRepository) {
 		this->fileLocation = assignedRepository.fileLocation;
