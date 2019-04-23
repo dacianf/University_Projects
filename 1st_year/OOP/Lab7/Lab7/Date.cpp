@@ -56,5 +56,5 @@ bool Date::isLeapYear(int year)
 	//Input: this->year - positiv integer
 	//Output: True if given this->year is a leap one
 	//		  False otherwise
-	return ((this->year % 4 == 0 && this->year % 100 != 0) || this->year % 400 == 0);
+	return ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0);
 }

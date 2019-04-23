@@ -1,37 +1,37 @@
 #include "Controller.h"
 
-void Controller::addRecord(const std::string & title, const std::string & location, const Date & timeOfCreation, const int numberOfAccessings, const std::string & footagePreview)
+bool Controller::addRecord(const std::string & title, const std::string & location, const Date & timeOfCreation, const int numberOfAccessings, const std::string & footagePreview)
 {
 	auto newRecord = new SecurityRecord(title, location, timeOfCreation, numberOfAccessings, footagePreview);
-	this->recordsRepository.addRecord(*newRecord);
+	return this->recordsRepository.addRecord(*newRecord);
 }
 
-void Controller::addRecord(SecurityRecord & newRecord)
+bool Controller::addRecord(SecurityRecord & newRecord)
 {
-	this->recordsRepository.addRecord(newRecord);
+	return this->recordsRepository.addRecord(newRecord);
 }
 
-void Controller::deleteRecord(std::string & title)
+bool Controller::deleteRecord(std::string & title)
 {
-	auto newRecord = SecurityRecord(title, "", Date(), 0, "");
-	this->recordsRepository.deleteRecord(newRecord);
+	auto newRecord = SecurityRecord(title, "", Date(), 1, "");
+	return this->recordsRepository.deleteRecord(newRecord);
 }
 
-void Controller::deleteRecord(SecurityRecord & recordToDelete)
+bool Controller::deleteRecord(SecurityRecord & recordToDelete)
 {
-	this->recordsRepository.deleteRecord(recordToDelete);
+	return this->recordsRepository.deleteRecord(recordToDelete);
 }
 
-void Controller::updateRecord(const std::string & title, const std::string & newLocation, const Date & newTimeOfCreation, const int newNumberOfAccessings, const std::string & newFootagePreview)
+bool Controller::updateRecord(const std::string & title, const std::string & newLocation, const Date & newTimeOfCreation, const int newNumberOfAccessings, const std::string & newFootagePreview)
 {
 	auto newRecord = SecurityRecord(title, newLocation, newTimeOfCreation, newNumberOfAccessings, newFootagePreview);
-	this->recordsRepository.updateRecord(newRecord);
+	return this->recordsRepository.updateRecord(newRecord);
 }
 
 
-void Controller::updateRecord(SecurityRecord & recordToUpdate)
+bool Controller::updateRecord(SecurityRecord & recordToUpdate)
 {
-	this->recordsRepository.updateRecord(recordToUpdate);
+	return this->recordsRepository.updateRecord(recordToUpdate);
 }
 
 SecurityRecord Controller::nextRecord()
@@ -69,9 +69,14 @@ std::vector<SecurityRecord>& Controller::getSavedRecords()
 	return this->savedRecords.getRecords();
 }
 
-void Controller::saveRecordsInFile()
+bool Controller::saveRecordsInFile()
 {
-	this->recordsRepository.saveInFile();
+	return this->recordsRepository.saveInFile();
+}
+
+bool Controller::loadRecordsFromFile()
+{
+	return recordsRepository.loadFromFile();
 }
 
 std::vector<SecurityRecord>& Controller::getRecords()

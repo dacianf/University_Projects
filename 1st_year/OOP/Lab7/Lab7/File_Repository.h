@@ -17,24 +17,27 @@ public:
 	};
 	File_Repository(std::string fileLocation) : Repository() {
 		this->fileLocation = fileLocation; 
-		this->loadFromFile(this->fileLocation);
+		this->loadFromFile();
 	};
-	void loadFromFile(std::string fileLocation) {
-		this->fin.open(fileLocation, std::fstream::in | std::fstream::out);
+	bool loadFromFile() {
+		this->fin.open(this->fileLocation, std::fstream::in | std::fstream::out);
 		auto readRecord = SecurityRecord();
 		if(fin)
 			while (this->fin >> readRecord)
 				this->addRecord(readRecord);
 		this->fin.close();
+		return true;
 	}
 
-	void saveInFile() {
+	bool saveInFile() {
 		if (this->fileLocation != "") {
 			this->fout.open(this->fileLocation, std::fstream::out);
 			for (int i = 0; i < this->listOfSecurityRecords.size(); i++)
 				fout << this->listOfSecurityRecords[i] << "\n";
 			this->fout.close();
+			return true;
 		}
+		return false;
 	}
 	File_Repository operator =(File_Repository assignedRepository) {
 		this->fileLocation = assignedRepository.fileLocation;

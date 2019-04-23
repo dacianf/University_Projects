@@ -1,13 +1,17 @@
 #include "SecurityRecord.h"
 #include <iostream>
+
 using namespace std;
-SecurityRecord::SecurityRecord(const std::string & title, const std::string & location, const Date & timeOfCreation, const int numberOfAccessings, const std::string & footagePreview)
+
+SecurityRecord::SecurityRecord(const std::string & title, const std::string & location, const Date & timeOfCreation, const int accessingsNumber, const std::string & footagePreview)
 {
+	if (accessingsNumber < 1)
+		throw std::exception("Invalid accessings number!");
 	this->title = title;
 	this->location = location;
 	this->timeOfCreation = timeOfCreation;
 	this->footagePreview = footagePreview;
-	this->numberOfAccessings = numberOfAccessings;
+	this->numberOfAccessings = accessingsNumber;
 }
 
 SecurityRecord::SecurityRecord(const SecurityRecord & copyForRecord)

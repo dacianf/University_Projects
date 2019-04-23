@@ -1,11 +1,12 @@
 #include "Repository.h"
 #include <algorithm>
 
-void Repository::addRecord(SecurityRecord& newRecord)
+bool Repository::addRecord(SecurityRecord& newRecord)
 {
 	if(this->findRecord(newRecord) != -1)
 		throw "This element already exists!";
 	listOfSecurityRecords.push_back(newRecord);
+	return true;
 }
 
 bool Repository::deleteRecord(SecurityRecord& newRecord)

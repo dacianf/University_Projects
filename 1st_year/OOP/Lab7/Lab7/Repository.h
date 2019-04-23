@@ -8,7 +8,7 @@ protected:
 public:
 	Repository() {}
 	Repository(const Repository & copyOfRepository) { this->listOfSecurityRecords = copyOfRepository.listOfSecurityRecords; }
-	void addRecord(SecurityRecord& newRecord);
+	bool addRecord(SecurityRecord& newRecord);
 	bool deleteRecord(SecurityRecord& newRecord);
 	bool updateRecord(SecurityRecord& recordToDelete);
 	int findRecord(SecurityRecord& recordToFind);

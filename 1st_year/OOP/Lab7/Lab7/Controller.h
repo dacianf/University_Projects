@@ -18,21 +18,22 @@ public:
 		this->savedRecords = copyController.savedRecords;
 	}
 
-	void addRecord(const std::string &title, const std::string &location, const Date &timeOfCreation, const int numberOfAccessings, const std::string &footagePreview);
-	void addRecord(SecurityRecord& newRecord);
+	bool addRecord(const std::string &title, const std::string &location, const Date &timeOfCreation, const int numberOfAccessings, const std::string &footagePreview);
+	bool addRecord(SecurityRecord& newRecord);
 
-	void deleteRecord(std::string& title);
-	void deleteRecord(SecurityRecord& recordToDelete);
+	bool deleteRecord(std::string& title);
+	bool deleteRecord(SecurityRecord& recordToDelete);
 
-	void updateRecord(const std::string &title, const std::string &newLocation, const Date &newTimeOfCreation, const int newNumberOfAccessings, const std::string &newFootagePreview);
-	void updateRecord(SecurityRecord& recordToUpdate);
+	bool updateRecord(const std::string &title, const std::string &newLocation, const Date &newTimeOfCreation, const int newNumberOfAccessings, const std::string &newFootagePreview);
+	bool updateRecord(SecurityRecord& recordToUpdate);
 
 	SecurityRecord nextRecord();
 	bool saveTitle(std::string titleToSave);
 	std::vector<SecurityRecord> getSavedRecordsByLocationAndMaximumNumberOfAccessings(std::string recordsLocation, int timesAccessed);
 	std::vector<SecurityRecord>& getSavedRecords();
 	
-	void saveRecordsInFile();
+	bool saveRecordsInFile();
+	bool loadRecordsFromFile();
 	std::vector<SecurityRecord>& getRecords();
 	Repository getCopyOfRepository();
 
