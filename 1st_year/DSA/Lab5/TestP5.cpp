@@ -3,6 +3,7 @@
 #include "TestP5.h"
 #include <vector>
 #include <exception>
+#include <iostream>
 
 using namespace std;
 
@@ -150,5 +151,7 @@ void testP5() {
 	testAdd();
 	testRemove();
 	testQuantity(rel2);
+	std::cout << "quantity 1 done!\n";
 	testQuantity(rel1);
+	std::cout << "quantity 2 done!\n";
 }

@@ -12,7 +12,10 @@ class SecondPriorityQueue
 {
 private:
 	//representation of the SecondPiorityQueue
-
+	int cap;
+	int len;
+	Relation R;
+	Element* elems;
 public:
 	//implicit constructor
 	SecondPriorityQueue(Relation r);
@@ -33,5 +36,10 @@ public:
 
 	 //destructor
 	~SecondPriorityQueue();
+	void print();
+private:
+	void resize();
+	void bubbleUp(int p);
+	void bubbleDown(int p);
 };
 
