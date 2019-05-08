@@ -110,13 +110,9 @@ void testRemove() {
 		assert(pq.pop().second == i+1);
 	}
 	assert(pq.pop().second == 0);
-	pq.print();
 	for (int i = 0; i < 9; i++) {
 		assert(pq.pop().second == i+1);
-		pq.print();
 		assert(pq.pop().second == i+1);
-		pq.print();
-		cout << i << " --\n";
 	}	
 	assert(pq.pop().second == 10);
 	for (int i = 10; i < 18; i++) {

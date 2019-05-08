@@ -95,7 +95,7 @@ void SecondPriorityQueue::bubbleDown(int p)
 		if (poz * 3 - 1 <= this->len) maxChild = poz * 3 - 1;
 		if (poz * 3 <= this->len and this->R(this->elems[poz * 3].second, this->elems[poz * 3 - 1].second))
 			maxChild = poz * 3;
-		if (poz * 3 + 1<= this->len and this->R(this->elems[poz * 3 + 1].second, this->elems[poz * 3].second))
+		if (poz * 3 + 1<= this->len and this->R(this->elems[poz * 3 + 1].second, this->elems[maxChild].second))
 			maxChild = poz * 3 + 1;
 		if (maxChild != -1 and this->R(this->elems[maxChild].second, elem.second))
 			swap(this->elems[poz], this->elems[maxChild]),
