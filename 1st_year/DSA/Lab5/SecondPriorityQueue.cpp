@@ -21,19 +21,29 @@ Element SecondPriorityQueue::top() const
 {
 	if (this->len < 2)throw exception("len is < 2!");
 	if (this->len == 2) return this->elems[2];
-	if (this->R(this->elems[2].second, this->elems[3].second)) return this->elems[2];
-	return this->elems[3];
+	if (this->len == 3) {
+		if (this->R(this->elems[2].second, this->elems[3].second)) return this->elems[2];
+		else return this->elems[2];
+	}
+	if (this->R(this->elems[2].second, this->elems[3].second)) {
+		if(this->R(this->elems[2].second, this->elems[4].second)) return this->elems[2];
+		else return this->elems[4];
+	}
+	else {
+		if (this->R(this->elems[3].second, this->elems[4].second)) return this->elems[3];
+		else return this->elems[4];
+	}
 }
 
 Element SecondPriorityQueue::pop()
 {
 	if (this->len < 2)throw exception("len is < 2!");
 	if (this->len == 2) { return this->elems[this->len--]; }
-	Element delElem;
+	Element delElem = this->top();
 	int pos = 0;
-	if (this->R(this->elems[2].second, this->elems[3].second))
-		delElem = this->elems[2], pos = 2;
-	else delElem = this->elems[3], pos = 3;
+	for (int i = 1; i <= this->len; i++)
+		if (this->elems[i] == delElem)
+			pos = i, i = this->len + 5;
 	this->elems[pos] = this->elems[this->len--];
 	this->bubbleDown(pos);
 	return delElem;
@@ -66,11 +76,11 @@ void SecondPriorityQueue::bubbleUp(int p)
 {
 	int poz{ p };
 	auto elem{ this->elems[poz] };
-	int parent{ p / 2 };
+	int parent{ (p + 1) / 3 };
 	while (poz > 1 and this->R(elem.second, this->elems[parent].second)) {
 		this->elems[poz] = this->elems[parent];
 		poz = parent;
-		parent = poz / 2;
+		parent = (poz + 1) / 3;
 	}
 	this->elems[poz] = elem;
 }
@@ -82,9 +92,11 @@ void SecondPriorityQueue::bubbleDown(int p)
 	while (poz < this->len)
 	{
 		maxChild = -1;
-		if (poz * 2 <= this->len) maxChild = poz * 2;
-		if (poz * 2 + 1 <= this->len and this->R(this->elems[2 * poz + 1].second, this->elems[2 * poz].second))
-			maxChild = poz * 2 + 1;
+		if (poz * 3 - 1 <= this->len) maxChild = poz * 3 - 1;
+		if (poz * 3 <= this->len and this->R(this->elems[poz * 3].second, this->elems[poz * 3 - 1].second))
+			maxChild = poz * 3;
+		if (poz * 3 + 1<= this->len and this->R(this->elems[poz * 3 + 1].second, this->elems[poz * 3].second))
+			maxChild = poz * 3 + 1;
 		if (maxChild != -1 and this->R(this->elems[maxChild].second, elem.second))
 			swap(this->elems[poz], this->elems[maxChild]),
 			poz = maxChild;
@@ -96,5 +108,5 @@ void SecondPriorityQueue::print()
 {
 	for (int i = 1; i <= this->len; i++)
 		std::cout << "( " << this->elems[i].first << " , " << this->elems[i].second << " ); ";
-	std::cout << "\n";
+	std::cout << "\n\n";
 }
