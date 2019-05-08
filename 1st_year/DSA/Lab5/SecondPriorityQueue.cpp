@@ -1,7 +1,7 @@
 #include "SecondPriorityQueue.h"
 #include <exception>
 #include <iostream>
-
+//theta(1)
 SecondPriorityQueue::SecondPriorityQueue(Relation r)
 {
 	this->cap = 3;
@@ -9,14 +9,14 @@ SecondPriorityQueue::SecondPriorityQueue(Relation r)
 	this->elems = new Element[3];
 	this->R = r;
 }
-
+//O(n*log3(n))
 void SecondPriorityQueue::push(TElem e, TPriority p)
 {
 	if (this->len == this->cap - 1)this->resize();
 	this->elems[++this->len] = Element(e, p);
 	this->bubbleUp(this->len);
 }
-
+//theta(1)
 Element SecondPriorityQueue::top() const
 {
 	if (this->len < 2)throw exception("len is < 2!");
@@ -34,7 +34,7 @@ Element SecondPriorityQueue::top() const
 		else return this->elems[4];
 	}
 }
-
+//O(log3(n))
 Element SecondPriorityQueue::pop()
 {
 	if (this->len < 2)throw exception("len is < 2!");
@@ -48,20 +48,20 @@ Element SecondPriorityQueue::pop()
 	this->bubbleDown(pos);
 	return delElem;
 }
-
+//theta(1)
 bool SecondPriorityQueue::atMostOne() const
 {
 	if (this->len <= 1) return true;
 	return false;
 }
-
+//theta(1)
 SecondPriorityQueue::~SecondPriorityQueue()
 {
 	this->len = 0;
 	this->cap = 0;
 	delete[] this->elems;
 }
-
+//theta(n)
 void SecondPriorityQueue::resize()
 {
 	this->cap *= 2;
@@ -71,7 +71,7 @@ void SecondPriorityQueue::resize()
 	delete[] this->elems;
 	this->elems = aux;
 }
-
+//O(log3(n)
 void SecondPriorityQueue::bubbleUp(int p)
 {
 	int poz{ p };
@@ -85,6 +85,7 @@ void SecondPriorityQueue::bubbleUp(int p)
 	this->elems[poz] = elem;
 }
 
+//O(log3(n)
 void SecondPriorityQueue::bubbleDown(int p)
 {
 	int poz = p, maxChild = -1;
@@ -103,7 +104,7 @@ void SecondPriorityQueue::bubbleDown(int p)
 		else poz = this->len + 1;
 	}
 }
-
+//theta(n)
 void SecondPriorityQueue::print()
 {
 	for (int i = 1; i <= this->len; i++)
