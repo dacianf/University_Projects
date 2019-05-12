@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-#include "SecurityRecord.h"
+#include "../domain/SecurityRecord.h"
 class Repository
 {
 protected:

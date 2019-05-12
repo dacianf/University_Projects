@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <array>
+#include "../exeptions/dateException.h"
 #include <sstream>
 
 class Date
@@ -13,7 +14,7 @@ private:
 public:
 	Date(): day(1), month(1), year(2000){}
 	Date(int givenMonth, int givenDay, int givenYear) : day(givenDay), month(givenMonth), year(givenYear)
-		{this->validateDate() == false ? throw("Invalid date"):0; }
+		{this->validateDate() == false ? throw DateExeption() :0; }
 	Date(const Date& copyForDate);
 	Date(const std::string& date);
 

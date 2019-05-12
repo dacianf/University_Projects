@@ -1,4 +1,5 @@
 #include "UI.h"
+#include "../exeptions/invalidCommandException.h"
 
 void UI::start()
 {
@@ -61,9 +62,9 @@ void UI::start()
 				else std::cout << "Incorrect command!";
 			}
 		}
-		catch (const char *error)
+		catch (std::exception e)
 		{
-			std::cout << error;
+			std::cout << e.what();
 		}
 	}
 }
@@ -82,7 +83,7 @@ void UI::printAdminMenu()
 void UI::addRecord(std::vector<std::string> command)
 {
 	if (command.size() != 6)
-		throw"Invalid add command";
+		throw InvalidCommandException("Invalid add command");
 	auto d = Date(command[3]);
 	auto r = stoi(command[4]);
 	this->controller.addRecord(command[1], command[2], d, r, command[5]);
@@ -91,14 +92,14 @@ void UI::addRecord(std::vector<std::string> command)
 void UI::updateRecord(std::vector<std::string> command)
 {
 	if (command.size() != 6)
-		throw"Command update invalid!";
+		throw InvalidCommandException("Command update invalid!");
 	controller.updateRecord(command[1], command[2], Date(command[3]), atoi(command[4].c_str()), command[5]);
 }
 
 void UI::deleteRecord(std::vector<std::string> command)
 {
 	if (command.size() != 2)
-		throw"Command delete invalid!";
+		throw InvalidCommandException("Command delete invalid!");
 	controller.deleteRecord(command[1]);
 }
 

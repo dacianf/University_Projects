@@ -20,7 +20,7 @@ Date::Date(const std::string & dateMDY)
 	this->day = dateParameters[1];
 	this->year = dateParameters[2];
 	if(!validateDate())
-		throw("Invalid date!");
+		throw DateExeption();
 }
 
 const std::string Date::toString()

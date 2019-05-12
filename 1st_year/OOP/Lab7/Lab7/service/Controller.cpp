@@ -1,4 +1,5 @@
 #include "Controller.h"
+#include "../exeptions/serviceExeption.h"
 
 bool Controller::addRecord(const std::string & title, const std::string & location, const Date & timeOfCreation, const int numberOfAccessings, const std::string & footagePreview)
 {
@@ -45,10 +46,10 @@ bool Controller::saveTitle(std::string titleToSave)
 {
 	auto recordToBeSaved = SecurityRecord(titleToSave);
 	if (this->savedRecords.findRecord(recordToBeSaved) != -1)
-		throw "This element already exist in your list!";
+		throw ServiceExeption("This element already exist in your list!");
 	int recordToAddIndex = this->recordsRepository.findRecord(recordToBeSaved);
 	if (recordToAddIndex == -1)
-		throw "This record does not exist!";
+		throw ServiceExeption("This record does not exist!");
 	this->savedRecords.addRecord(this->recordsRepository.getRecords()[recordToAddIndex]);
 	return true;
 }

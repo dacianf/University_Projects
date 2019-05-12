@@ -1,12 +1,13 @@
 #include "SecurityRecord.h"
 #include <iostream>
+#include "../exeptions/securityRecordException.h"
 
 using namespace std;
 
 SecurityRecord::SecurityRecord(const std::string & title, const std::string & location, const Date & timeOfCreation, const int accessingsNumber, const std::string & footagePreview)
 {
 	if (accessingsNumber < 1)
-		throw std::exception("Invalid accessings number!");
+		throw SecurityRecordException();
 	this->title = title;
 	this->location = location;
 	this->timeOfCreation = timeOfCreation;

@@ -1,10 +1,11 @@
 #include "Repository.h"
+#include "../exeptions/existingTitleException.h"
 #include <algorithm>
 
 bool Repository::addRecord(SecurityRecord& newRecord)
 {
 	if(this->findRecord(newRecord) != -1)
-		throw "This element already exists!";
+		throw ExistingTitleException();
 	listOfSecurityRecords.push_back(newRecord);
 	return true;
 }
@@ -13,7 +14,7 @@ bool Repository::deleteRecord(SecurityRecord& newRecord)
 {
 	int recordingsPosition = this->findRecord(newRecord);
 	if (recordingsPosition == -1)
-		throw "There is no record with this title!";
+		throw ExistingTitleException();
 	listOfSecurityRecords.erase(listOfSecurityRecords.begin()+recordingsPosition);
 	return true;
 }
@@ -22,7 +23,7 @@ bool Repository::updateRecord(SecurityRecord & recordToUpdate)
 {
 	int recordingsPosition = this->findRecord(recordToUpdate);
 	if (recordingsPosition == -1)
-		throw "There is no record with this title!";
+		throw ExistingTitleException();
 	listOfSecurityRecords[recordingsPosition] = recordToUpdate;
 	return true;
 }
