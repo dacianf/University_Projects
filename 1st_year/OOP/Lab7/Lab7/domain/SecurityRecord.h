@@ -37,8 +37,8 @@ public:
 	const std::string getFootagePreview() { return this->footagePreview; }
 
 	friend std::ostream& operator << (std::ostream& recordAsStream, const SecurityRecord& recordToPrint) {
-		recordAsStream << recordToPrint.title << ",\t" << recordToPrint.location << ",\t" <<
-			recordToPrint.timeOfCreation << ",\t" << recordToPrint.numberOfAccessings << ",\t" <<
+		recordAsStream << recordToPrint.title << "," << recordToPrint.location << "," <<
+			recordToPrint.timeOfCreation << "," << recordToPrint.numberOfAccessings << "," <<
 			recordToPrint.footagePreview;
 		return recordAsStream;
 	}

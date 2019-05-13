@@ -9,14 +9,18 @@
 class UI
 {
 private:
-	Controller controller;
+	Controller* controller;
+	std::string recordsLocation;
+	std::string savedLocation;
 public:
-	UI() {};
-	UI(std::string recordsFileLocation) {this->controller = Controller(recordsFileLocation);};
-	UI(const UI& copyUI) { this->controller = copyUI.controller; }
+	UI() { this->controller = NULL; }
+	UI(const UI& copyUI) { *(this->controller) = *(copyUI.controller); }
 	void start();
+	~UI() { if (this->controller != NULL) delete this->controller; }
 private:
+void openSaved();
 void printAdminMenu();
+void createController();
 void addRecord(std::vector<std::string> command);
 void updateRecord(std::vector<std::string> command);
 void deleteRecord(std::vector<std::string> command);
@@ -36,4 +40,3 @@ static inline void removeSpacesBeforeAndAfterAString(std::string &stringToRemove
 }
 std::vector<std::string> splitCommand(std::string& command);
 };
-

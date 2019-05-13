@@ -1,5 +1,7 @@
 #include "UI.h"
+#include <Windows.h>
 #include "../exeptions/invalidCommandException.h"
+
 
 void UI::start()
 {
@@ -13,7 +15,8 @@ void UI::start()
 			std::cout << "\n>";
 			std::getline(std::cin, command);
 			if (command.compare("exit") == 0) {
-				this->controller.saveRecordsInFile();
+				if(this->controller != NULL)
+					this->controller->saveRecordsInFile();
 				return;
 			}
 			removeSpacesBeforeAndAfterAString(command);
@@ -46,18 +49,27 @@ void UI::start()
 					this->listByLocationAndAccessingTimes(commandsParameters);
 				}
 				else if (commandsParameters[0].compare("mylist") == 0 and commandsParameters.size() == 1) {
-					this->userList();
+					if(this->savedLocation.size() == 0)
+						this->userList();
+					else this->openSaved();
 				}
 				else std::cout << "Incorrect command!";
 			}
 			else {
-				if (commandsParameters[0].compare("mode") == 0 and commandsParameters[1].compare("A") == 0)
-					this->printAdminMenu(), mode = 0;
-				else if (commandsParameters[0].compare("mode") == 0 and commandsParameters[1].compare("B") == 0)
+				if (commandsParameters[0].compare("mode") == 0 and commandsParameters[1].compare("A") == 0) {
+					this->printAdminMenu();
+					mode = 0;
+					this->createController();
+				}
+				else if (commandsParameters[0].compare("mode") == 0 and commandsParameters[1].compare("B") == 0) {
 					std::cout << "Welcome in user mode!", mode = 1;
+					this->createController();
+				}
 				else if (commandsParameters[0] == "fileLocation" and commandsParameters.size() == 2) {
-					this->controller.saveRecordsInFile();
-					this->controller = Controller(commandsParameters[1]);
+					this->recordsLocation = commandsParameters[1];
+				}
+				else if (commandsParameters[0] == "mylistLocation" and commandsParameters.size() == 2) {
+					this->savedLocation = commandsParameters[1];
 				}
 				else std::cout << "Incorrect command!";
 			}
@@ -66,6 +78,33 @@ void UI::start()
 		{
 			std::cout << e.what();
 		}
+	}
+}
+
+void UI::openSaved()
+{
+	ShellExecute(NULL, "open", this->savedLocation.c_str(), NULL, NULL, SW_SHOWDEFAULT);
+}
+
+void UI::createController()
+{
+	if (this->recordsLocation == "" and this->savedLocation == "") {
+		this->controller = new Controller();
+	}
+	else if (this->recordsLocation != "" and this->savedLocation == "") {
+		auto records = new File_Repository(this->recordsLocation);
+		auto savedRecords = new Repository();
+		this->controller = new Controller(records, savedRecords);
+	}
+	else if (this->recordsLocation == "" and this->savedLocation != "") {
+		auto records = new Repository();
+		auto savedRecords = new File_Repository(this->savedLocation);
+		this->controller = new Controller(records, savedRecords);
+	}
+	else {
+		auto records = new File_Repository(this->recordsLocation);
+		auto savedRecords = new File_Repository(this->savedLocation);
+		this->controller = new Controller(records, savedRecords);
 	}
 }
 
@@ -86,47 +125,47 @@ void UI::addRecord(std::vector<std::string> command)
 		throw InvalidCommandException("Invalid add command");
 	auto d = Date(command[3]);
 	auto r = stoi(command[4]);
-	this->controller.addRecord(command[1], command[2], d, r, command[5]);
+	this->controller->addRecord(command[1], command[2], d, r, command[5]);
 }
 
 void UI::updateRecord(std::vector<std::string> command)
 {
 	if (command.size() != 6)
 		throw InvalidCommandException("Command update invalid!");
-	controller.updateRecord(command[1], command[2], Date(command[3]), atoi(command[4].c_str()), command[5]);
+	this->controller->updateRecord(command[1], command[2], Date(command[3]), atoi(command[4].c_str()), command[5]);
 }
 
 void UI::deleteRecord(std::vector<std::string> command)
 {
 	if (command.size() != 2)
 		throw InvalidCommandException("Command delete invalid!");
-	controller.deleteRecord(command[1]);
+	this->controller->deleteRecord(command[1]);
 }
 
 void UI::listElements()
 {
-	this->printList(controller.getRecords());
+	this->printList(this->controller->getRecords());
 }
 
 void UI::nextRecord()
 {
-	std::cout << this->controller.nextRecord();
+	std::cout << this->controller->nextRecord();
 }
 
 void UI::saveByTitle(std::vector<std::string> command)
 {
-	this->controller.saveTitle(command[1]);
+	this->controller->saveTitle(command[1]);
 }
 
 void UI::listByLocationAndAccessingTimes(std::vector<std::string> command)
 {
-	auto recordsToPrint = this->controller.getSavedRecordsByLocationAndMaximumNumberOfAccessings(command[1], stoi(command[2]));
+	auto recordsToPrint = this->controller->getSavedRecordsByLocationAndMaximumNumberOfAccessings(command[1], stoi(command[2]));
 	this->printList(recordsToPrint);
 }
 
 void UI::userList()
 {
-	this->printList(this->controller.getSavedRecords());
+	this->printList(this->controller->getSavedRecords());
 }
 
 void UI::printList(std::vector<SecurityRecord>& recordsToPrint) {

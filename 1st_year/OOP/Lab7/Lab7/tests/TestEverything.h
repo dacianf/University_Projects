@@ -24,7 +24,7 @@ private:
 	void updateRecordFromRepository_badInput();
 	void listRecordsFromRepository_goodInput();
 
-	void createInMemoryController();
+	//void createInMemoryController();
 	void createInFileController();
 
 	void addRecordInController_byArguments_goodInput();

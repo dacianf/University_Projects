@@ -3,21 +3,20 @@
 class Controller
 {
 private:
-	File_Repository recordsRepository;
-	File_Repository savedRecords;
+	Repository* recordsRepository;
+	Repository* savedRecords;
 	int indexRecords;
 public:
-	Controller() { this->indexRecords = 0; }
-	Controller(std::string recordsFile) {
-		this->indexRecords = 0; 
-		this->recordsRepository = File_Repository(recordsFile);
+	Controller(Repository* _recordsRepository, Repository* _savedRepository) : recordsRepository(_recordsRepository), savedRecords(_savedRepository), indexRecords(0) {}
+	Controller() {
+		recordsRepository = new Repository();
+		savedRecords = new Repository();
 	}
-	Controller(const Controller& copyController) {
-		this->indexRecords = copyController.indexRecords;
-		this->recordsRepository = copyController.recordsRepository;
-		this->savedRecords = copyController.savedRecords;
-	}
-
+	//Controller(const Controller& copyController) {
+	//	indexRecords = copyController.indexRecords;
+	//	*recordsRepository = *copyController.recordsRepository;
+	//	*savedRecords = *copyController.savedRecords;
+	//}
 	bool addRecord(const std::string &title, const std::string &location, const Date &timeOfCreation, const int numberOfAccessings, const std::string &footagePreview);
 	bool addRecord(SecurityRecord& newRecord);
 
@@ -37,11 +36,15 @@ public:
 	std::vector<SecurityRecord>& getRecords();
 	Repository getCopyOfRepository();
 
-	Controller operator =(Controller assignController) {
-		this->indexRecords = assignController.indexRecords;
-		this->recordsRepository = assignController.recordsRepository;
-		this->savedRecords = assignController.savedRecords;
-		return *this;
+	//Controller operator =(Controller assignController) {
+	//	indexRecords = assignController.indexRecords;
+	//	*recordsRepository = *assignController.recordsRepository;
+	//	*savedRecords = *assignController.savedRecords;
+	//	return *this;
+	//}
+	~Controller() {
+		delete recordsRepository;
+		delete savedRecords;
 	}
 };
 

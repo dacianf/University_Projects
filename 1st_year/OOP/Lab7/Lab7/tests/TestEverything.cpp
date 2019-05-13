@@ -19,7 +19,7 @@ void TestEverything::testAll()
 	this->updateRecordFromRepository_goodInput();
 	this->listRecordsFromRepository_goodInput();
 	
-	this->createInMemoryController();
+	//this->createInMemoryController();
 	this->createInFileController();
 
 	this->addRecordInController_byArguments_goodInput();
@@ -198,23 +198,25 @@ void TestEverything::listRecordsFromRepository_goodInput()
 	assert(records.size() == 2);
 }
 
-void TestEverything::createInMemoryController()
-{
-	try {
-		auto memoryController = Controller();
-		auto copyController = memoryController;
-		copyController = memoryController;
-		assert(true);
-	}
-	catch (...) {
-		assert(false);
-	}
-}
+//void TestEverything::createInMemoryController()
+//{
+//	try {
+//		//auto memoryController = Controller();
+//		Controller memoryController;
+//		auto copyController = memoryController;
+//		// copyController = memoryController;
+//	}
+//	catch (...) {
+//		assert(false);
+//	}
+//}
 
 void TestEverything::createInFileController()
 {
 	try {
-		auto memoryController = Controller("Test.txt");
+		auto recordsRepository = new File_Repository("testFile.txt");
+		auto savedRepository = new Repository();
+		auto fileController = Controller(recordsRepository, savedRepository);
 		assert(true);
 	}
 	catch (...) {
@@ -224,8 +226,10 @@ void TestEverything::createInFileController()
 
 void TestEverything::addRecordInController_byArguments_goodInput()
 {
-	auto controller = Controller();
+	Controller controller;
 	assert(controller.addRecord("Titlu", "Locatie", Date("1-1-1"), 1, "film.mp4") == true);
+	assert(controller.addRecord("Titlu2", "Locatie", Date("1-1-1"), 1, "film.mp4") == true);
+	assert(controller.getRecords().size() == 2);
 }
 
 void TestEverything::addRecordInController_byArguments_badInput()
@@ -482,7 +486,9 @@ void TestEverything::dateToString()
 
 void TestEverything::saveInFile()
 {
-	auto fileController = Controller("testfile.txt");
+	auto recordsRepository = new File_Repository("testFile.txt");
+	auto savedRepository = new Repository();
+	auto fileController = Controller(recordsRepository, savedRepository);
 	fileController.addRecord("Titlu", "Locatie1", Date("1-1-1"), 1, "film.mp4");
 	fileController.addRecord("Titlu2", "Locatie1", Date("11-11-1"), 2, "film.mp4");
 	assert(fileController.saveRecordsInFile() == true);
@@ -495,7 +501,9 @@ void TestEverything::saveInFile()
 
 void TestEverything::loadInFile()
 {
-	auto fileController = Controller("testfile.txt");
+	auto recordsRepository = new File_Repository("testFile.txt");
+	auto savedRepository = new Repository();
+	auto fileController = Controller(recordsRepository, savedRepository);
 	fileController.addRecord("Titlu", "Locatie1", Date("1-1-1"), 1, "film.mp4");
 	fileController.addRecord("Titlu2", "Locatie1", Date("1-1-1"), 2, "film.mp4");
 	assert(fileController.saveRecordsInFile() == true);

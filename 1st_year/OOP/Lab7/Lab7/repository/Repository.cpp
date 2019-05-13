@@ -2,7 +2,7 @@
 #include "../exeptions/existingTitleException.h"
 #include <algorithm>
 
-bool Repository::addRecord(SecurityRecord& newRecord)
+bool Repository::addRecord(const SecurityRecord& newRecord)
 {
 	if(this->findRecord(newRecord) != -1)
 		throw ExistingTitleException();
@@ -28,7 +28,7 @@ bool Repository::updateRecord(SecurityRecord & recordToUpdate)
 	return true;
 }
 
-int Repository::findRecord(SecurityRecord & recordToFind)
+int Repository::findRecord(const SecurityRecord & recordToFind)
 {
 	auto iteratorOfGivenRecord = std::find(listOfSecurityRecords.begin(), listOfSecurityRecords.end(), recordToFind);
 	if (iteratorOfGivenRecord == this->listOfSecurityRecords.end())
