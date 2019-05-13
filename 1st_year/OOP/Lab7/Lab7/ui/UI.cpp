@@ -93,7 +93,10 @@ void UI::createController()
 		this->controller = new Controller();
 	}
 	else if (this->recordsLocation != "" and this->savedLocation == "") {
-		auto records = new File_Repository(this->recordsLocation);
+		Repository* records;
+		if(this->recordsLocation == "db")
+			records = new DB_Repository(this->recordsLocation);
+		else records = new File_Repository(this->recordsLocation);
 		auto savedRecords = new Repository();
 		this->controller = new Controller(records, savedRecords);
 	}
@@ -103,7 +106,10 @@ void UI::createController()
 		this->controller = new Controller(records, savedRecords);
 	}
 	else {
-		auto records = new File_Repository(this->recordsLocation);
+		Repository* records;
+		if (this->recordsLocation == "db")
+			records = new DB_Repository(this->recordsLocation);
+		else records = new File_Repository(this->recordsLocation);
 		auto savedRecords = new File_Repository(this->savedLocation);
 		this->controller = new Controller(records, savedRecords);
 	}

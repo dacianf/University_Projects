@@ -6,7 +6,7 @@
 class File_Repository :
 	public Repository
 {
-private:
+protected:
 	std::string fileLocation;
 	std::string fileExtension;
 	std::ifstream fin;
