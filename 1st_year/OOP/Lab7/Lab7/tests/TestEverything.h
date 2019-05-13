@@ -63,7 +63,7 @@ private:
 	void recordToString();
 	void dateToString();
 
-	void saveInFile();
+	void saveRepository();
 	void loadInFile();
 };
 

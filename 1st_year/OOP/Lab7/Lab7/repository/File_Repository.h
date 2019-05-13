@@ -26,9 +26,9 @@ public:
 			this->fileExtension.push_back(fileLocation[i]);
 		}
 		reverse(this->fileExtension.begin(), this->fileExtension.end());
-		this->loadFromFile();
+		this->loadRepository();
 	};
-	bool loadFromFile() override{
+	bool loadRepository() override{
 		this->fin.open(this->fileLocation, std::fstream::in | std::fstream::out);
 		auto readRecord = SecurityRecord();
 		if(fin)
@@ -38,7 +38,7 @@ public:
 		return true;
 	}
 
-	bool saveInFile() override{
+	bool saveRepository() override{
 		if (this->fileLocation != "") {
 			this->fout.open(this->fileLocation, std::fstream::out);
 			if (this->fileExtension == "txt" or this->fileExtension == "csv")

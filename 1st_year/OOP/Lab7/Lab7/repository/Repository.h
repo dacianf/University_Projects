@@ -17,7 +17,7 @@ public:
 	void operator=(const Repository& repositoryToAssign) {
 		this->listOfSecurityRecords = repositoryToAssign.listOfSecurityRecords;
 	}
-	virtual bool loadFromFile() { return true; };
-	virtual bool saveInFile() { return true; };
+	virtual bool loadRepository() { return true; };
+	virtual bool saveRepository() { return true; };
 };
 

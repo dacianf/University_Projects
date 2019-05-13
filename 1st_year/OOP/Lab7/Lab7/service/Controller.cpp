@@ -51,7 +51,7 @@ bool Controller::saveTitle(std::string titleToSave)
 	if (recordToAddIndex == -1)
 		throw ServiceExeption("This record does not exist!");
 	this->savedRecords->addRecord(this->recordsRepository->getRecords()[recordToAddIndex]);
-	this->savedRecords->saveInFile();
+	this->savedRecords->saveRepository();
 	return true;
 }
 
@@ -73,12 +73,12 @@ std::vector<SecurityRecord>& Controller::getSavedRecords()
 
 bool Controller::saveRecordsInFile()
 {
-	return this->recordsRepository->saveInFile();
+	return this->recordsRepository->saveRepository();
 }
 
 bool Controller::loadRecordsFromFile()
 {
-	return recordsRepository->loadFromFile();
+	return recordsRepository->loadRepository();
 }
 
 std::vector<SecurityRecord>& Controller::getRecords()

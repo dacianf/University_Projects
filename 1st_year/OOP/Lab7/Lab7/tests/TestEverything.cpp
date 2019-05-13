@@ -57,7 +57,7 @@ void TestEverything::testAll()
 	this->recordToString();
 	this->dateToString();
 
-	this->saveInFile();
+	this->saveRepository();
 	this->loadInFile();
 }
 
@@ -497,7 +497,7 @@ void TestEverything::dateToString()
 	copyDate.toString();
 }
 
-void TestEverything::saveInFile()
+void TestEverything::saveRepository()
 {
 	auto recordsRepository = new File_Repository("testFile.txt");
 	auto savedRepository = new Repository();
