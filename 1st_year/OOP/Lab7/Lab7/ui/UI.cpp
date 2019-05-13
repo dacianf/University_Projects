@@ -6,7 +6,8 @@
 void UI::start()
 {
 	std::cout << "Please select mode:\n\tFor admin type: mode A\n\tFor user type: menu B\nIf you want to exit type:\n\texit\n"
-		<<"If you want to load/save from/into a file type:\n\tfileLocation [path]\n";
+		<<"If you want to load/save from/into a file type:\n\tfileLocation [path]\n"<<
+		"For saving the reports you want, type:\n\tmylistLocation [path]\n";
 	std::string command;
 	std::vector<std::string> commandsParameters;
 	int mode = -1;

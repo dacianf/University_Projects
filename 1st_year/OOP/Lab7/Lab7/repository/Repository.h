@@ -8,10 +8,10 @@ protected:
 public:
 	Repository() {}
 	Repository(const Repository & copyOfRepository) { this->listOfSecurityRecords = copyOfRepository.listOfSecurityRecords; }
-	bool addRecord(const SecurityRecord& newRecord);
-	bool deleteRecord(SecurityRecord& newRecord);
-	bool updateRecord(SecurityRecord& recordToDelete);
-	int findRecord(const SecurityRecord& recordToFind);
+	virtual bool addRecord(const SecurityRecord& newRecord);
+	virtual bool deleteRecord(SecurityRecord& newRecord);
+	virtual bool updateRecord(SecurityRecord& recordToDelete);
+	virtual int findRecord(const SecurityRecord& recordToFind);
 	std::vector<SecurityRecord>& getRecords();
 
 	void operator=(const Repository& repositoryToAssign) {

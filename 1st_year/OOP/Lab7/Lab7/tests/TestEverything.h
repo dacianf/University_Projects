@@ -1,5 +1,6 @@
 #pragma once
 #include "../service/Controller.h"
+#include "../repository/fakeRepository.h"
 
 class TestEverything
 {
@@ -8,6 +9,8 @@ public:
 	TestEverything() {};
 	~TestEverything() {};
 private:
+	void testControllerWithFakeRepo();
+
 	void createRecord_goodInput();
 	void createRecord_badInput();
 

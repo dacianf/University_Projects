@@ -3,6 +3,8 @@
 
 void TestEverything::testAll()
 {
+	this->testControllerWithFakeRepo();
+
 	this->createRecord_badInput();
 	this->createRecord_goodInput();
 
@@ -57,6 +59,17 @@ void TestEverything::testAll()
 
 	this->saveInFile();
 	this->loadInFile();
+}
+
+void TestEverything::testControllerWithFakeRepo()
+{
+	auto recordsRecords = new fakeRepository();
+	auto saveRecords = new fakeRepository();
+	auto controller = new Controller(recordsRecords, saveRecords);
+	auto newRecordWithAllMembersInitialized = SecurityRecord("Ion", "Second floor", Date("5-10-20"), 13, "record.mp4");
+	assert(controller->addRecord(newRecordWithAllMembersInitialized));
+	assert(controller->deleteRecord(newRecordWithAllMembersInitialized));
+	assert(controller->updateRecord(newRecordWithAllMembersInitialized));
 }
 
 void TestEverything::createRecord_goodInput()
