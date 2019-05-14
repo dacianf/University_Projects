@@ -43,7 +43,6 @@ void Lab11_12::createMainWidget()
 	connect(chartsButton, &QPushButton::clicked,
 		[mainWG, chartWG, this]() {
 			mainWG->hide();
-			chartWG->show();
 			this->setCentralWidget(chartWG);
 		});
 	connect(listButton, &QPushButton::clicked,
@@ -63,17 +62,28 @@ void Lab11_12::createMainWidget()
 void Lab11_12::createChartsWidget()
 {
 	QList <QBarSet*> bars;
-	for (auto record : this->getRecordsFromRepo())
+	int numberOfRecords = this->getRecordsFromRepo().size();
+	int i = 0;
+	for (auto record : this->getRecordsFromRepo()) {
 		bars.push_back(new QBarSet(record.getTitle().c_str()));
+		*bars[i++] << record.getNumberOfAccessing();
+	}
 	QBarSeries *series = new QBarSeries();
 	series->append(bars);
 	QChart *chart = new QChart();
 	chart->addSeries(series);
+	chart->createDefaultAxes();
+	chart->setAnimationOptions(QChart::AllAnimations);
 	chart->setTitle("Number of accessings of each user");
+
+	QStringList categories;
+	QBarCategoryAxis *axis = new QBarCategoryAxis();
+	axis->append(categories);
+	chart->setAxisX(axis);
 
 	QChartView *chartView = new QChartView(chart);
 	chartView->setRenderHint(QPainter::Antialiasing);
-	this->chartsWidget->close();
+	this->chartsWidget = chartView;
 }
 
 const std::vector<SecurityRecord> Lab11_12::getRecordsFromRepo() const
