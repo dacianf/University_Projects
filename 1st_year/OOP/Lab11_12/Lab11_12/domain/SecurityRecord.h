@@ -53,7 +53,7 @@ public:
 	friend std::istream& operator >> (std::istream& recordAsStream, SecurityRecord& recordToRead) {
 		std::string line = " ";
 		std::getline(recordAsStream, line, ',');
-		if (recordAsStream.eof() or line=="") return recordAsStream;
+		if (recordAsStream.eof() || line=="") return recordAsStream;
 		removeSpacesBeforeAndAfterAString(line);
 		recordToRead.title = line;
 

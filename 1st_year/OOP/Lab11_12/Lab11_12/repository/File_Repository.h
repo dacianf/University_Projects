@@ -41,7 +41,7 @@ public:
 	bool saveRepository() override{
 		if (this->fileLocation != "") {
 			this->fout.open(this->fileLocation, std::fstream::out);
-			if (this->fileExtension == "txt" or this->fileExtension == "csv")
+			if (this->fileExtension == "txt" || this->fileExtension == "csv")
 				for (int i = 0; i < this->listOfSecurityRecords.size(); i++)
 					fout << this->listOfSecurityRecords[i] << "\n";
 			else if (this->fileExtension == "html") {

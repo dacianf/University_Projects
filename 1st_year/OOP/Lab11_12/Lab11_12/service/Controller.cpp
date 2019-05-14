@@ -60,7 +60,7 @@ std::vector<SecurityRecord> Controller::getSavedRecordsByLocationAndMaximumNumbe
 	auto recordsArray = this->recordsRepository->getRecords();
 	auto listOfRecordsFromGivenLocation = std::vector<SecurityRecord>(recordsArray.size());
 	auto records = std::copy_if(recordsArray.begin(), recordsArray.end(), listOfRecordsFromGivenLocation.begin(), [recordsLocation, timesAccessed](auto record) {
-		return record.getLocation() == recordsLocation and record.getNumberOfAccessing() < timesAccessed;
+		return record.getLocation() == recordsLocation && record.getNumberOfAccessing() < timesAccessed;
 		});
 	listOfRecordsFromGivenLocation.resize(std::distance(listOfRecordsFromGivenLocation.begin(), records));
 	return listOfRecordsFromGivenLocation;

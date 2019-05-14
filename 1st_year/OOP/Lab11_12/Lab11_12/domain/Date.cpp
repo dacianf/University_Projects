@@ -14,7 +14,7 @@ Date::Date(const std::string & dateMDY)
 	std::array<int, 3> dateParameters;
 	dateParameters.fill(0);
 	int index = { 0 };
-	while (std::getline(dateAsStream, dateParameter, '-') and index < 3)
+	while (std::getline(dateAsStream, dateParameter, '-') && index < 3)
 		dateParameters[index++] = atoi(dateParameter.c_str());
 	this->month = dateParameters[0];
 	this->day = dateParameters[1];
@@ -34,7 +34,7 @@ const std::string Date::toString()
 bool Date::validateDate()
 {
 	//validateDate validates a given date
-	//Input: data - date type -- struct which has year, this->month and this->day as integers
+	//Input: data - date type -- struct which has year, this->month && this->day as integers
 	//Output: 1 - if the given date is valid
 	//		  0 - otherwise
 	if (this->day < 1 || this->day > 31 || this->month < 1 || this->month > 12 || this->year < 1)
@@ -52,7 +52,7 @@ bool Date::validateDate()
 
 bool Date::isLeapYear(int year)
 {
-	//checks if a given this->year has 29 or 28 days in February
+	//checks if a given this->year has 29 || 28 days in February
 	//Input: this->year - positiv integer
 	//Output: True if given this->year is a leap one
 	//		  False otherwise
