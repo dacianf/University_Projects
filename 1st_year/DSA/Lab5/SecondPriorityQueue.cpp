@@ -9,7 +9,7 @@ SecondPriorityQueue::SecondPriorityQueue(Relation r)
 	this->elems = new Element[3];
 	this->R = r;
 }
-//O(n*log3(n))
+//O(log(n))
 void SecondPriorityQueue::push(TElem e, TPriority p)
 {
 	if (this->len == this->cap - 1)this->resize();
