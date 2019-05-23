@@ -183,7 +183,7 @@ void TestEverything::updateRecordFromRepository_goodInput()
 	newRepository.addRecord(newRecord);
 	auto updateOfNewRecord = newRecord;
 	updateOfNewRecord.setLocation("Cluj");
-	updateOfNewRecord.setFootagePreview("movie.mp4");
+	updateOfNewRecord.setFootagePreview("record.mp4");
 	assert(newRepository.updateRecord(updateOfNewRecord) == true);
 }
 

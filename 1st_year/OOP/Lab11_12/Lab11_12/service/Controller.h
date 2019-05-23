@@ -36,12 +36,16 @@ public:
 	std::vector<SecurityRecord>& getRecords();
 	Repository getCopyOfRepository();
 
+	Repository* getCopyOfSavedRepository();
+
 	//Controller operator =(Controller assignController) {
 	//	indexRecords = assignController.indexRecords;
 	//	*recordsRepository = *assignController.recordsRepository;
 	//	*savedRecords = *assignController.savedRecords;
 	//	return *this;
 	//}
+	void setRecordsPath(std::string path);
+	void setSavedPath(std::string path);
 	~Controller() {
 		delete recordsRepository;
 		delete savedRecords;

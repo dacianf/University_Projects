@@ -91,3 +91,18 @@ Repository Controller::getCopyOfRepository()
 	return Repository(*this->recordsRepository);
 }
 
+Repository* Controller::getCopyOfSavedRepository()
+{
+	return this->savedRecords;
+}
+
+void Controller::setRecordsPath(std::string path)
+{
+	this->recordsRepository->setPath(path);
+}
+
+void Controller::setSavedPath(std::string path)
+{
+	this->savedRecords->setPath(path);
+}
+

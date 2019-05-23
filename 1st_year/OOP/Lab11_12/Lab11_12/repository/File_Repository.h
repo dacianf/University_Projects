@@ -37,7 +37,13 @@ public:
 		this->fin.close();
 		return true;
 	}
-
+	void setPath(const std::string path) override {
+		this->fileLocation = path;
+		for (int i = fileLocation.size() - 1; i >= 0; i--) {
+			if (fileLocation[i] == '.')break;
+			this->fileExtension.push_back(fileLocation[i]);
+		}
+	}
 	bool saveRepository() override{
 		if (this->fileLocation != "") {
 			this->fout.open(this->fileLocation, std::fstream::out);
@@ -79,6 +85,6 @@ public:
 		this->listOfSecurityRecords = assignedRepository.listOfSecurityRecords;
 		return *this;
 	}
-	~File_Repository() {};
+	~File_Repository() { this->saveRepository(); };
 };
 
