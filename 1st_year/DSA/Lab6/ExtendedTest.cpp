@@ -39,7 +39,7 @@ void testQuantity() {
 					m.modify(i, j, i + j);
 		
 	}
-	m.print();
+	//m.print();
 	for (int i = 0; i < m.nrLines(); i++)
 		for (int j = 0; j < m.nrColumns(); j++)
 			if (i % 2 == 0 && j % 2 == 0)

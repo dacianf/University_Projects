@@ -15,5 +15,22 @@ int main() {
 	cout << "Short test are done but it's not done yet\n\tExtending test are comming..\n";
 	testAllExtended();
 	cout << "Now you are done!\n\tCONGRATS!\n";
+	/*auto m = Matrix(10, 10);
+	m.modify(0, 0, 1);
+	m.modify(0, 1, 1);
+	m.print();
+	m.modify(1, 0, 1);
+	m.print();
+	m.modify(1, 1, 1);
+	m.print();
+	m.modify(0, 2, 1);
+	m.print();
+	m.modify(2, 0, 1);
+	m.modify(2, 1, 1);
+	m.modify(2, 2, 1);
+	m.print();
+	m.modify(0, 3, 1);
+	m.modify(3, 0, 1);
+	m.print();*/
 	return 0;
 }

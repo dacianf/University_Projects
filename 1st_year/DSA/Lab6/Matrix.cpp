@@ -32,10 +32,10 @@ Matrix::~Matrix()
 	this->lf = 0;
 
 }
-
+//O(1) //not sure //O(len(T[hash]))
 TElem Matrix::element(int i, int j) const
 {
-	std::cout << i << "   ----   " << j << "\n";
+	//std::cout << i << "   ----   " << j << "\n";
 	if (i >= this->nLines or j >= this->nCols or i < 0 or j < 0) throw std::exception("Invalid position!");
 	int hash = this->TFunction(i, j);
 	Node* crt = this->T[hash];
@@ -43,11 +43,11 @@ TElem Matrix::element(int i, int j) const
 	if (crt == nullptr) return 0;
 	return crt->v;
 }
-
+//O(m+lf);
 TElem Matrix::modify(int i, int j, TElem e)
 {
 	if (i >= this->nLines or j >= this->nCols or i < 0 or j < 0)throw std::exception("Invalid position!");
-	if ((double)((double)lf / (double)this->m) > 0.7)this->resize();
+	if ((double)((double)lf / (double)this->m) > 0.7)this->resizeHash();
 	int hash = this->TFunction(i, j);
 	Node* crt = this->T[hash];
 	Node* prev = nullptr;
@@ -56,32 +56,39 @@ TElem Matrix::modify(int i, int j, TElem e)
 		prev = crt, crt = crt->next;
 	if (crt != nullptr) {
 		std::swap(e, crt->v);
+		if (crt->v == 0) {
+			if (prev != nullptr)
+				prev->next = crt->next;
+			this->T[hash] = nullptr;
+			delete crt;
+		}
 		return e;
+		
 	}
-	if (prev != this->T[hash]) {
-		prev->next = new Node;
-		prev->next->l = i;
-		prev->next->c = j;
-		prev->next->v = e;
-		prev->next->next = nullptr;
-	}
-	else {
+	if (e == NULL_TELEM)return 0;
+	if (prev == nullptr) {
 		this->T[hash] = new Node;
 		prev = this->T[hash];
-		prev->l = i;
-		prev->c = j;
-		prev->v = e;
 	}
+	else {
+		prev->next = new Node;
+		prev = prev->next;
+	}
+
+	prev->l = i;
+	prev->c = j;
+	prev->v = e;
+	prev->next = nullptr;
 	this->lf++;
 	return 0;
 }
-
+//theta(1)
 int Matrix::TFunction(int l, int c) const
 {
 	return (l*this->nLines + c) % this->m;
 }
-
-void Matrix::resize()
+//Theta(lf) -- nb of elements
+void Matrix::resizeHash()
 {
 	//this->print();
 	/*if(this->m >3)
@@ -115,10 +122,33 @@ void Matrix::print()
 		crt = this->T[i];
 		while (crt != nullptr)
 		{
-			fout << "Hash: " << this->TFunction(crt->l, crt->c) << " and L: " << crt->l << "  C: "<< 
+			std::cout << "Hash: " << this->TFunction(crt->l, crt->c) << " and L: " << crt->l << "  C: "<< 
 				crt->c << " V: " << crt->v << "\n";
 			crt = crt->next;
 		}
 	}
-	fout << "\n\n\n\t\t\tDONE!!!\n\n\n";
+	std::cout << "\n\n\n\t\t\tDONE!!!\n\n\n";
+}
+//O(nbOfElements)
+void Matrix::resizeMatrix(int nrLin, int nrCol)
+{
+	if (nrLin <= 0 or nrCol <= 0)throw std::exception("Invalid size!");
+	Node** aux = this->T;
+	this->T = new Node*[this->m]{};
+	this->nLines = nrLin;
+	this->nCols = nrCol;
+	Node* crt;
+	Node* prev;
+	for (int i = 0; i < this->m; i++) {
+		crt = aux[i];
+		while (crt!=nullptr)
+		{
+			prev = crt;
+			crt = crt->next;
+			if (prev->c < nrCol && prev->l < nrLin)
+				this->modify(prev->l, prev->c, prev->v);
+			delete prev;
+		}
+	}
+	delete[] aux;
 }

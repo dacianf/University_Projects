@@ -8,9 +8,9 @@ private:
 	/*representation of the matrix*/
 	int nLines, nCols;
 	struct Node {
-		int v = NULL_TELEM;
-		int l = NULL_TELEM;
-		int c = NULL_TELEM;
+		TElem v = NULL_TELEM;
+		int l = 0;
+		int c = 0;
 		Node* next = nullptr;
 	};
 	Node** T;
@@ -20,7 +20,9 @@ public:
 
 	//constructor
 	//throws exception if nrLines or nrCols is negative or zero
+	//theta(1)
 	Matrix(int nrLines, int nrColumns);
+	//theta(1)
 	~Matrix();
 
 	//theta(1)
@@ -33,6 +35,7 @@ public:
 
 	//returns the element from line i and column j (indexing starts from 0)
 	//throws exception if (i,j) is not a valid position in the Matrix
+	
 	TElem element(int i, int j) const;
 
 	//modifies the value from line i and column j
@@ -40,7 +43,10 @@ public:
 	//throws exception if (i,j) is not a valid position in the Matrix
 	TElem modify(int i, int j, TElem e);
 	void print();
+	//resizes a Matrix to a given dimensions
+	//throws exeption if the new dimension is <=0
+	void resizeMatrix(int nrLines, int nrCol);
 private:
 	int TFunction(int l, int c) const;
-	void resize();
+	void resizeHash();
 };
