@@ -83,7 +83,59 @@ void SortedIteratedList::add(TComp e) {
 }
 
 TComp SortedIteratedList::remove(int pos) {
-    return 0;
+    if (pos < 0 or pos >= this->nbOfElems)
+        throw std::exception();
+    int contor=0;
+    auto crt = this->root;
+    Node* parent = nullptr;
+    while(contor + crt->nbOfNodesInL != pos){
+        if(contor + crt->nbOfNodesInL > pos)
+            parent = crt,
+            crt->nbOfNodesInL--,
+            crt = crt->left;
+        else{
+            contor += crt->nbOfNodesInL + 1;
+            parent = crt;
+            crt = crt->right;
+        }
+    }
+    auto elemToReturn = crt->info;
+    if(crt->left == crt->right and crt->left == nullptr){
+        if(parent->left==crt)
+            parent->left = nullptr;
+        else
+            parent->right = nullptr;
+        delete crt;
+    }
+    else if(crt->left == nullptr){
+        if(parent->right==crt)
+            parent->right = crt->right;
+        else
+            parent->left = crt->right;
+        delete crt;
+    }
+    else if(crt->right == nullptr){
+        if(parent->right==crt)
+            parent->right = crt->left;
+        else
+            parent->left = crt->left;
+        delete crt;
+    }
+    else{
+        //find the min in the right sub-tree
+        auto tmp = crt->right;
+        Node* parr = nullptr;
+        while (tmp and tmp->left)
+            parr = tmp,
+            tmp->nbOfNodesInL?tmp->nbOfNodesInL--:0,
+            tmp = tmp->left;
+        crt->info = tmp->info;
+        (parr)?parr->left = nullptr:crt->right = nullptr;
+        delete tmp;
+    }
+    this->nbOfElems--;
+    return elemToReturn;
+
 }
 
 int SortedIteratedList::search(TComp e) const {
@@ -106,7 +158,6 @@ void SortedIteratedList::print() {
     auto f = [crt](auto &&self, Node *parent) -> void {
         if (parent) {
             self(self, parent->left);
-            std::cout << "\n";
             self(self, parent->right);
             std::cout << "( " << parent->info << "; " << parent->nbOfNodesInL << ") ";
         }
