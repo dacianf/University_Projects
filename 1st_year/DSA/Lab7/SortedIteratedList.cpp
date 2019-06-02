@@ -56,16 +56,30 @@ bool SortedIteratedList::isEmpty() const {
 }
 
 TComp SortedIteratedList::getElement(int pos) const {
-    return 0;
+    if (pos < 0 or pos >= this->nbOfElems)
+        throw std::exception();
+    auto crt = this->root;
+    int contor = 0;
+    while(contor + crt->nbOfNodesInL != pos){
+        if(contor + crt->nbOfNodesInL > pos)
+            crt = crt->left;
+        else{
+            contor += crt->nbOfNodesInL + 1;
+            crt = crt->right;
+        }
+    }
+    return crt->info;
 }
 
 void SortedIteratedList::add(TComp e) {
     if (this->root == nullptr) {
         this->root = initNode(e);
+        this->nbOfElems++;
         return;
     }
     Node *crt = this->root;
     insertElement(crt, e, this->rel);
+    this->nbOfElems++;
 }
 
 TComp SortedIteratedList::remove(int pos) {
@@ -73,24 +87,14 @@ TComp SortedIteratedList::remove(int pos) {
 }
 
 int SortedIteratedList::search(TComp e) const {
-    auto parent = this->root;
-    auto src = [](auto &&self, Node *crtNode, TComp e, Relation r, int &index) -> int {
-        if (crtNode != nullptr and crtNode->info != e) {
-            if (crtNode->nbOfNodesInL > 0 and r(e, crtNode->info) == true)
-                return self(self, crtNode->left, e, r, index);
-            if (!r(e, crtNode->info)) {
-                index += crtNode->nbOfNodesInL + 1;
-                return (self, crtNode->right, e, r, index) + crtNode->nbOfNodesInL;
-            }
-        }
-        if(crtNode->info == e)return crtNode->nbOfNodesInL;
-        return 0;
-    };
-    int ind = 0, res = 0;
-    auto rez = src(src, parent, e, this->rel, ind);
-    std::cout<<ind<<"\n";
-    //std::cout << ind << "    " << rez << "  --  " << res << "\n";
-    return rez;
+    int contor=0;
+    auto crt = this->root;
+    while (crt!= nullptr and crt->info!=e){
+        if(this->rel(e, crt->info))crt=crt->left;
+        else { contor+=crt->nbOfNodesInL+1; crt=crt->right;}
+    }
+    if(crt)contor+=crt->nbOfNodesInL;
+    return (crt)?contor:-1;
 }
 
 ListIterator SortedIteratedList::iterator() {

@@ -20,7 +20,16 @@ int main() {
     sl.add(17);
     sl.add(25);
     sl.print();
-    cout<<sl.search(13);
+
+    for(int i=0;i<11;i++)
+        cout<<sl.getElement(i)<<"  ;";
     return 0;
 }
 // 2 - 4 - 7 - 9 - 11 - 13 - 15 - 17 - 19 - 20 - 25
+/*
+ *                  11
+ *            7             20
+ *         2     9     19      25
+ *           4       15
+ *                 13  17
+ */
