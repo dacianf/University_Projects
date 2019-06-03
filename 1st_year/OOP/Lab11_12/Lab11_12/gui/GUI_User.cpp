@@ -7,8 +7,11 @@ GUI_User::GUI_User(GUI_Admin* adminGUI)
 	myList_ = myListController_->getCopyOfSavedRepository();
 	myListController_->setRecordsPath("./data/records.txt");
 	initGUI();
-	currentRecord = adminGUI_->controller_->nextRecord();
-	currentRecordLabel_->setText(QString(this->currentRecord.toString().c_str()));
+	if (this->adminGUI_->controller_->getRecords().size())
+		currentRecord = adminGUI_->controller_->nextRecord(),
+		currentRecordLabel_->setText(QString(this->currentRecord.toString().c_str()));
+	else
+		currentRecordLabel_->setText(QString("There is no record!"));
 	connectSignalsAndSlots();
 	display();
 }
@@ -131,13 +134,17 @@ void GUI_User::saveButtonHandler()
 	//std::vector<std::string> tokens = tokenize(details.toStdString());
 	//if (tokens.size() != 5)
 	//	throw std::exception("Invalid selection!\n");
-	std::string title = this->currentRecord.getTitle();
-	emit saveRecord(title);
+	if (this->adminGUI_->controller_->getRecords().size()) {
+		//qDebug() << "blads";
+		std::string title = this->currentRecord.getTitle();
+		emit saveRecord(title);
+	}
 }
 void GUI_User::nextButtonHandler()
 {
-	this->currentRecord = this->adminGUI_->controller_->nextRecord();
-	emit nextRecord(currentRecord.getTitle());
+	if(this->adminGUI_->controller_->getRecords().size())
+		this->currentRecord = this->adminGUI_->controller_->nextRecord(),
+		emit nextRecord(currentRecord.getTitle());
 }
 void GUI_User::myListButtonHandler()
 {
