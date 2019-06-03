@@ -14,20 +14,11 @@ private:
     //after creation the iterator will refer to the first element of the container, or it will be invalid if the container is empty
     //contains a reference of the container it iterates over
     const SortedIteratedList& sl;
+    Node bka;
     Node* crtNode;
-    std::stack<Node&> *s;
-    explicit ListIterator(const SortedIteratedList& sl_) : sl(sl_){
-        this->s = new std::stack<Node&>;
-        auto crt = sl.root;
-        while (crt){
-            this->s->push(crt);
-            crt = crt->left;
-        }
-        if(!this->s->empty())
-            this->crtNode = this->s->top();
-        else
-            this->crtNode = nullptr;
-    }
+    std::stack<Node *> *s;
+
+    explicit ListIterator(const SortedIteratedList &sl_);
 
     /* representation specific for the iterator*/
 public:

@@ -1,13 +1,30 @@
 //
 // Created by daci on 5/26/19.
 //
-#pragma once
 #include "ListIterator.h"
+#include "SortedIteratedList.h"
+
+
+ListIterator::ListIterator(const SortedIteratedList &sl_) : sl(sl_) {
+    this->s = new std::stack<Node *>;
+    auto crt = sl_.root;
+    while (crt) {
+        this->s->push(crt);
+        crt = crt->left;
+    }
+    if (!this->s->empty())
+        this->crtNode = this->s->top();
+    else
+        this->crtNode = nullptr;
+}
+
 
 void ListIterator::first() {
     if(this->s)
+
+
         delete this->s;
-    this->s = new std::stack<Node&>;
+    this->s = new std::stack<Node *>;
     auto crt = sl.root;
     while (crt){
         this->s->push(crt);
@@ -31,5 +48,18 @@ TComp ListIterator::getCurrent() const {
 
 void ListIterator::next() {
     if(!this->valid())throw std::exception();
-    auto crt = this->s->top();]
+    auto crt = this->s->top();
+    this->s->pop();
+    if (crt->right) {
+        crt = crt->right;
+        while (crt)
+            this->s->push(crt),
+                    crt = crt->left;
+    }
+    if (!this->s->empty())
+        this->crtNode = this->s->top();
+    else
+        this->crtNode = nullptr;
 }
+
+

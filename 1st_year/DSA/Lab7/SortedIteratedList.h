@@ -3,16 +3,17 @@
 //
 typedef int TComp;
 typedef bool (*Relation)(TComp, TComp);
+
 #pragma once
+typedef struct Node {
+    TComp info = 0;
+    Node *left = nullptr;
+    Node *right = nullptr;
+    int nbOfNodesInL = 0;
+} Node;
 #include <iostream>
 #include <exception>
 #include "ListIterator.h"
-struct Node{
-    TComp info = 0;
-    Node* left = nullptr;
-    Node* right = nullptr;
-    int nbOfNodesInL = 0;
-};
 
 class ListIterator;
 class SortedIteratedList {

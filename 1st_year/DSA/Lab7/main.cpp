@@ -1,9 +1,8 @@
-#pragma once
 #include <iostream>
 #include "SortedIteratedList.h"
 using namespace std;
 bool Relation123(TComp a, TComp b){
-    return a<b;
+    return a > b;
 }
 int main() {
     cout << "Hello, World!\n\n";
@@ -20,8 +19,11 @@ int main() {
     sl.add(17);
     sl.add(25);
     sl.print();
-
-
+    auto it = sl.iterator();
+    while (it.valid()) {
+        cout << it.getCurrent() << "\n";
+        it.next();
+    }
     return 0;
 }
 // 2 - 4 - 7 - 9 - 11 - 13 - 15 - 17 - 19 - 20 - 25
