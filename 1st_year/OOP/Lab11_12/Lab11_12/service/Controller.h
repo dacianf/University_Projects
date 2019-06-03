@@ -30,6 +30,11 @@ public:
 	bool saveTitle(std::string titleToSave);
 	std::vector<SecurityRecord> getSavedRecordsByLocationAndMaximumNumberOfAccessings(std::string recordsLocation, int timesAccessed);
 	std::vector<SecurityRecord>& getSavedRecords();
+
+	bool undoAdmin();
+	bool redoAdmin();
+	bool undoUser();
+	bool redoUser();
 	
 	bool saveRecordsInFile();
 	bool loadRecordsFromFile();

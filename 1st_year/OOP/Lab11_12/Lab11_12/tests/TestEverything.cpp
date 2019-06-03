@@ -3,6 +3,7 @@
 
 void TestEverything::testAll()
 {
+	this->testUndoRedo();
 	this->testControllerWithFakeRepo();
 
 	this->createRecord_badInput();
@@ -59,6 +60,7 @@ void TestEverything::testAll()
 
 	this->saveRepository();
 	this->loadInFile();
+
 }
 
 void TestEverything::testControllerWithFakeRepo()
@@ -528,5 +530,33 @@ void TestEverything::loadInFile()
 	fileController.deleteRecord(title1);
 	fileController.deleteRecord(title2);
 	assert(fileController.saveRecordsInFile() == true);
+}
+
+void TestEverything::testUndoRedo()
+{
+	auto repository = Repository();
+	assert(repository.getRecords().size() == 0);
+	assert(repository.undo() == false);
+	assert(repository.redo() == false);
+
+	auto securityRecord = SecurityRecord("Titlu", "Locatie1", Date("1-1-1"), 1, "film.mp4");
+	auto securityRecord2 = SecurityRecord("Titlu2", "Locatie1", Date("1-1-1"), 1, "film.mp4");
+	repository.addRecord(securityRecord);
+	repository.addRecord(securityRecord2);
+
+	assert(repository.getRecords().size() == 2);
+	assert(repository.undo() == true);
+	assert(repository.getRecords().size() == 1);
+	assert(repository.undo() == true);
+	assert(repository.getRecords().size() == 0);
+	assert(repository.undo() == false);
+	assert(repository.redo() == true);
+	assert(repository.getRecords().size() == 1);
+	assert(repository.redo() == true);
+	assert(repository.getRecords().size() == 2);
+	assert(repository.redo() == false);
+
+
+
 }
 

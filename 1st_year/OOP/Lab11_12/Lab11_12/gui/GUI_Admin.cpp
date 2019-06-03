@@ -68,6 +68,7 @@ void GUI_Admin::initGUI()
 	gridLayout->addWidget(updateButton_);
 	gridLayout->addWidget(changeModeButton_);
 	vertLayout->addWidget(buttons);
+	this->createUndoRedoMenu();
 }
 void GUI_Admin::display()
 {
@@ -76,15 +77,30 @@ void GUI_Admin::display()
 
 	for (auto record: controller_->getRecords())
 	{
-		
-		
 		QListWidgetItem* newItem = new QListWidgetItem;
 		QString newString = QString::fromStdString(record.toString());
 		newItem->setText(newString);
 		recordsList_->addItem(newItem);
 	}
+}
+void GUI_Admin::createUndoRedoMenu()
+{
+	this->menuBar_ = new QMenuBar();
+	this->editMenu_ = new QMenu();
+	this->menuBar_->addMenu(editMenu_);
 
+	this->undo_action = new QAction("Undo", this);
+	this->undo_action->setShortcuts(QKeySequence::Undo);
+	connect(undo_action, &QAction::triggered, this, &GUI_Admin::undo);
 
+	this->redo_action = new QAction("Redo", this);
+	this->redo_action->setShortcuts(QKeySequence::Redo);
+	connect(redo_action, &QAction::triggered, this, &GUI_Admin::redo);
+	
+	this->editMenu_->setTitle("Edit");
+	this->editMenu_->addAction(undo_action);
+	this->editMenu_->addAction(redo_action);
+	this->layout()->setMenuBar(menuBar_);
 }
 void GUI_Admin::connectSignalsAndSlots()
 {
@@ -121,6 +137,29 @@ void GUI_Admin::updateRecord(std::string& title, std::string& location,
 		dialog->show();
 	}
 	updateWindow_->close();
+}
+void GUI_Admin::undo()
+{
+	if (!this->controller_->undoAdmin()) {
+		auto errorMessage = new QMessageBox();
+		errorMessage->setText("No more undos!!!");
+		errorMessage->setIcon(QMessageBox::Warning);
+		errorMessage->setWindowTitle("Info");
+		errorMessage->show();
+	}
+	this->display();
+}
+void GUI_Admin::redo()
+{
+	if (!this->controller_->redoAdmin()) {
+		auto errorMessage = new QMessageBox();
+		errorMessage->setText("No more redos!!!");
+		errorMessage->setIcon(QMessageBox::Warning);
+		errorMessage->setWindowTitle("Info");
+		errorMessage->show();
+	}
+	this->display();
+	
 }
 void GUI_Admin::addRecordButtonHandler()
 {

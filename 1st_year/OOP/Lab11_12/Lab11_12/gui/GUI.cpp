@@ -1,4 +1,5 @@
 #include <QtWidgets>
+#include "tests/TestEverything.h"
 #include "service/Controller.h"
 #include "GUI_User.h"
 #include "GUI_Admin.h"

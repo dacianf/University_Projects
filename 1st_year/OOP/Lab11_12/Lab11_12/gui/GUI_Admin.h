@@ -1,5 +1,6 @@
 #pragma once
 #include <QtWidgets>
+#include <QMenuBar>
 #include "service/Controller.h"
 #include "GUI_User.h"
 
@@ -25,6 +26,11 @@ private:
 	QPushButton* updaterecordButton_;
 	QPushButton* cancelButton_;
 	QPushButton* changeModeButton_;
+
+	QMenuBar* menuBar_;
+	QMenu* editMenu_;
+	QAction* undo_action;
+	QAction* redo_action;
 	
 	Controller* controller_;
 	QWidget* updateWindow_;
@@ -37,6 +43,7 @@ public:
 private:
 	std::vector<std::string> tokenize(std::string line);
 	void display();
+	void createUndoRedoMenu();
 	void connectSignalsAndSlots();
 	void addRecordButtonHandler();
 	void deleteRecordButtonHandler();
@@ -57,4 +64,6 @@ public slots:
 	void updateRecord(std::string& title, std::string& newGenre,
 		std::string& newYearOfRelease, std::string& newNumberOfLikes,
 		std::string& newLink);
+	void undo();
+	void redo();
 };

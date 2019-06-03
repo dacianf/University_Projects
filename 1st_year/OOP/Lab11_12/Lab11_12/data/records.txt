@@ -1,2 +1,6 @@
+cornel,pop,01-01-1,123,C:/da.html
 ion,da,01-01-1,123,das
-mircea,deva,02-02-2,13,Meh
+mircea,deva,02-02-2,213,F:\GitProjects\University_Projects\1st_year\OOP\Lab11_12\Lab11_12\play.png
+vlad,suceava,02-02-2,13,Meh
+mihnea,vrancea,02-02-2,13,Meh
+dan,gherla,02-02-2,13,Meh

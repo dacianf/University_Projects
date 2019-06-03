@@ -71,6 +71,26 @@ std::vector<SecurityRecord>& Controller::getSavedRecords()
 	return this->savedRecords->getRecords();
 }
 
+bool Controller::undoAdmin()
+{
+	return this->recordsRepository->undo();
+}
+
+bool Controller::redoAdmin()
+{
+	return this->recordsRepository->redo();
+}
+
+bool Controller::undoUser()
+{
+	return this->savedRecords->undo();
+}
+
+bool Controller::redoUser()
+{
+	return this->savedRecords->redo();
+}
+
 bool Controller::saveRecordsInFile()
 {
 	return this->recordsRepository->saveRepository();

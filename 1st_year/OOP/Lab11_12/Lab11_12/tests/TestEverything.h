@@ -65,5 +65,7 @@ private:
 
 	void saveRepository();
 	void loadInFile();
+
+	void testUndoRedo();
 };
 

@@ -2,17 +2,25 @@
 #include <QtWidgets>
 #include "service/Controller.h"
 #include "GUI_Admin.h"
+#include "RecordsTableModel.h"
+#include "PlayButton.h"
 class GUI_User : public QWidget
 {
 	Q_OBJECT
 	friend class GUI_Admin;
 private:
+	QMenuBar* menuBar_;
+	QMenu* editMenu_;
+	QAction* undo_action;
+	QAction* redo_action;
 	Repository* myList_;
 	QListWidget* myListWidget_;
 	QPushButton* saveButton_;
 	QPushButton* nextButton_;
+	QPushButton* myListButton_;
 	QLabel* currentRecordLabel_;
 	QPushButton* changeModeButton_;
+	RecordsTableModel* tabelModelRecords_;
 	//QPushButton* myListButton_;
 	Controller* myListController_;
 	GUI_Admin* adminGUI_;
@@ -23,11 +31,14 @@ public:
 	GUI_User(GUI_Admin* adminGUI);
 private:
 	void display();
+	void createMyListTable();
 	void connectSignalsAndSlots();
 	void initGUI();
 	void saveButtonHandler();
 	void nextButtonHandler();
+	void myListButtonHandler();
 	void changeModeButtonHandler();
+	void createUndoRedoMenu();
 	std::vector<std::string> tokenize(std::string line);
 signals:
 	void myListUpdatedSignal();
@@ -36,6 +47,8 @@ signals:
 public slots:
 	void saveRecord(std::string& title);
 	void nextRecord(std::string title);
+	void undo();
+	void redo();
 
 
 };
