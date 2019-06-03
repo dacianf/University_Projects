@@ -1,0 +1,429 @@
+> restart;
+> eq1 := diff(x(t),t) = 3*x(t) + t^2;
+> 
+
+                            d                   2
+                     eq1 := -- x(t) = 3 x(t) + t
+                            dt
+
+> sol:=dsolve(eq1,x(t));
+
+                             2
+                            t     2 t
+           sol := x(t) = - ---- - --- - 2/27 + exp(3 t) _C1
+                            3      9
+
+> f:=unapply(rhs(sol),t,_C1);
+
+                               2
+        f := (t, _C1) -> -1/3 t  - 2/9 t - 2/27 + exp(3 t) _C1
+
+> f(t,3);
+
+                       2
+                      t     2 t
+                   - ---- - --- - 2/27 + 3 exp(3 t)
+                      3      9
+
+> type(f(t,_C1),polynom(anything,t));
+
+                                false
+
+> type(f(t,0),polynom(anything,t));
+
+                                 true
+
+> restart;
+> f:=t->piecewise(t<=2,t,t>2,3-t);
+
+             f := t -> piecewise(t <= 2, t, 2 < t, 3 - t)
+
+> f(0);
+> 
+
+                                  0
+
+> f(3);
+> 
+
+                                  0
+
+> f(10);
+
+                                  -7
+
+> f(2);
+
+                                  2
+
+> plot(f(t),t=-4..4);
+
+> discont(f(t),t);
+
+                                 {2}
+
+> plot(f(t),t=-4..4,discont=true);
+
+> diff(f(t),t);
+
+                       {     1            t < 2
+                       {
+                       { undefined        t = 2
+                       {
+                       {    -1            2 < t
+
+> restart;
+> f:=t->piecewise(0<=t and t<=Pi,t,t>Pi,Pi*exp(Pi-t));
+
+  f := t -> piecewise(0 <= t and t <= Pi, t, Pi < t, Pi exp(Pi - t))
+
+> f(t);
+
+           {        t               -t <= 0 and t - Pi <= 0
+           {
+           { Pi exp(-t + Pi)                Pi < t
+
+> plot(f(t),t=-10..10);
+
+> plot(f(t),t=-10..10,discont=true);
+
+> diff(f(t),t);
+
+                   {        0                t < 0
+                   {
+                   {    undefined            t = 0
+                   {
+                   {        1                t < Pi
+                   {
+                   {    undefined            t = Pi
+                   {
+                   { -Pi exp(-t + Pi)        Pi < t
+
+> f(t);
+
+           {        t               -t <= 0 and t - Pi <= 0
+           {
+           { Pi exp(-t + Pi)                Pi < t
+
+> eq1:=diff(x(t),t$2) + x(t)=f(t);
+
+         / 2      \
+         |d       |
+  eq1 := |--- x(t)| + x(t) =
+         |  2     |
+         \dt      /
+
+        {        t               -t <= 0 and t - Pi <= 0
+        {
+        { Pi exp(-t + Pi)                Pi < t
+
+> condin:=x(0)=0,D(x)(0)=1;
+
+                   condin := x(0) = 0, D(x)(0) = 1
+
+> sol:=dsolve({condin,eq1},x(t));
+
+  sol := x(t) = { sin(t) , t < 0
+
+        t , t < Pi
+
+        -sin(t) + 1/2 Pi exp(-t + Pi) - 1/2 sin(t) Pi - 1/2 cos(t) Pi
+
+        , Pi <= t
+
+> g:=unapply(rhs(sol),t);
+
+  g := t -> piecewise(t < 0, sin(t), t < Pi, t, Pi <= t,
+
+        -sin(t) + 1/2 Pi exp(Pi - t) - 1/2 sin(t) Pi - 1/2 cos(t) Pi)
+
+> plot(g(t),t=-20..20);
+
+> restart;
+> eq1:=diff(x(t),t$2)+x(t)=cos(omega*t);
+
+                      / 2      \
+                      |d       |
+               eq1 := |--- x(t)| + x(t) = cos(omega t)
+                      |  2     |
+                      \dt      /
+
+> condin:=x(0)=0,D(x)(0)=0;
+
+                   condin := x(0) = 0, D(x)(0) = 0
+
+> dsolve({condin,eq1},x(t));
+
+                           cos(t)      cos(omega t)
+                  x(t) = ----------- - ------------
+                                   2             2
+                         -1 + omega    -1 + omega
+
+> 
+> 
+> eq1;
+> 
+
+                   / 2      \
+                   |d       |
+                   |--- x(t)| + x(t) = cos(omega t)
+                   |  2     |
+                   \dt      /
+
+> sol:=dsolve({condin,eq1},x(t));
+
+                               cos(t)      cos(omega t)
+               sol := x(t) = ----------- - ------------
+                                       2             2
+                             -1 + omega    -1 + omega
+
+> phi:=unapply(rhs(sol),t,omega);
+> 
+> 
+
+                                  cos(t)      cos(omega t)
+           phi := (t, omega) -> ----------- - ------------
+                                          2             2
+                                -1 + omega    -1 + omega
+
+> plot(phi(t,1),t=-20..20);
+Error, (in phi) numeric exception: division by zero
+
+> limit(phi(t,1),omega=1);
+Error, (in phi) numeric exception: division by zero
+
+> omega:=1;
+> eq2:=eq1;
+
+                              omega := 1
+
+
+                         / 2      \
+                         |d       |
+                  eq2 := |--- x(t)| + x(t) = cos(t)
+                         |  2     |
+                         \dt      /
+
+> sol2:=dsolve({condin,eq2},x(t));
+
+                     sol2 := x(t) = 1/2 sin(t) t
+
+> g:=unapply(rhs(sol2),t);
+
+                        g := t -> 1/2 sin(t) t
+
+> g(t);
+
+                             1/2 sin(t) t
+
+> limit(cos(t)/(-1+w^2)-cos(w*t)/(-1+w^2),w=1)=g(t);
+
+                     1/2 sin(t) t = 1/2 sin(t) t
+
+> plot(g(t),t=-20..20);
+
+> restart;
+> eq1:=diff(x(t),t$2)-4*x(t)=exp(alpha*t);
+
+                     / 2      \
+                     |d       |
+              eq1 := |--- x(t)| - 4 x(t) = exp(alpha t)
+                     |  2     |
+                     \dt      /
+
+> condin:=x(0)=0,D(x)(0)=0;
+
+                   condin := x(0) = 0, D(x)(0) = 0
+
+> sol:=dsolve({condin,eq1},x(t));
+
+                        exp(2 t)        exp(-2 t)   exp(alpha t)
+     sol := x(t) = -1/4 --------- + 1/4 --------- + ------------
+                        alpha - 2       alpha + 2             2
+                                                    -4 + alpha
+
+> alpha:=2;
+
+                              alpha := 2
+
+> eq2:=eq1;
+
+                       / 2      \
+                       |d       |
+                eq2 := |--- x(t)| - 4 x(t) = exp(2 t)
+                       |  2     |
+                       \dt      /
+
+> sol2:=dsolve({condin,eq2},x(t));
+
+   sol2 := x(t) = -1/16 exp(2 t) + 1/16 exp(-2 t) + 1/4 t exp(2 t)
+
+> restart;
+> phi:=unapply(-1/4*exp(2*t)/(alpha-2)+1/4*exp(-2*t)/(alpha+2)+1/(-4+alpha^2)*exp(alpha*t),t,alpha);
+
+                            exp(2 t)        exp(-2 t)   exp(alpha t)
+  phi := (t, alpha) -> -1/4 --------- + 1/4 --------- + ------------
+                            alpha - 2       alpha + 2             2
+                                                        -4 + alpha
+
+> limit(phi(t,alpha),alpha=2);
+
+                               4                 4
+                        -exp(t)  + 1 + 4 t exp(t)
+                   1/16 --------------------------
+                                       2
+                                 exp(t)
+
+> simplify(%);
+
+            1/16 (-exp(4 t) + 1 + 4 t exp(4 t)) exp(-2 t)
+
+> restart;
+> eq1:=diff(x(t),t)=x(t);
+
+                               d
+                        eq1 := -- x(t) = x(t)
+                               dt
+
+> condin:=x(0)=1;
+
+                          condin := x(0) = 1
+
+> sol:=dsolve({condin,eq1},x(t));
+
+                         sol := x(t) = exp(t)
+
+> series(exp(t),t=0,15);
+
+               2        3         4          5          6           7
+  1 + t + 1/2 t  + 1/6 t  + 1/24 t  + 1/120 t  + 1/720 t  + 1/5040 t
+
+                    8             9              10               11
+         + 1/40320 t  + 1/362880 t  + 1/3628800 t   + 1/39916800 t
+
+                        12                 13                  14
+         + 1/479001600 t   + 1/6227020800 t   + 1/87178291200 t   +
+
+           15
+        O(t  )
+
+> restart;
+> eq1:=x^2*diff(u(x),x$2)+x*diff(u(x),x)+x^2*u(x)=0;
+
+                     / 2      \
+                   2 |d       |     /d      \    2
+           eq1 := x  |--- u(x)| + x |-- u(x)| + x  u(x) = 0
+                     |  2     |     \dx     /
+                     \dx      /
+
+> condin:=u(0)=1,D(u)(0)=0;
+
+                   condin := u(0) = 1, D(u)(0) = 0
+
+> sol:=dsolve({condin,eq1},u(x));
+
+                     sol := u(x) = BesselJ(0, x)
+
+> series(rhs(sol),x=0,10);
+
+                2         4           6             8      10
+       1 - 1/4 x  + 1/64 x  - 1/2304 x  + 1/147456 x  + O(x  )
+
+> restart;
+> eq1:=diff(y(x),x$2)-2*x*diff(y(x),x)+4*y(x)=0;
+
+                   / 2      \
+                   |d       |       /d      \
+            eq1 := |--- y(x)| - 2 x |-- y(x)| + 4 y(x) = 0
+                   |  2     |       \dx     /
+                   \dx      /
+
+> condin:=D(y)(0)=0;
+
+                        condin := D(y)(0) = 0
+
+> sol:=dsolve({condin,eq1},y(x));
+
+                                               2
+                     sol := y(x) = _C1 (1 - 2 x )
+
+> restart;
+> f:=t->piecewise(0<=t and t<Pi/2,t,Pi/2<=t and t<=Pi,Pi-t,t>Pi,0);
+
+                                      Pi       Pi
+  f := t -> piecewise(0 <= t and t < ----, t, ---- <= t and t <= Pi,
+                                      2        2
+
+        Pi - t, Pi < t, 0)
+
+> f(t);
+
+           {                                    Pi
+           {    t              -t <= 0 and t - ---- < 0
+           {                                    2
+           {
+           {                      Pi
+           { -t + Pi        -t + ---- <= 0 and t - Pi <= 0
+           {                      2
+           {
+           {    0                       Pi < t
+
+> eq1:=diff(x(t),t$2)+x(t)=f(t);
+
+         / 2      \
+         |d       |
+  eq1 := |--- x(t)| + x(t) =
+         |  2     |
+         \dt      /
+
+        {                                    Pi
+        {    t              -t <= 0 and t - ---- < 0
+        {                                    2
+        {
+        {                      Pi
+        { -t + Pi        -t + ---- <= 0 and t - Pi <= 0
+        {                      2
+        {
+        {    0                       Pi < t
+
+> condin:=x(0)=5,D(x)(0)=0;
+
+                   condin := x(0) = 5, D(x)(0) = 0
+
+> sol:=dsolve({condin,eq1},x(t));
+
+                    {          5 cos(t)                  t < 0
+                    {
+                    {                                        Pi
+                    {   5 cos(t) + t - sin(t)           t < ----
+      sol := x(t) = {                                        2
+                    {
+                    { 3 cos(t) - t + Pi - sin(t)         t < Pi
+                    {
+                    {          3 cos(t)                 Pi <= t
+
+> g:=unapply(rhs(sol),t);
+
+                                            Pi
+  g := t -> piecewise(t < 0, 5 cos(t), t < ----,
+                                            2
+
+        5 cos(t) + t - sin(t), t < Pi, 3 cos(t) - t + Pi - sin(t),
+
+        Pi <= t, 3 cos(t))
+
+> g(t);
+
+             {          5 cos(t)                  t < 0
+             {
+             {                                        Pi
+             {   5 cos(t) + t - sin(t)           t < ----
+             {                                        2
+             {
+             { 3 cos(t) - t + Pi - sin(t)         t < Pi
+             {
+             {          3 cos(t)                 Pi <= t
+
+> plot(g(t),t);
+
+> 

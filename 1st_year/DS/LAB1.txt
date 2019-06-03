@@ -1,0 +1,551 @@
+> restart:
+> a := 5;
+
+                                a := 5
+
+> evalf(1/2);
+
+                             0.5000000000
+
+> exp(1);
+> 
+
+                                exp(1)
+
+> sqrt(3);
+
+                                  1/2
+                                 3
+
+> Pi;
+
+                                  Pi
+
+> pi;
+
+                                  pi
+
+> PI;
+
+                                  PI
+
+> evalf(pi);
+> 
+
+                                  pi
+
+> sin(0,1);
+Error, (in sin) expecting 1 argument, got 2
+
+> sin(0.1);
+
+                            0.09983341665
+
+> evalf(sin(0.1));
+
+                            0.09983341665
+
+> evalf(sqrt(pi));
+
+                                  1/2
+                                pi
+
+> evalf(sqrt(Pi));
+
+                             1.772453851
+
+> a:= 1;
+> 
+
+                                a := 1
+
+> ec1:= ((x^2+2*x-1)^3)*(x^2-2);
+
+                            2           3   2
+                   ec1 := (x  + 2 x - 1)  (x  - 2)
+
+> expand(ec1);
+
+      8      6      7       5       4       3       2
+     x  + 7 x  + 6 x  - 16 x  - 27 x  + 14 x  + 17 x  - 12 x + 2
+
+> n;
+
+                                  n
+
+> ec2 :=(x+n)^5;
+> 
+
+                                         5
+                           ec2 := (x + n)
+
+> expand(ec2);
+
+            5      4         3  2       2  3        4    5
+           x  + 5 x  n + 10 x  n  + 10 x  n  + 5 x n  + n
+
+> ec3:=x^8-1;
+> 
+
+                                    8
+                            ec3 := x  - 1
+
+> factor(ec3);
+
+                                    2        4
+                  (x - 1) (x + 1) (x  + 1) (x  + 1)
+
+> ec4:=(2*x^2)/(x^3-1)+(3*x)/(x^2-1);
+
+                                   2
+                                2 x      3 x
+                        ec4 := ------ + ------
+                                3        2
+                               x  - 1   x  - 1
+
+> simplify(ec4);
+
+                             2
+                         (5 x  + 5 x + 3) x
+                        ---------------------
+                          2        2
+                        (x  - 1) (x  + x + 1)
+
+> ec5 := sin(x)^2+cos(x)^2;
+> 
+
+                                    2         2
+                       ec5 := sin(x)  + cos(x)
+
+> simplify(ec5);
+> 
+
+                                  1
+
+> ec6:= exp(x)+ln(x);
+
+                        ec6 := exp(x) + ln(x)
+
+> subs(x=1,ec6);
+
+                            exp(1) + ln(1)
+
+> evalf(ec6,x=1);
+Error, wrong number (or type) of parameters in function evalf
+
+> eval(ec6,x=1);
+
+                                exp(1)
+
+> ec7:=x^2-4*x+3=0;
+> 
+
+                               2
+                       ec7 := x  - 4 x + 3 = 0
+
+> solve(ec7,x);
+
+                                 3, 1
+
+> fsolve(ec7,x);
+
+                           1.000000000, 3.
+
+> ec8:=x^2*y+2*y-x=0;
+
+                              2
+                      ec8 := x  y + 2 y - x = 0
+
+> solve(ec8,x);
+
+                             2 1/2              2 1/2
+                 1 + (1 - 8 y )     1 - (1 - 8 y )
+                 -----------------, -----------------
+                        2 y                2 y
+
+> fsolve(ec8,x);
+Error, (in fsolve) y is in the equation, and is not solved for
+
+> ec9:= x-cos(x)=0;
+
+                        ec9 := x - cos(x) = 0
+
+> solve(ec9);
+
+                         RootOf(_Z - cos(_Z))
+
+> solve(ec9,x);
+
+                         RootOf(_Z - cos(_Z))
+
+> evalf(ec9,x=1);
+Error, wrong number (or type) of parameters in function evalf
+
+> solve(ec8,y);
+
+                                  x
+                                ------
+                                 2
+                                x  + 2
+
+> ec10:=x^5-3*x^3-1=0;
+
+                               5      3
+                      ec10 := x  - 3 x  - 1 = 0
+
+> solve(ec10,x);
+
+  RootOf(%1, index = 1), RootOf(%1, index = 2), RootOf(%1, index = 3),
+
+        RootOf(%1, index = 4), RootOf(%1, index = 5)
+
+          5       3
+  %1 := _Z  - 3 _Z  - 1
+
+> 
+> ec11:=4*x+3*y=10;
+
+                        ec11 := 4 x + 3 y = 10
+
+> ec12:=3*x-y=1;
+
+                         ec12 := 3 x - y = 1
+
+> sist:=ec11,ec12;
+
+                 sist := 4 x + 3 y = 10, 3 x - y = 1
+
+> solve({sist},{x,y});
+
+                            {x = 1, y = 2}
+
+> funct1:=x->2*x+1;
+
+                        funct1 := x -> 2 x + 1
+
+> funct1:=x->e^x-sin(x);
+
+                                      x
+                      funct1 := x -> e  - sin(x)
+
+> f(x);
+
+                                 f(x)
+
+> f(0);
+
+                                 f(0)
+
+> evalf(f(0));
+
+                                 f(0)
+
+> funct1:=x->exp(x)-sin(x);
+
+                    funct1 := x -> exp(x) - sin(x)
+
+> f(x);
+
+                                 f(x)
+
+> funct1(x);
+
+                           exp(x) - sin(x)
+
+> funct1(0);
+
+                                  1
+
+> funct1(-1);
+
+                           exp(-1) + sin(1)
+
+> funct1diff:=x->D(f)(x);
+
+                          funct1diff := D(f)
+
+> funct1diff:=x->D(funct1)(x);
+
+                  funct1diff := x -> exp(x) - cos(x)
+
+> funct1diff(1);
+
+                           exp(1) - cos(1)
+
+> D(funct1)(1);
+
+                           exp(1) - cos(1)
+
+> functdiff(0);
+
+                             functdiff(0)
+
+> funct1diff(0);
+
+                                  0
+
+> funct1primitive:=int(funct1(x),x);
+
+                  funct1primitive := exp(x) + cos(x)
+
+> int(funct1(x),-1..1);
+
+                      1
+                     /
+                    |
+                    |   exp(x)(_X) - sin(x)(_X) d_X
+                    |
+                   /
+                     -1
+
+> int(funct1(x),x=-1..1);
+
+                           exp(1) - exp(-1)
+
+> f:=funct1;
+
+                             f := funct1
+
+> f(x);
+
+                           exp(x) - sin(x)
+
+> g:=x->exp(x)-sin(x);
+
+                      g := x -> exp(x) - sin(x)
+
+> g(0);
+
+                                  1
+
+> D(f,1);
+Error, (in D) expecting 1 argument, got 2
+
+> D(g,1);
+Error, (in D) expecting 1 argument, got 2
+
+> D(g)(1);
+
+                           exp(1) - cos(1)
+
+> g:=exp(x)-sin(x);
+
+                         g := exp(x) - sin(x)
+
+> eval(g,x=0);
+
+                                  1
+
+> gg:=diff(g,x);
+> 
+
+                        gg := exp(x) - cos(x)
+
+> eval(gg,x=0);
+
+                                  0
+
+> gP:=int(g,x);
+
+                        gP := exp(x) + cos(x)
+
+> eval(gP,x=-1..1);
+Error, invalid input: exp expects its 1st argument, x, to be of type algebraic, but received -1 .. 1
+
+> eval(gP(x),x=-1..1);
+Error, invalid input: exp expects its 1st argument, x, to be of type algebraic, but received -1 .. 1
+
+> int(g,x=-1..1);
+
+                           exp(1) - exp(-1)
+
+> funct2:=unapply(g,x);
+
+                    funct2 := x -> exp(x) - sin(x)
+
+> funct2:=unapply(diff(g,x$2));
+
+                   funct2 := () -> exp(x) + sin(x)
+
+> funct2(2);
+
+                           exp(x) + sin(x)
+
+> funct2:=unapply(diff(g,x$2),x);
+
+                    funct2 := x -> exp(x) + sin(x)
+
+> funct2(0);
+
+                                  1
+
+> limit(sin(x)/x,x=0);
+
+                                  1
+
+> limit((cos(x)+1)/(x-Pi),x=0);
+
+                                   2
+                                - ----
+                                   Pi
+
+> ec21:=sin(x)/x;
+
+                                    sin(x)
+                            ec21 := ------
+                                      x
+
+> limit(ec21,x=0);
+
+                                  1
+
+> ec22:=x->sin(x);
+
+                             ec22 := sin
+
+> plot(ec22,0..2*Pi);
+
+> plot(sin(x),x=0..2*Pi);
+
+> plot(ec22,-4*Pi..4*Pi);
+
+> plot(ec22,-100..100);
+
+> plot(ec22,-infinity..infinity);
+
+> ec23:=x->1/x;
+
+                           ec23 := x -> 1/x
+
+> plot(ec23,-5..5*Pi);
+
+> plot(ec23,-1..1);
+
+> plot(ec23,-0.2..0.2);
+
+> ec31:=2-t^2;
+
+                                         2
+                            ec31 := 2 - t
+
+> ec32:=t-t^3;
+
+                                         3
+                            ec32 := t - t
+
+> plot({sin(x),cos(x)},x=-5..6);
+
+> plot([ec31,ec32,t=-2..2]);
+
+> plot([2-t^2,t-t^3,t=-2..2]);
+
+> ec41:=cos(t);
+
+                            ec41 := cos(t)
+
+> ec42:=sin(t);
+
+                            ec42 := sin(t)
+
+> plot([ec41,ec42,t=0..(Pi/6)]);
+
+> plot([ec41,ec42,t=0..Pi]);
+
+> plot([ec41,ec42,t=0..Pi*3/2]);
+
+> plot([ec41,ec42,t=0..Pi*2]);
+
+> plot([2*cos(t/3),2*sin(t/3),t=-infinity..infinity]);
+
+> plot([2*cos(t/3),2*sin(t/3),t=-5..5]);
+
+> plot([cos(t*4),sin(t*4),t=-5..5]);
+
+> plot([cos(t*4),sin(t*4),t=-0.5..0.5]);
+
+> with(plots);
+Warning, the name changecoords has been redefined
+
+
+  [animate, animate3d, animatecurve, arrow, changecoords, complexplot,
+
+        complexplot3d, conformal, conformal3d, contourplot,
+
+        contourplot3d, coordplot, coordplot3d, cylinderplot,
+
+        densityplot, display, display3d, fieldplot, fieldplot3d,
+
+        gradplot, gradplot3d, graphplot3d, implicitplot,
+
+        implicitplot3d, inequal, interactive, listcontplot,
+
+        listcontplot3d, listdensityplot, listplot, listplot3d,
+
+        loglogplot, logplot, matrixplot, odeplot, pareto, plotcompare,
+
+        pointplot, pointplot3d, polarplot, polygonplot, polygonplot3d,
+
+        polyhedra_supported, polyhedraplot, replot, rootlocus,
+
+        semilogplot, setoptions, setoptions3d, spacecurve,
+
+        sparsematrixplot, sphereplot, surfdata, textplot, textplot3d,
+
+        tubeplot]
+
+> implicitplot(x^2+y^2=4,x=-3..3,y=-3..3);
+
+> with(DEtools);
+
+  [DEnormal, DEplot, DEplot3d, DEplot_polygon, DFactor, DFactorLCLM,
+
+        DFactorsols, Dchangevar, GCRD, LCLM, MeijerGsols,
+
+        PDEchangecoords, RiemannPsols, Xchange, Xcommutator, Xgauge,
+
+        abelsol, adjoint, autonomous, bernoullisol, buildsol,
+
+        buildsym, canoni, caseplot, casesplit, checkrank, chinisol,
+
+        clairautsol, constcoeffsols, convertAlg, convertsys,
+
+        dalembertsol, dcoeffs, de2diffop, dfieldplot, diffop2de,
+
+        dpolyform, dsubs, eigenring, endomorphism_charpoly, equinv,
+
+        eta_k, eulersols, exactsol, expsols, exterior_power, firint,
+
+        firtest, formal_sol, gen_exp, generate_ic, genhomosol, gensys,
+
+        hamilton_eqs, hypergeomsols, hyperode, indicialeq, infgen,
+
+        initialdata, integrate_sols, intfactor, invariants,
+
+        kovacicsols, leftdivision, liesol, line_int, linearsol,
+
+        matrixDE, matrix_riccati, maxdimsystems, moser_reduce,
+
+        muchange, mult, mutest, newton_polygon, normalG2, odeadvisor,
+
+        odepde, parametricsol, phaseportrait, poincare, polysols,
+
+        power_equivalent, ratsols, redode, reduceOrder, reduce_order,
+
+        regular_parts, regularsp, remove_RootOf, riccati_system,
+
+        riccatisol, rifread, rifsimp, rightdivision, rtaylor,
+
+        separablesol, solve_group, super_reduce, symgen,
+
+        symmetric_power, symmetric_product, symtest, transinv,
+
+        translate, untranslate, varparam, zoom]
+
+> H:=(x,y)->x^2+y^2;
+
+                                        2    2
+                        H := (x, y) -> x  + y
+
+> plot3d(H(x,y),x=-10..10,y=-10..10);
+
+> 

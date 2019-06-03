@@ -1,0 +1,824 @@
+> restart;
+> eq1:=diff(x(t),t)=2*x(t)-x(t)^2-x(t)*y(t);
+
+                    d                      2
+             eq1 := -- x(t) = 2 x(t) - x(t)  - x(t) y(t)
+                    dt
+
+> eq2:=diff(y(t),t)=-y(t)+x(t)*y(t);
+
+                         d
+                  eq2 := -- y(t) = -y(t) + x(t) y(t)
+                         dt
+
+> ec1:=2*x-x^2-x*y=0;
+
+                                    2
+                      ec1 := 2 x - x  - x y = 0
+
+> ec2:=-y+x*y=0;
+
+                         ec2 := -y + x y = 0
+
+> sist1:=ec1,ec2;
+
+                              2
+              sist1 := 2 x - x  - x y = 0, -y + x y = 0
+
+> solve({sist1},{x,y});
+
+            {y = 0, x = 0}, {y = 0, x = 2}, {x = 1, y = 1}
+
+> with(linalg);
+Warning, the name adjoint has been redefined
+
+Warning, the previous binding of the name Wronskian has been removed and it now has an assigned value
+
+
+  [BlockDiagonal, GramSchmidt, JordanBlock, LUdecomp, QRdecomp,
+
+        Wronskian, addcol, addrow, adj, adjoint, angle, augment,
+
+        backsub, band, basis, bezout, blockmatrix, charmat, charpoly,
+
+        cholesky, col, coldim, colspace, colspan, companion, concat,
+
+        cond, copyinto, crossprod, curl, definite, delcols, delrows,
+
+        det, diag, diverge, dotprod, eigenvals, eigenvalues,
+
+        eigenvectors, eigenvects, entermatrix, equal, exponential,
+
+        extend, ffgausselim, fibonacci, forwardsub, frobenius,
+
+        gausselim, gaussjord, geneqns, genmatrix, grad, hadamard,
+
+        hermite, hessian, hilbert, htranspose, ihermite, indexfunc,
+
+        innerprod, intbasis, inverse, ismith, issimilar, iszero,
+
+        jacobian, jordan, kernel, laplacian, leastsqrs, linsolve,
+
+        matadd, matrix, minor, minpoly, mulcol, mulrow, multiply,
+
+        norm, normalize, nullspace, orthog, permanent, pivot,
+
+        potential, randmatrix, randvector, rank, ratform, row, rowdim,
+
+        rowspace, rowspan, rref, scalarmul, singularvals, smith,
+
+        stackmatrix, submatrix, subvector, sumbasis, swapcol, swaprow,
+
+        sylvester, toeplitz, trace, transpose, vandermonde, vecpotent,
+
+        vectdim, vector, wronskian]
+
+> with(DEtools);
+Warning, the name adjoint has been redefined
+
+
+  [DEnormal, DEplot, DEplot3d, DEplot_polygon, DFactor, DFactorLCLM,
+
+        DFactorsols, Dchangevar, GCRD, LCLM, MeijerGsols,
+
+        PDEchangecoords, RiemannPsols, Xchange, Xcommutator, Xgauge,
+
+        abelsol, adjoint, autonomous, bernoullisol, buildsol,
+
+        buildsym, canoni, caseplot, casesplit, checkrank, chinisol,
+
+        clairautsol, constcoeffsols, convertAlg, convertsys,
+
+        dalembertsol, dcoeffs, de2diffop, dfieldplot, diffop2de,
+
+        dpolyform, dsubs, eigenring, endomorphism_charpoly, equinv,
+
+        eta_k, eulersols, exactsol, expsols, exterior_power, firint,
+
+        firtest, formal_sol, gen_exp, generate_ic, genhomosol, gensys,
+
+        hamilton_eqs, hypergeomsols, hyperode, indicialeq, infgen,
+
+        initialdata, integrate_sols, intfactor, invariants,
+
+        kovacicsols, leftdivision, liesol, line_int, linearsol,
+
+        matrixDE, matrix_riccati, maxdimsystems, moser_reduce,
+
+        muchange, mult, mutest, newton_polygon, normalG2, odeadvisor,
+
+        odepde, parametricsol, phaseportrait, poincare, polysols,
+
+        power_equivalent, ratsols, redode, reduceOrder, reduce_order,
+
+        regular_parts, regularsp, remove_RootOf, riccati_system,
+
+        riccatisol, rifread, rifsimp, rightdivision, rtaylor,
+
+        separablesol, solve_group, super_reduce, symgen,
+
+        symmetric_power, symmetric_product, symtest, transinv,
+
+        translate, untranslate, varparam, zoom]
+
+> with(VectorCalculus);
+Warning, the assigned name Wronskian now has a global binding
+
+
+  [&x, *, +, ., <,>, <|>, AddCoordinates, ArcLength, BasisFormat,
+
+        Binormal, CrossProduct, Curl, Curvature, Del, DirectionalDiff,
+
+        Divergence, DotProduct, Flux, GetCoordinateParameters,
+
+        GetCoordinates, Gradient, Hessian, Jacobian, Laplacian,
+
+        LineInt, MapToBasis, Nabla, PathInt, PrincipalNormal,
+
+        RadiusOfCurvature, ScalarPotential, SetCoordinateParameters,
+
+        SetCoordinates, SurfaceInt, TNBFrame, Tangent, TangentLine,
+
+        TangentPlane, TangentVector, Torsion, Vector, VectorField,
+
+        VectorPotential, Wronskian, diff, evalVF, int, limit, series]
+
+> Jm1:=Jacobian([lhs(ec1),lhs(ec2)],[x,y]);
+
+                           [2 - 2 x - y      -x  ]
+                    Jm1 := [                     ]
+                           [     y         -1 + x]
+
+> A1:=subs([x=0,y=0],Jm1);
+
+                                 [2     0]
+                           A1 := [       ]
+                                 [0    -1]
+
+> eigenvalues(A1);
+
+                                2, -1
+
+> A2:=subs([x=2,y=0],Jm1);
+
+                                 [-2    -2]
+                           A2 := [        ]
+                                 [ 0     1]
+
+> eigenvalues(A2);
+
+                                -2, 1
+
+> A3:=subs([x=1,y=1],Jm1);
+
+                                 [-1    -1]
+                           A3 := [        ]
+                                 [ 1     0]
+
+> eigenvalues(A3);
+
+                               1/2                 1/2
+                - 1/2 + 1/2 I 3   , - 1/2 - 1/2 I 3
+
+> dfieldplot([eq1,eq2],[x(t),y(t)],t=0..1,x=-3..3,y=-3..3);
+
+> DEplot([eq1,eq2],[x(t),y(t)],t=0..2,[[x(0)=1.4,y(0)=0.1],[x(0)=2.5,y(0)=0.1],[x(0)=2.5,y(0)=-0.1],[x(0)=1.5,y(0)=-0.1]]);
+
+> DEplot([diff(x(t),t)=2*x(t)-x(t)^2-x(t)*y(t),diff(y(t),t)=-y(t)+x(t)*y(t)],[x(t),y(t)],t=0..1,[[x(0)=0.1,y(0)=0.1],[x(0)=-0.1,y(0)=0.1],[x(0)=0.2,y(0)=-0.1],[x(0)=-0.1,y(0)=-0.1]]);
+
+> dfieldplot([eq1,eq2],[x(t),y(t)],t=0..1,x=-0.5..0.5,y=-0.5..0.5);
+
+> dfieldplot([eq1,eq2],[x(t),y(t)],t=0..1,x=-1.5..2.5,y=-0.5..0.5);
+
+> dfieldplot([eq1,eq2],[x(t),y(t)],t=0..1,x=0.5..1.5,y=-0.5..1.5);
+
+> DEplot([eq1,eq2],[x(t),y(t)],t=0..2,[[x(0)=1.4,y(0)=0.1],[x(0)=2.5,y(0)=0.1],[x(0)=2.5,y(0)=-0.1],[x(0)=1.5,y(0)=-0.1]]);
+
+> DEplot([eq1,eq2],[x(t),y(t)],t=0..1,[[x(0)=0.1,y(0)=0.1],[x(0)=-0.1,y(0)=0.1],[x(0)=0.2,y(0)=-0.1],[x(0)=-0.1,y(0)=-0.1]]);
+
+> DEplot([diff(x(t),t)=2*x(t)-x(t)^2-x(t)*y(t),diff(y(t),t)=-y(t)+x(t)*y(t)],[x(t),y(t)],t=0..20,[[x(0)=0.3,y(0)=1.2],[x(0)=0.2,y(0)=1.2]]);
+
+> DEplot([diff(x(t),t)=2*x(t)-x(t)^2-x(t)*y(t),diff(y(t),t)=-y(t)+x(t)*y(t)],[x(t),y(t)],t=0..20,[[x(0)=0.1,y(0)=0.1],[x(0)=2.5,y(0)=0.1]]);
+
+> restart;
+> eq1:=diff(x(t),t)=x(t)-2*x(t)*y(t);
+
+                        d
+                 eq1 := -- x(t) = x(t) - 2 x(t) y(t)
+                        dt
+
+> eq2:=diff(y(t),t)=(x(t)^2)/2-y(t);
+
+                         d                 2
+                  eq2 := -- y(t) = 1/2 x(t)  - y(t)
+                         dt
+
+> ec1:=x-2*x*y;
+
+                           ec1 := x - 2 x y
+
+> ec2:=(x^2)/2-y;
+
+                                    2
+                                   x
+                           ec2 := ---- - y
+                                   2
+
+> sist:=ec1,ec2;
+
+                                          2
+                                         x
+                     sist := x - 2 x y, ---- - y
+                                         2
+
+> solve({sist},{x,y});
+
+         {y = 0, x = 0}, {x = 1, y = 1/2}, {x = -1, y = 1/2}
+
+> with(linalg);
+Warning, the protected names norm and trace have been redefined and unprotected
+
+
+  [BlockDiagonal, GramSchmidt, JordanBlock, LUdecomp, QRdecomp,
+
+        Wronskian, addcol, addrow, adj, adjoint, angle, augment,
+
+        backsub, band, basis, bezout, blockmatrix, charmat, charpoly,
+
+        cholesky, col, coldim, colspace, colspan, companion, concat,
+
+        cond, copyinto, crossprod, curl, definite, delcols, delrows,
+
+        det, diag, diverge, dotprod, eigenvals, eigenvalues,
+
+        eigenvectors, eigenvects, entermatrix, equal, exponential,
+
+        extend, ffgausselim, fibonacci, forwardsub, frobenius,
+
+        gausselim, gaussjord, geneqns, genmatrix, grad, hadamard,
+
+        hermite, hessian, hilbert, htranspose, ihermite, indexfunc,
+
+        innerprod, intbasis, inverse, ismith, issimilar, iszero,
+
+        jacobian, jordan, kernel, laplacian, leastsqrs, linsolve,
+
+        matadd, matrix, minor, minpoly, mulcol, mulrow, multiply,
+
+        norm, normalize, nullspace, orthog, permanent, pivot,
+
+        potential, randmatrix, randvector, rank, ratform, row, rowdim,
+
+        rowspace, rowspan, rref, scalarmul, singularvals, smith,
+
+        stackmatrix, submatrix, subvector, sumbasis, swapcol, swaprow,
+
+        sylvester, toeplitz, trace, transpose, vandermonde, vecpotent,
+
+        vectdim, vector, wronskian]
+
+> with(DEtools);
+Warning, the name adjoint has been redefined
+
+
+  [DEnormal, DEplot, DEplot3d, DEplot_polygon, DFactor, DFactorLCLM,
+
+        DFactorsols, Dchangevar, GCRD, LCLM, MeijerGsols,
+
+        PDEchangecoords, RiemannPsols, Xchange, Xcommutator, Xgauge,
+
+        abelsol, adjoint, autonomous, bernoullisol, buildsol,
+
+        buildsym, canoni, caseplot, casesplit, checkrank, chinisol,
+
+        clairautsol, constcoeffsols, convertAlg, convertsys,
+
+        dalembertsol, dcoeffs, de2diffop, dfieldplot, diffop2de,
+
+        dpolyform, dsubs, eigenring, endomorphism_charpoly, equinv,
+
+        eta_k, eulersols, exactsol, expsols, exterior_power, firint,
+
+        firtest, formal_sol, gen_exp, generate_ic, genhomosol, gensys,
+
+        hamilton_eqs, hypergeomsols, hyperode, indicialeq, infgen,
+
+        initialdata, integrate_sols, intfactor, invariants,
+
+        kovacicsols, leftdivision, liesol, line_int, linearsol,
+
+        matrixDE, matrix_riccati, maxdimsystems, moser_reduce,
+
+        muchange, mult, mutest, newton_polygon, normalG2, odeadvisor,
+
+        odepde, parametricsol, phaseportrait, poincare, polysols,
+
+        power_equivalent, ratsols, redode, reduceOrder, reduce_order,
+
+        regular_parts, regularsp, remove_RootOf, riccati_system,
+
+        riccatisol, rifread, rifsimp, rightdivision, rtaylor,
+
+        separablesol, solve_group, super_reduce, symgen,
+
+        symmetric_power, symmetric_product, symtest, transinv,
+
+        translate, untranslate, varparam, zoom]
+
+> with(VectorCalculus);
+Warning, the assigned names <,>, <|> and Wronskian now have a global binding
+
+Warning, these protected names have been redefined and unprotected: *, +, ., Vector, diff, int, limit, series
+
+
+  [&x, *, +, ., <,>, <|>, AddCoordinates, ArcLength, BasisFormat,
+
+        Binormal, CrossProduct, Curl, Curvature, Del, DirectionalDiff,
+
+        Divergence, DotProduct, Flux, GetCoordinateParameters,
+
+        GetCoordinates, Gradient, Hessian, Jacobian, Laplacian,
+
+        LineInt, MapToBasis, Nabla, PathInt, PrincipalNormal,
+
+        RadiusOfCurvature, ScalarPotential, SetCoordinateParameters,
+
+        SetCoordinates, SurfaceInt, TNBFrame, Tangent, TangentLine,
+
+        TangentPlane, TangentVector, Torsion, Vector, VectorField,
+
+        VectorPotential, Wronskian, diff, evalVF, int, limit, series]
+
+> Jm2:=Jacobian([ec1,ec2],[x,y]);
+
+                              [1 - 2 y    -2 x]
+                       Jm2 := [               ]
+                              [   x        -1 ]
+
+> A1:=subs([x=0,y=0],Jm2);
+
+                                 [1     0]
+                           A1 := [       ]
+                                 [0    -1]
+
+> eigenvalues(A1);
+
+                                1, -1
+
+> A2:=subs([x=1,y=1/2],Jm2);
+
+                                 [0    -2]
+                           A2 := [       ]
+                                 [1    -1]
+
+> eigenvalues(A2);
+
+                               1/2                 1/2
+                - 1/2 + 1/2 I 7   , - 1/2 - 1/2 I 7
+
+> A3:=subs([x=-1,y=1/2],Jm2);
+
+                                 [ 0     2]
+                           A3 := [        ]
+                                 [-1    -1]
+
+> eigenvalues(A3);
+
+                               1/2                 1/2
+                - 1/2 + 1/2 I 7   , - 1/2 - 1/2 I 7
+
+> dfieldplot([eq1,eq2],[x(t),y(t)],t=0..1,x=-3..3,y=-3..3);
+
+> dfieldplot([eq1,eq2],[x(t),y(t)],t=0..1,x=-10..10,y=-10..10);
+
+> DEplot([eq1,eq2],[x(t),y(t)],t=0..10,[[x(0)=-2,y(0)=0.7],[x(0)=2,y(0)=0.7],[x(0)=-0.1,y(0)=0.7],[x(0)=0.1,y(0)=0.7]]);
+
+> restart;
+> eq1:=diff(x(t),t)=y(t);
+
+                               d
+                        eq1 := -- x(t) = y(t)
+                               dt
+
+> eq2:=diff(y(t),t)=-4*sin(x(t));
+
+                           d
+                    eq2 := -- y(t) = -4 sin(x(t))
+                           dt
+
+> ec1:=y=0;
+
+                             ec1 := y = 0
+
+> ec2:=-4*sin(x)=0;
+
+                         ec2 := -4 sin(x) = 0
+
+> sist:=ec1,ec2;
+
+                     sist := y = 0, -4 sin(x) = 0
+
+> solve({sist},{x,y});
+
+                            {y = 0, x = 0}
+
+> with(linalg);
+Warning, the protected names norm and trace have been redefined and unprotected
+
+
+  [BlockDiagonal, GramSchmidt, JordanBlock, LUdecomp, QRdecomp,
+
+        Wronskian, addcol, addrow, adj, adjoint, angle, augment,
+
+        backsub, band, basis, bezout, blockmatrix, charmat, charpoly,
+
+        cholesky, col, coldim, colspace, colspan, companion, concat,
+
+        cond, copyinto, crossprod, curl, definite, delcols, delrows,
+
+        det, diag, diverge, dotprod, eigenvals, eigenvalues,
+
+        eigenvectors, eigenvects, entermatrix, equal, exponential,
+
+        extend, ffgausselim, fibonacci, forwardsub, frobenius,
+
+        gausselim, gaussjord, geneqns, genmatrix, grad, hadamard,
+
+        hermite, hessian, hilbert, htranspose, ihermite, indexfunc,
+
+        innerprod, intbasis, inverse, ismith, issimilar, iszero,
+
+        jacobian, jordan, kernel, laplacian, leastsqrs, linsolve,
+
+        matadd, matrix, minor, minpoly, mulcol, mulrow, multiply,
+
+        norm, normalize, nullspace, orthog, permanent, pivot,
+
+        potential, randmatrix, randvector, rank, ratform, row, rowdim,
+
+        rowspace, rowspan, rref, scalarmul, singularvals, smith,
+
+        stackmatrix, submatrix, subvector, sumbasis, swapcol, swaprow,
+
+        sylvester, toeplitz, trace, transpose, vandermonde, vecpotent,
+
+        vectdim, vector, wronskian]
+
+> with(DEtools);with(VectorCalculus);
+Warning, the name adjoint has been redefined
+
+
+  [DEnormal, DEplot, DEplot3d, DEplot_polygon, DFactor, DFactorLCLM,
+
+        DFactorsols, Dchangevar, GCRD, LCLM, MeijerGsols,
+
+        PDEchangecoords, RiemannPsols, Xchange, Xcommutator, Xgauge,
+
+        abelsol, adjoint, autonomous, bernoullisol, buildsol,
+
+        buildsym, canoni, caseplot, casesplit, checkrank, chinisol,
+
+        clairautsol, constcoeffsols, convertAlg, convertsys,
+
+        dalembertsol, dcoeffs, de2diffop, dfieldplot, diffop2de,
+
+        dpolyform, dsubs, eigenring, endomorphism_charpoly, equinv,
+
+        eta_k, eulersols, exactsol, expsols, exterior_power, firint,
+
+        firtest, formal_sol, gen_exp, generate_ic, genhomosol, gensys,
+
+        hamilton_eqs, hypergeomsols, hyperode, indicialeq, infgen,
+
+        initialdata, integrate_sols, intfactor, invariants,
+
+        kovacicsols, leftdivision, liesol, line_int, linearsol,
+
+        matrixDE, matrix_riccati, maxdimsystems, moser_reduce,
+
+        muchange, mult, mutest, newton_polygon, normalG2, odeadvisor,
+
+        odepde, parametricsol, phaseportrait, poincare, polysols,
+
+        power_equivalent, ratsols, redode, reduceOrder, reduce_order,
+
+        regular_parts, regularsp, remove_RootOf, riccati_system,
+
+        riccatisol, rifread, rifsimp, rightdivision, rtaylor,
+
+        separablesol, solve_group, super_reduce, symgen,
+
+        symmetric_power, symmetric_product, symtest, transinv,
+
+        translate, untranslate, varparam, zoom]
+
+Warning, the assigned names <,>, <|> and Wronskian now have a global binding
+
+Warning, these protected names have been redefined and unprotected: *, +, ., Vector, diff, int, limit, series
+
+
+  [&x, *, +, ., <,>, <|>, AddCoordinates, ArcLength, BasisFormat,
+
+        Binormal, CrossProduct, Curl, Curvature, Del, DirectionalDiff,
+
+        Divergence, DotProduct, Flux, GetCoordinateParameters,
+
+        GetCoordinates, Gradient, Hessian, Jacobian, Laplacian,
+
+        LineInt, MapToBasis, Nabla, PathInt, PrincipalNormal,
+
+        RadiusOfCurvature, ScalarPotential, SetCoordinateParameters,
+
+        SetCoordinates, SurfaceInt, TNBFrame, Tangent, TangentLine,
+
+        TangentPlane, TangentVector, Torsion, Vector, VectorField,
+
+        VectorPotential, Wronskian, diff, evalVF, int, limit, series]
+
+> Jm3:=Jacobian([lhs(ec1),lhs(ec2)],[x,y]);
+
+                              [    0        1]
+                       Jm3 := [              ]
+                              [-4 cos(x)    0]
+
+> A1:=subs([x=0,y=0],Jm3);
+
+                                 [ 0    1]
+                           A1 := [       ]
+                                 [-4    0]
+
+> eigenvalues(A1);
+
+                              2 I, -2 I
+
+> sist2:=eq1,eq2;
+
+                    d               d
+           sist2 := -- x(t) = y(t), -- y(t) = -4 sin(x(t))
+                    dt              dt
+
+> dsolve({sist2},{x(t),y(t)});
+
+  [{y(t) = 0, y(t) = RootOf(
+
+              _Z
+             /
+            |                    1
+        -2  |    ---------------------------------- d_f + t + _C2),
+            |            4       2            2 1/2
+           /     (64 - _f  - 4 _f  _C1 - 4 _C1 )
+
+
+        y(t) = RootOf(
+
+             _Z
+            /
+           |                    1
+        2  |    ---------------------------------- d_f + t + _C2)},
+           |            4       2            2 1/2
+          /     (64 - _f  - 4 _f  _C1 - 4 _C1 )
+
+
+                            /d      \
+        {x(t) = -arcsin(1/4 |-- y(t)|)}]
+                            \dt     /
+
+> eq1;eq2;
+> 
+
+                            d
+                            -- x(t) = y(t)
+                            dt
+
+
+                        d
+                        -- y(t) = -4 sin(x(t))
+                        dt
+
+> dsolve(diff(y(x),x)=-4*sin(x)/y(x));
+
+                              1/2                          1/2
+       y(x) = (8 cos(x) + _C1)   , y(x) = -(8 cos(x) + _C1)
+
+> with(plots);
+Warning, the name changecoords has been redefined
+
+
+  [animate, animate3d, animatecurve, arrow, changecoords, complexplot,
+
+        complexplot3d, conformal, conformal3d, contourplot,
+
+        contourplot3d, coordplot, coordplot3d, cylinderplot,
+
+        densityplot, display, display3d, fieldplot, fieldplot3d,
+
+        gradplot, gradplot3d, graphplot3d, implicitplot,
+
+        implicitplot3d, inequal, interactive, listcontplot,
+
+        listcontplot3d, listdensityplot, listplot, listplot3d,
+
+        loglogplot, logplot, matrixplot, odeplot, pareto, plotcompare,
+
+        pointplot, pointplot3d, polarplot, polygonplot, polygonplot3d,
+
+        polyhedra_supported, polyhedraplot, replot, rootlocus,
+
+        semilogplot, setoptions, setoptions3d, spacecurve,
+
+        sparsematrixplot, sphereplot, surfdata, textplot, textplot3d,
+
+        tubeplot]
+
+> contourplot(y^2-8*cos(x),x=-5..5,y=-5..5);
+
+> restart;
+> eq1:=diff(x(t),t)=x(t)-x(t)*y(t);
+
+                         d
+                  eq1 := -- x(t) = x(t) - x(t) y(t)
+                         dt
+
+> eq2:=diff(y(t),t)=-0.3*y(t)+0.3*x(t)*y(t);
+
+                     d
+              eq2 := -- y(t) = -0.3 y(t) + 0.3 x(t) y(t)
+                     dt
+
+> ec1:=x-x*y=0;
+
+                          ec1 := x - x y = 0
+
+> ec2:=-0.3*y+0.3*x*y=0;
+
+                     ec2 := -0.3 y + 0.3 x y = 0
+
+> sist:=ec1,ec2;
+
+              sist := x - x y = 0, -0.3 y + 0.3 x y = 0
+
+> solve({sist},{x,y});
+
+                  {x = 0., y = 0.}, {y = 1., x = 1.}
+
+> with(linalg);with(DEtools);with(VectorCalculus);
+Warning, the protected names norm and trace have been redefined and unprotected
+
+
+  [BlockDiagonal, GramSchmidt, JordanBlock, LUdecomp, QRdecomp,
+
+        Wronskian, addcol, addrow, adj, adjoint, angle, augment,
+
+        backsub, band, basis, bezout, blockmatrix, charmat, charpoly,
+
+        cholesky, col, coldim, colspace, colspan, companion, concat,
+
+        cond, copyinto, crossprod, curl, definite, delcols, delrows,
+
+        det, diag, diverge, dotprod, eigenvals, eigenvalues,
+
+        eigenvectors, eigenvects, entermatrix, equal, exponential,
+
+        extend, ffgausselim, fibonacci, forwardsub, frobenius,
+
+        gausselim, gaussjord, geneqns, genmatrix, grad, hadamard,
+
+        hermite, hessian, hilbert, htranspose, ihermite, indexfunc,
+
+        innerprod, intbasis, inverse, ismith, issimilar, iszero,
+
+        jacobian, jordan, kernel, laplacian, leastsqrs, linsolve,
+
+        matadd, matrix, minor, minpoly, mulcol, mulrow, multiply,
+
+        norm, normalize, nullspace, orthog, permanent, pivot,
+
+        potential, randmatrix, randvector, rank, ratform, row, rowdim,
+
+        rowspace, rowspan, rref, scalarmul, singularvals, smith,
+
+        stackmatrix, submatrix, subvector, sumbasis, swapcol, swaprow,
+
+        sylvester, toeplitz, trace, transpose, vandermonde, vecpotent,
+
+        vectdim, vector, wronskian]
+
+Warning, the name adjoint has been redefined
+
+
+  [DEnormal, DEplot, DEplot3d, DEplot_polygon, DFactor, DFactorLCLM,
+
+        DFactorsols, Dchangevar, GCRD, LCLM, MeijerGsols,
+
+        PDEchangecoords, RiemannPsols, Xchange, Xcommutator, Xgauge,
+
+        abelsol, adjoint, autonomous, bernoullisol, buildsol,
+
+        buildsym, canoni, caseplot, casesplit, checkrank, chinisol,
+
+        clairautsol, constcoeffsols, convertAlg, convertsys,
+
+        dalembertsol, dcoeffs, de2diffop, dfieldplot, diffop2de,
+
+        dpolyform, dsubs, eigenring, endomorphism_charpoly, equinv,
+
+        eta_k, eulersols, exactsol, expsols, exterior_power, firint,
+
+        firtest, formal_sol, gen_exp, generate_ic, genhomosol, gensys,
+
+        hamilton_eqs, hypergeomsols, hyperode, indicialeq, infgen,
+
+        initialdata, integrate_sols, intfactor, invariants,
+
+        kovacicsols, leftdivision, liesol, line_int, linearsol,
+
+        matrixDE, matrix_riccati, maxdimsystems, moser_reduce,
+
+        muchange, mult, mutest, newton_polygon, normalG2, odeadvisor,
+
+        odepde, parametricsol, phaseportrait, poincare, polysols,
+
+        power_equivalent, ratsols, redode, reduceOrder, reduce_order,
+
+        regular_parts, regularsp, remove_RootOf, riccati_system,
+
+        riccatisol, rifread, rifsimp, rightdivision, rtaylor,
+
+        separablesol, solve_group, super_reduce, symgen,
+
+        symmetric_power, symmetric_product, symtest, transinv,
+
+        translate, untranslate, varparam, zoom]
+
+Warning, the assigned names <,>, <|> and Wronskian now have a global binding
+
+Warning, these protected names have been redefined and unprotected: *, +, ., Vector, diff, int, limit, series
+
+
+  [&x, *, +, ., <,>, <|>, AddCoordinates, ArcLength, BasisFormat,
+
+        Binormal, CrossProduct, Curl, Curvature, Del, DirectionalDiff,
+
+        Divergence, DotProduct, Flux, GetCoordinateParameters,
+
+        GetCoordinates, Gradient, Hessian, Jacobian, Laplacian,
+
+        LineInt, MapToBasis, Nabla, PathInt, PrincipalNormal,
+
+        RadiusOfCurvature, ScalarPotential, SetCoordinateParameters,
+
+        SetCoordinates, SurfaceInt, TNBFrame, Tangent, TangentLine,
+
+        TangentPlane, TangentVector, Torsion, Vector, VectorField,
+
+        VectorPotential, Wronskian, diff, evalVF, int, limit, series]
+
+> Jm:=Jacobian([lhs(ec1),lhs(ec2)],[x,y]);
+
+                          [1 - y         -x     ]
+                    Jm := [                     ]
+                          [0.3 y    -0.3 + 0.3 x]
+
+> A1:=subs([x=1,y=1],Jm);
+
+                                [ 0     -1]
+                          A1 := [         ]
+                                [0.3    0.]
+
+> eigenvalues(A1);
+
+               0. + 0.5477225575 I, 0. - 0.5477225575 I
+
+> with(plots);
+Warning, the name changecoords has been redefined
+
+
+  [animate, animate3d, animatecurve, arrow, changecoords, complexplot,
+
+        complexplot3d, conformal, conformal3d, contourplot,
+
+        contourplot3d, coordplot, coordplot3d, cylinderplot,
+
+        densityplot, display, display3d, fieldplot, fieldplot3d,
+
+        gradplot, gradplot3d, graphplot3d, implicitplot,
+
+        implicitplot3d, inequal, interactive, listcontplot,
+
+        listcontplot3d, listdensityplot, listplot, listplot3d,
+
+        loglogplot, logplot, matrixplot, odeplot, pareto, plotcompare,
+
+        pointplot, pointplot3d, polarplot, polygonplot, polygonplot3d,
+
+        polyhedra_supported, polyhedraplot, replot, rootlocus,
+
+        semilogplot, setoptions, setoptions3d, spacecurve,
+
+        sparsematrixplot, sphereplot, surfdata, textplot, textplot3d,
+
+        tubeplot]
+
+> contourplot(y-ln(y)+0.3*(x-ln(x)),x=0.4..2,y=0.6..1.5);
+
+> 

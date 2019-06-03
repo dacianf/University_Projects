@@ -1,0 +1,610 @@
+> 
+> restart;
+> odetest(x(t) = sin(t),diff(x(t),t$4)-x(t)=0);
+
+                                  0
+
+> odetest(x(t) = cos(t),diff(x(t),t$4)-x(t)=0);
+
+                                  0
+
+> odetest(x(t) = sinh(t),diff(x(t),t$4)-x(t)=0);
+
+                                  0
+
+> odetest(x(t) = cosh(t),diff(x(t),t$4)-x(t)=0);
+
+                                  0
+
+> restart;
+> eq1:= diff(x(t),t)-x(t)=0;
+
+                            /d      \
+                     eq1 := |-- x(t)| - x(t) = 0
+                            \dt     /
+
+> dsolve(eq1,x(t));
+
+                          x(t) = _C1 exp(t)
+
+> eq2:= diff(x(t),t)+t*x(t)=0;
+
+                           /d      \
+                    eq2 := |-- x(t)| + t x(t) = 0
+                           \dt     /
+
+> dsolve(eq2,x(t));
+
+                                           2
+                                          t
+                        x(t) = _C1 exp(- ----)
+                                          2
+
+> eq3:=diff(x(t),t$2)+x(t)=0;
+
+                            / 2      \
+                            |d       |
+                     eq3 := |--- x(t)| + x(t) = 0
+                            |  2     |
+                            \dt      /
+
+> dsolve(eq3,x(t));
+
+                    x(t) = _C1 sin(t) + _C2 cos(t)
+
+> eq4:=4*diff(x(t),t$2)+8*diff(x(t),t)+5*x(t)=0;
+
+                     / 2      \
+                     |d       |     /d      \
+            eq4 := 4 |--- x(t)| + 8 |-- x(t)| + 5 x(t) = 0
+                     |  2     |     \dt     /
+                     \dt      /
+
+> dsolve(eq4,x(t));
+
+          x(t) = _C1 exp(-t) sin(t/2) + _C2 exp(-t) cos(t/2)
+
+> eq5:=diff(x(t),t$2)-3*diff(x(t),t)+2*x(t)=0;
+
+                    / 2      \
+                    |d       |     /d      \
+             eq5 := |--- x(t)| - 3 |-- x(t)| + 2 x(t) = 0
+                    |  2     |     \dt     /
+                    \dt      /
+
+> dsolve(eq5,x(t));
+
+                   x(t) = _C1 exp(t) + _C2 exp(2 t)
+
+> restart;
+> ec1:=diff(x(t),t$2)+x(t);
+> 
+
+                              / 2      \
+                              |d       |
+                       ec1 := |--- x(t)| + x(t)
+                              |  2     |
+                              \dt      /
+
+> condin:=x(Pi/2)=1,D(x)(Pi/2)=-2;
+
+                             Pi              Pi
+                condin := x(----) = 1, D(x)(----) = -2
+                             2               2
+
+> sol:=dsolve({ec1,condin},x(t));
+
+                   sol := x(t) = sin(t) + 2 cos(t)
+
+> f:=unapply(rhs(sol),t);
+
+                     f := t -> sin(t) + 2 cos(t)
+
+> plot(f(t),t=-infinity..infinity);
+
+> ec2:=4*diff(x(t),t$2)+8*diff(x(t),t)+5*x(t)=0;
+
+                     / 2      \
+                     |d       |     /d      \
+            ec2 := 4 |--- x(t)| + 8 |-- x(t)| + 5 x(t) = 0
+                     |  2     |     \dt     /
+                     \dt      /
+
+> condin2:=x(0)=0,D(x)(0)=1/2;
+
+                  condin2 := x(0) = 0, D(x)(0) = 1/2
+
+> sol2:=dsolve({ec2,condin2},x(t));
+
+                   sol2 := x(t) = exp(-t) sin(t/2)
+
+> f2:=unapply(rhs(sol2),t);
+
+                    f2 := t -> exp(-t) sin(1/2 t)
+
+> plot(f2(t),t=-infinity..infinity);
+
+> ec3:=diff(x(t),t$2)-3*diff(x(t),t)+2*x(t)=0;
+
+                    / 2      \
+                    |d       |     /d      \
+             ec3 := |--- x(t)| - 3 |-- x(t)| + 2 x(t) = 0
+                    |  2     |     \dt     /
+                    \dt      /
+
+> condin3:=x(0)=2,D(x)(0)=3;
+
+                   condin3 := x(0) = 2, D(x)(0) = 3
+
+> sol3:=dsolve({ec3,condin3},x(t));
+
+                   sol3 := x(t) = exp(t) + exp(2 t)
+
+> f3:=unapply(rhs(sol3),t);
+
+                     f3 := t -> exp(t) + exp(2 t)
+
+> plot(f3(t),t=-infinity..infinity);
+
+> limit(rhs(sol3),t=infinity);
+
+                               infinity
+
+> restart;
+> ec1:=diff(x(t),t$2)+a(t)*x(t)=0;
+
+                         / 2      \
+                         |d       |
+                  ec1 := |--- x(t)| + a(t) x(t) = 0
+                         |  2     |
+                         \dt      /
+
+> a:=t->5;
+
+                                a := 5
+
+> ec1;
+
+                       / 2      \
+                       |d       |
+                       |--- x(t)| + 5 x(t) = 0
+                       |  2     |
+                       \dt      /
+
+> infolevel[dsolve]:=3;
+
+                        infolevel[dsolve] := 3
+
+> dsolve(ec1,x(t));
+Methods for second order ODEs:
+--- Trying classification methods ---
+-> Tackling the linear ODE "as given":
+   trying a quadrature
+   checking if the LODE has constant coefficients
+   <- constant coefficients successful
+<- successful solving of the linear ODE "as given"
+
+                               1/2               1/2
+               x(t) = _C1 sin(5    t) + _C2 cos(5    t)
+
+> a:=t->t;
+
+                             a := t -> t
+
+> ec1;
+> 
+
+                       / 2      \
+                       |d       |
+                       |--- x(t)| + t x(t) = 0
+                       |  2     |
+                       \dt      /
+
+> infolevel[dsolve]:=3;
+
+                        infolevel[dsolve] := 3
+
+> dsolve(ec1,x(t));
+Methods for second order ODEs:
+--- Trying classification methods ---
+-> Tackling the linear ODE "as given":
+   trying a quadrature
+   checking if the LODE has constant coefficients
+   checking if the LODE is of Euler type
+   trying a symmetry of the form [xi=0, eta=F(x)]
+   checking if the LODE is missing 'y' 
+   -> Trying a Liouvillian solution using Kovacic's algorithm
+   <- No Liouvillian solutions exists
+   -> Trying a solution in terms of special functions:
+      -> Bessel
+      <- Bessel successful
+   <- special function solution successful
+<- successful solving of the linear ODE "as given"
+
+                x(t) = _C1 AiryAi(-t) + _C2 AiryBi(-t)
+
+> a:=t->t**5;
+> infolevel[dsolve]:=3;
+> 
+
+                                        5
+                             a := t -> t
+
+
+                        infolevel[dsolve] := 3
+
+> dsolve(ec1,x(t));
+Methods for second order ODEs:
+--- Trying classification methods ---
+-> Tackling the linear ODE "as given":
+   trying a quadrature
+   checking if the LODE has constant coefficients
+   checking if the LODE is of Euler type
+   trying a symmetry of the form [xi=0, eta=F(x)]
+   checking if the LODE is missing 'y' 
+   -> Trying a Liouvillian solution using Kovacic's algorithm
+   <- No Liouvillian solutions exists
+   -> Trying a solution in terms of special functions:
+      -> Bessel
+      <- Bessel successful
+   <- special function solution successful
+<- successful solving of the linear ODE "as given"
+
+  x(t) =
+
+                                 7/2                             7/2
+             1/2              2 t            1/2              2 t
+        _C1 t    BesselJ(1/7, ------) + _C2 t    BesselY(1/7, ------)
+                                7                               7
+
+> plot(BesselJ(1,t),t=-infinity..infinity);
+
+> restart;
+> ec1:=diff(x(t),t$2)+a(t)*x(t)=0;
+
+                         / 2      \
+                         |d       |
+                  ec1 := |--- x(t)| + a(t) x(t) = 0
+                         |  2     |
+                         \dt      /
+
+> condin:=x(0)=0,D(x)(0)=0;
+
+                   condin := x(0) = 0, D(x)(0) = 0
+
+> a:=t->5;
+
+                                a := 5
+
+> ec1;
+
+                       / 2      \
+                       |d       |
+                       |--- x(t)| + 5 x(t) = 0
+                       |  2     |
+                       \dt      /
+
+> infolevel[dsolve]:=1;
+
+                        infolevel[dsolve] := 1
+
+> dsolve({ec1,condin},x(t));
+
+                               x(t) = 0
+
+> a:=t->t;
+
+                             a := t -> t
+
+> ec1;
+
+                       / 2      \
+                       |d       |
+                       |--- x(t)| + t x(t) = 0
+                       |  2     |
+                       \dt      /
+
+> infolevel[dsolve]:=1;
+
+                        infolevel[dsolve] := 1
+
+> dsolve({ec1,condin},x(t));
+   <- No Liouvillian solutions exists
+
+                               x(t) = 0
+
+> a:=t->t**5;
+
+                                        5
+                             a := t -> t
+
+> infolevel[dsolve]:=1;
+
+                        infolevel[dsolve] := 1
+
+> dsolve({ec1,condin},x(t));
+> 
+   <- No Liouvillian solutions exists
+
+                                                 7/2
+                             1/2              2 t
+                 x(t) = _C1 t    BesselJ(1/7, ------)
+                                                7
+
+> restart;
+> ec1:=diff(x(t),t$2)+x(t)=0;
+
+                            / 2      \
+                            |d       |
+                     ec1 := |--- x(t)| + x(t) = 0
+                            |  2     |
+                            \dt      /
+
+> condin:=x(0)=0,x(Pi)=0;
+
+                    condin := x(0) = 0, x(Pi) = 0
+
+> dsolve({ec1,condin},x(t));
+
+                          x(t) = _C1 sin(t)
+
+> ec2:=diff(x(t),t$2)+x(t)=0;
+
+                            / 2      \
+                            |d       |
+                     ec2 := |--- x(t)| + x(t) = 0
+                            |  2     |
+                            \dt      /
+
+> condin2:=x(0)=0,x(1)=0;
+
+                    condin2 := x(0) = 0, x(1) = 0
+
+> dsolve({ec2,condin2},x(t));
+
+                               x(t) = 0
+
+> ec3:=diff(x(t),t$2)+x(t)=1;
+
+                            / 2      \
+                            |d       |
+                     ec3 := |--- x(t)| + x(t) = 1
+                            |  2     |
+                            \dt      /
+
+> condin3:=x(0)=0,x(Pi)=0;
+
+                    condin3 := x(0) = 0, x(Pi) = 0
+
+> dsolve({ec3,condin3},x(t));
+> restart;
+> ec1:=diff(x(t),t)+x(t)=15;
+
+                            /d      \
+                     ec1 := |-- x(t)| + x(t) = 15
+                            \dt     /
+
+> sol:=dsolve(ec1,x(t));
+
+                    sol := x(t) = 15 + exp(-t) _C1
+
+> f1:=unapply(rhs(sol),t);
+
+                     f1 := t -> 15 + exp(-t) _C1
+
+> f1(t);
+
+                           15 + exp(-t) _C1
+
+> eval(f1(t),_C1=0);
+
+                                  15
+
+> restart;
+> ec1:=diff(x(t),t)+x(t)=2*exp(t)-t*exp(-3*t);
+
+                  /d      \
+           ec1 := |-- x(t)| + x(t) = 2 exp(t) - t exp(-3 t)
+                  \dt     /
+
+> sol:=dsolve(ec1,x(t));
+
+  sol :=
+
+        x(t) = exp(t) + 1/2 t exp(-3 t) + 1/4 exp(-3 t) + exp(-t) _C1
+
+> f1:=unapply(rhs(sol),t);
+
+  f1 := t -> exp(t) + 1/2 t exp(-3 t) + 1/4 exp(-3 t) + exp(-t) _C1
+
+> f1(t);
+
+        exp(t) + 1/2 t exp(-3 t) + 1/4 exp(-3 t) + exp(-t) _C1
+
+> eval(f1(t),_C1=0);
+
+               exp(t) + 1/2 t exp(-3 t) + 1/4 exp(-3 t)
+
+
+
+> restart;
+> ec1:=diff(x(t),t)+x(t)=-t^2+3*t-7;
+
+                      /d      \            2
+               ec1 := |-- x(t)| + x(t) = -t  + 3 t - 7
+                      \dt     /
+
+> sol:=dsolve(ec1,x(t));
+
+                              2
+              sol := x(t) = -t  + 5 t - 12 + exp(-t) _C1
+
+> f1:=unapply(rhs(sol),t);
+
+                            2
+               f1 := t -> -t  + 5 t - 12 + exp(-t) _C1
+
+> f1(t);
+
+                       2
+                     -t  + 5 t - 12 + exp(-t) _C1
+
+> eval(f1(t),_C1=0);
+
+                              2
+                            -t  + 5 t - 12
+
+> restart;
+> ec1:=diff(x(t),t)+x(t)=sin(t)+3*cos(t);
+
+                    /d      \
+             ec1 := |-- x(t)| + x(t) = sin(t) + 3 cos(t)
+                    \dt     /
+
+> sol:=dsolve(ec1,x(t));
+
+            sol := x(t) = cos(t) + 2 sin(t) + exp(-t) _C1
+
+> f1:=unapply(rhs(sol),t);
+
+              f1 := t -> cos(t) + 2 sin(t) + exp(-t) _C1
+
+> f1(t);
+
+                   cos(t) + 2 sin(t) + exp(-t) _C1
+
+> eval(f1(t),_C1=0);
+
+                          cos(t) + 2 sin(t)
+
+> restart;
+> ec1:=diff(x(t),t)+x(t)=sin(t);
+
+                          /d      \
+                   ec1 := |-- x(t)| + x(t) = sin(t)
+                          \dt     /
+
+> sol:=dsolve(ec1,x(t));
+
+         sol := x(t) = -1/2 cos(t) + 1/2 sin(t) + exp(-t) _C1
+
+> f1:=unapply(rhs(sol),t);
+
+          f1 := t -> -1/2 cos(t) + 1/2 sin(t) + exp(-t) _C1
+
+> f1(t);
+
+                -1/2 cos(t) + 1/2 sin(t) + exp(-t) _C1
+
+> eval(f1(t),_C1=0);
+
+                       -1/2 cos(t) + 1/2 sin(t)
+
+> restart;
+> ec1:=diff(x(t),t)+x(t)=3*cos(t);
+
+                         /d      \
+                  ec1 := |-- x(t)| + x(t) = 3 cos(t)
+                         \dt     /
+
+> sol:=dsolve(ec1,x(t));
+
+         sol := x(t) = 3/2 cos(t) + 3/2 sin(t) + exp(-t) _C1
+
+> f1:=unapply(rhs(sol),t);
+
+           f1 := t -> 3/2 cos(t) + 3/2 sin(t) + exp(-t) _C1
+
+> f1(t);
+
+                3/2 cos(t) + 3/2 sin(t) + exp(-t) _C1
+
+> eval(f1(t),_C1=0);
+
+                       3/2 cos(t) + 3/2 sin(t)
+
+> restart;
+> ec1:=diff(x(t),t)+x(t)=2/(sqrt(Pi))*exp(-t**2-t);
+> 
+
+                                                 2
+                      /d      \          2 exp(-t  - t)
+               ec1 := |-- x(t)| + x(t) = --------------
+                      \dt     /                1/2
+                                             Pi
+
+> dsolve(ec1,x(t));
+
+                    x(t) = (erf(t) + _C1) exp(-t)
+
+> restart;
+> int(exp(t**2),t);
+
+                                 1/2
+                        -1/2 I Pi    erf(t I)
+
+> int(2/(sqrt(Pi))*exp(-t**2-t),t);
+
+                        exp(1/4) erf(t + 1/2)
+
+> restart;
+> ec1:= diff(x(t),t$2)+3*diff(x(t),t)+x(t)=1;
+
+                     / 2      \
+                     |d       |     /d      \
+              ec1 := |--- x(t)| + 3 |-- x(t)| + x(t) = 1
+                     |  2     |     \dt     /
+                     \dt      /
+
+> sol:=dsolve(ec1,x(t));
+
+                      1/2                       1/2
+                    (5    - 3) t              (5    + 3) t
+  sol := x(t) = exp(------------) _C2 + exp(- ------------) _C1 + 1
+                         2                         2
+
+> f:=unapply(rhs(sol),t,_C1,_C2);
+
+  f := (t, _C1, _C2) ->
+
+                  1/2                          1/2
+        exp(1/2 (5    - 3) t) _C2 + exp(-1/2 (5    + 3) t) _C1 + 1
+
+> f(t,2,3);
+
+                   1/2                     1/2
+                 (5    - 3) t            (5    + 3) t
+           3 exp(------------) + 2 exp(- ------------) + 1
+                      2                       2
+
+> limit(f(t,2,3),t=infinity);
+> 
+
+                                  1
+
+> type(limit(f(t,2,3),t=infinity),'1');
+
+                                 true
+
+> restart;
+> ec1:=diff(x(t),t$2)+4*x(t)=1;
+
+                           / 2      \
+                           |d       |
+                    ec1 := |--- x(t)| + 4 x(t) = 1
+                           |  2     |
+                           \dt      /
+
+> condin:=x(0)=5/4,D(x)(0)=0;
+
+                  condin := x(0) = 5/4, D(x)(0) = 0
+
+> sol:=dsolve({ec1,condin},x(t));
+
+                     sol := x(t) = 1/4 + cos(2 t)
+
+> type(sol(t),'sol(Pi)=5/4');
+
+                                false
+
+> 
