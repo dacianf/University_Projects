@@ -4,6 +4,8 @@
 typedef int TComp;
 typedef bool (*Relation)(TComp, TComp);
 
+#define NULL_TELEM -1;
+
 #pragma once
 typedef struct Node {
     TComp info = 0;
@@ -16,16 +18,17 @@ typedef struct Node {
 #include "ListIterator.h"
 
 class ListIterator;
-class SortedIteratedList {
+
+class SortedIndexedList {
     friend class ListIterator;
 private:
-    //representation of SortedIteratedList
+    //representation of SortedIndexedList
     Node* root;
     int nbOfElems;
     Relation rel;
 public:
     // constructor
-    SortedIteratedList(Relation r);
+    SortedIndexedList(Relation r);
 
     // returns the number of elements from the list
     int size() const;
@@ -52,7 +55,7 @@ public:
     ListIterator iterator();
 
     //destructor
-    ~SortedIteratedList();
+    ~SortedIndexedList();
 
     void print();
 };

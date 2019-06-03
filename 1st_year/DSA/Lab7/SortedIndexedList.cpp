@@ -1,7 +1,7 @@
 //
 // Created by daci on 5/26/19.
 //
-#include "SortedIteratedList.h"
+#include "SortedIndexedList.h"
 
 static Node *initNode(TComp e) {
     auto newNode = new Node;
@@ -32,28 +32,28 @@ static Node *insertElement(Node *node, TComp e, Relation r) {
     return node;
 }
 
-SortedIteratedList::SortedIteratedList(Relation r) {
+SortedIndexedList::SortedIndexedList(Relation r) {
     this->rel = r;
     this->root = nullptr;
     this->nbOfElems = 0;
 }
 
-SortedIteratedList::~SortedIteratedList() {
+SortedIndexedList::~SortedIndexedList() {
     this->nbOfElems = 0;
 
     deleteBST(this->root);
     this->root = nullptr;
 }
 
-int SortedIteratedList::size() const {
+int SortedIndexedList::size() const {
     return this->nbOfElems;
 }
 
-bool SortedIteratedList::isEmpty() const {
+bool SortedIndexedList::isEmpty() const {
     return !(this->nbOfElems);
 }
 
-TComp SortedIteratedList::getElement(int pos) const {
+TComp SortedIndexedList::getElement(int pos) const {
     if (pos < 0 or pos >= this->nbOfElems)
         throw std::exception();
     auto crt = this->root;
@@ -69,7 +69,7 @@ TComp SortedIteratedList::getElement(int pos) const {
     return crt->info;
 }
 
-void SortedIteratedList::add(TComp e) {
+void SortedIndexedList::add(TComp e) {
     if (this->root == nullptr) {
         this->root = initNode(e);
         this->nbOfElems++;
@@ -80,7 +80,7 @@ void SortedIteratedList::add(TComp e) {
     this->nbOfElems++;
 }
 
-TComp SortedIteratedList::remove(int pos) {
+TComp SortedIndexedList::remove(int pos) {
     if (pos < 0 or pos >= this->nbOfElems)
         throw std::exception();
     int contor=0;
@@ -99,24 +99,30 @@ TComp SortedIteratedList::remove(int pos) {
     }
     auto elemToReturn = crt->info;
     if(crt->left == crt->right and crt->left == nullptr){
-        if(parent->left==crt)
-            parent->left = nullptr;
-        else
-            parent->right = nullptr;
+        if (parent) {
+            if (parent->left == crt)
+                parent->left = nullptr;
+            else
+                parent->right = nullptr;
+        } else this->root = nullptr;
         delete crt;
     }
     else if(crt->left == nullptr){
-        if(parent->right==crt)
-            parent->right = crt->right;
-        else
-            parent->left = crt->right;
+        if (parent) {
+            if (parent->right == crt)
+                parent->right = crt->right;
+            else
+                parent->left = crt->right;
+        } else this->root = crt->right;
         delete crt;
     }
     else if(crt->right == nullptr){
-        if(parent->right==crt)
-            parent->right = crt->left;
-        else
-            parent->left = crt->left;
+        if (parent) {
+            if (parent->right == crt)
+                parent->right = crt->left;
+            else
+                parent->left = crt->left;
+        } else this->root = crt->left;
         delete crt;
     }
     else{
@@ -136,22 +142,24 @@ TComp SortedIteratedList::remove(int pos) {
 
 }
 
-int SortedIteratedList::search(TComp e) const {
+int SortedIndexedList::search(TComp e) const {
     int contor=0;
     auto crt = this->root;
-    while (crt!= nullptr and crt->info!=e){
+    Node *result = nullptr;
+    while (crt != nullptr) {
+        if (crt->info == e)result = crt;
         if(this->rel(e, crt->info))crt=crt->left;
         else { contor+=crt->nbOfNodesInL+1; crt=crt->right;}
     }
-    if(crt)contor+=crt->nbOfNodesInL;
-    return (crt)?contor:-1;
+
+    return (result) ? contor : -1;
 }
 
-ListIterator SortedIteratedList::iterator() {
+ListIterator SortedIndexedList::iterator() {
     return ListIterator(*this);
 }
 
-void SortedIteratedList::print() {
+void SortedIndexedList::print() {
     auto crt = this->root;
     auto f = [crt](auto &&self, Node *parent) -> void {
         if (parent) {

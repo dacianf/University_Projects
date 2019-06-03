@@ -2,23 +2,24 @@
 // Created by daci on 5/26/19.
 //
 #pragma once
-#include "SortedIteratedList.h"
+
+#include "SortedIndexedList.h"
 #include <stack>
 //unidirectional iterator for a container
 
-class SortedIteratedList;
+class SortedIndexedList;
 class ListIterator {
-    friend class SortedIteratedList;
+    friend class SortedIndexedList;
 private:
     //Constructor receives a reference of the container.
     //after creation the iterator will refer to the first element of the container, or it will be invalid if the container is empty
     //contains a reference of the container it iterates over
-    const SortedIteratedList& sl;
+    const SortedIndexedList &sl;
     Node bka;
     Node* crtNode;
     std::stack<Node *> *s;
 
-    explicit ListIterator(const SortedIteratedList &sl_);
+    explicit ListIterator(const SortedIndexedList &sl_);
 
     /* representation specific for the iterator*/
 public:

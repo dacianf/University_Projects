@@ -2,10 +2,10 @@
 // Created by daci on 5/26/19.
 //
 #include "ListIterator.h"
-#include "SortedIteratedList.h"
+#include "SortedIndexedList.h"
 
 
-ListIterator::ListIterator(const SortedIteratedList &sl_) : sl(sl_) {
+ListIterator::ListIterator(const SortedIndexedList &sl_) : sl(sl_) {
     this->s = new std::stack<Node *>;
     auto crt = sl_.root;
     while (crt) {
