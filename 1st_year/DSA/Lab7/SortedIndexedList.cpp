@@ -81,63 +81,11 @@ void SortedIndexedList::add(TComp e) {
 }
 
 TComp SortedIndexedList::remove(int pos) {
-    if (pos < 0 or pos >= this->nbOfElems)
-        throw std::exception();
-    int contor=0;
-    auto crt = this->root;
-    Node* parent = nullptr;
-    while(contor + crt->nbOfNodesInL != pos){
-        if(contor + crt->nbOfNodesInL > pos)
-            parent = crt,
-            crt->nbOfNodesInL--,
-            crt = crt->left;
-        else{
-            contor += crt->nbOfNodesInL + 1;
-            parent = crt;
-            crt = crt->right;
-        }
-    }
-    auto elemToReturn = crt->info;
-    if(crt->left == crt->right and crt->left == nullptr){
-        if (parent) {
-            if (parent->left == crt)
-                parent->left = nullptr;
-            else
-                parent->right = nullptr;
-        } else this->root = nullptr;
-        delete crt;
-    }
-    else if(crt->left == nullptr){
-        if (parent) {
-            if (parent->right == crt)
-                parent->right = crt->right;
-            else
-                parent->left = crt->right;
-        } else this->root = crt->right;
-        delete crt;
-    }
-    else if(crt->right == nullptr){
-        if (parent) {
-            if (parent->right == crt)
-                parent->right = crt->left;
-            else
-                parent->left = crt->left;
-        } else this->root = crt->left;
-        delete crt;
-    }
-    else{
-        //find the min in the right sub-tree
-        auto tmp = crt->right;
-        Node* parr = nullptr;
-        while (tmp and tmp->left)
-            parr = tmp,
-            tmp->nbOfNodesInL?tmp->nbOfNodesInL--:0,
-            tmp = tmp->left;
-        crt->info = tmp->info;
-        (parr)?parr->left = nullptr:crt->right = nullptr;
-        delete tmp;
-    }
-    this->nbOfElems--;
+    auto elemToReturn = this->getElement(pos);
+    bool removed = false;
+    this->root = removeRec(this->root, elemToReturn, removed);
+    if (removed)
+        this->nbOfElems--;
     return elemToReturn;
 
 }
@@ -170,4 +118,37 @@ void SortedIndexedList::print() {
     };
     f(f, crt);
     std::cout << "\n\n";
+}
+
+Node *SortedIndexedList::removeRec(Node *treeRoot, TComp e, bool &removed) {
+    if (treeRoot == nullptr) {
+        return treeRoot;
+    }
+
+    if (e == treeRoot->info) {
+        removed = true;
+
+        if (treeRoot->left == nullptr) {
+            auto nodeR = treeRoot->right;
+            delete treeRoot;
+            return nodeR;
+        } else if (treeRoot->right == nullptr) {
+            auto nodeL = treeRoot->left;
+            delete treeRoot;
+            return nodeL;
+        } else {
+            auto replaceNode = treeRoot->left;
+            while (replaceNode and replaceNode->right)
+                replaceNode = replaceNode->right;
+            treeRoot->info = replaceNode->info;
+            treeRoot->nbOfNodesInL--;
+            treeRoot->left = removeRec(treeRoot->left, replaceNode->info, removed);
+        }
+    } else if (this->rel(e, treeRoot->info)) {
+        treeRoot->nbOfNodesInL--;
+        treeRoot->left = removeRec(treeRoot->left, e, removed);
+    } else {
+        treeRoot->right = removeRec(treeRoot->right, e, removed);
+    }
+    return treeRoot;
 }

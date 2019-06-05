@@ -26,6 +26,8 @@ private:
     Node* root;
     int nbOfElems;
     Relation rel;
+
+    Node *removeRec(Node *treeRoot, TComp e, bool &removed);
 public:
     // constructor
     SortedIndexedList(Relation r);
